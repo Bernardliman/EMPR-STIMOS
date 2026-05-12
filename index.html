@@ -4,113 +4,144 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gestão de Empréstimos</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;font-size:15px;color:#1a1a1a;background:#f5f5f3}
-.app{max-width:700px;margin:0 auto;padding:1.25rem}
-h1{font-size:20px;font-weight:600;margin-bottom:1.25rem}
-.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1.25rem}
-.metric{background:#fff;border:1px solid #e5e5e5;border-radius:10px;padding:.875rem 1rem}
-.metric-label{font-size:12px;color:#888;margin-bottom:4px}
-.metric-value{font-size:20px;font-weight:600}
-.card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
-.badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600;white-space:nowrap}
-.b-green{background:#e1f5ee;color:#085041}
-.b-amber{background:#faeeda;color:#633806}
-.b-red{background:#fcebeb;color:#791f1f}
-.b-gray{background:#f1f0ec;color:#5f5e5a}
+:root{
+  --bg:#f7f6f3;--surface:#fff;--border:#e8e6e0;--border2:#ccc;
+  --text:#1a1814;--muted:#8a8680;--accent:#1a1814;
+  --green-bg:#e8f5ee;--green:#0a6640;
+  --amber-bg:#fef3e2;--amber:#8a5a00;
+  --red-bg:#fdecea;--red:#9b2020;
+  --purple-bg:#f0eefe;--purple:#4a35b0;
+  --radius:12px;--radius-sm:8px;
+}
+body{font-family:'DM Sans',system-ui,sans-serif;font-size:15px;color:var(--text);background:var(--bg);min-height:100vh}
+.app{max-width:680px;margin:0 auto;padding:1.25rem 1rem 4rem}
+.view{display:none}.view.active{display:block}
+h1{font-size:21px;font-weight:700;letter-spacing:-.3px;margin-bottom:1.25rem}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px;margin-bottom:1.25rem}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.875rem 1rem}
+.metric-label{font-size:11px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.metric-value{font-size:19px;font-weight:700;font-family:'DM Mono',monospace;letter-spacing:-.5px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.875rem}
+.section-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:1.25rem 0 .625rem}
+.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700;white-space:nowrap;display:inline-block}
+.b-green{background:var(--green-bg);color:var(--green)}
+.b-amber{background:var(--amber-bg);color:var(--amber)}
+.b-red{background:var(--red-bg);color:var(--red)}
+.b-gray{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.b-purple{background:var(--purple-bg);color:var(--purple)}
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
-th{text-align:left;padding:6px 8px;color:#888;font-weight:500;border-bottom:1px solid #eee}
-td{padding:9px 8px;border-bottom:1px solid #eee;vertical-align:middle;overflow:hidden;text-overflow:ellipsis}
+th{text-align:left;padding:7px 8px;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:middle;overflow:hidden;text-overflow:ellipsis}
 tr:last-child td{border-bottom:none}
-.btn{padding:7px 14px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:13px;color:#1a1a1a}
-.btn:hover{background:#f5f5f3}
-.btn-primary{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.btn-primary:hover{opacity:.85}
-.btn-sm{padding:4px 10px;font-size:12px}
-.btn-ghost{border:none;background:transparent;cursor:pointer;color:#888;padding:4px 6px;border-radius:8px;font-size:13px}
-.btn-ghost:hover{background:#f5f5f3;color:#1a1a1a}
+.btn{padding:8px 16px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface);cursor:pointer;font-size:13px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:600;transition:all .15s}
+.btn:hover{background:var(--bg)}.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn-primary:hover{opacity:.85;background:var(--accent)}
+.btn-danger{background:var(--red-bg);color:var(--red);border-color:#f7c1c1}.btn-danger:hover{opacity:.85}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-ghost{border:none;background:transparent;cursor:pointer;color:var(--muted);padding:5px 7px;border-radius:6px;font-size:13px;transition:all .15s;font-family:'DM Sans',sans-serif}
+.btn-ghost:hover{background:var(--bg);color:var(--text)}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .form-group{display:flex;flex-direction:column;gap:5px}
-.form-group label{font-size:12px;color:#888}
-input,select{width:100%;padding:8px 10px;border-radius:8px;border:1px solid #ddd;background:#fff;color:#1a1a1a;font-size:14px}
-input:focus,select:focus{outline:none;border-color:#888}
-.avatar{width:36px;height:36px;border-radius:50%;background:#eeedfe;color:#3c3489;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
-.avatar-lg{width:48px;height:48px;font-size:15px}
-.person-card{background:#fff;border:1px solid #e5e5e5;border-radius:12px;padding:.875rem 1.25rem;margin-bottom:.75rem;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .15s}
-.person-card:hover{border-color:#aaa}
+.form-group label{font-size:12px;color:var(--muted);font-weight:600}
+input,select,textarea{width:100%;padding:9px 11px;border-radius:var(--radius-sm);border:1px solid var(--border2);background:var(--surface);color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#555}
+textarea{resize:vertical;min-height:64px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--purple-bg);color:var(--purple);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.avatar-lg{width:50px;height:50px;font-size:16px}
+.person-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.875rem 1.25rem;margin-bottom:.625rem;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .15s}
+.person-card:hover{border-color:var(--border2)}
+.person-card.atraso{border-left:3px solid var(--red)}
 .person-info{flex:1;min-width:0}
-.person-name{font-weight:600;font-size:14px}
-.person-sub{font-size:12px;color:#888;margin-top:2px}
-.person-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-.upcoming-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;margin-bottom:8px;cursor:pointer}
-.upcoming-item.urgent{background:#fcebeb}
-.upcoming-item.soon{background:#faeeda}
-.upcoming-item.ok{background:#e1f5ee}
-.upcoming-days{font-size:22px;font-weight:700;min-width:36px;text-align:center}
-.upcoming-days.urgent{color:#791f1f}
-.upcoming-days.soon{color:#633806}
-.upcoming-days.ok{color:#085041}
+.person-name{font-weight:700;font-size:14px}
+.person-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.person-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+.upcoming-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:var(--radius-sm);margin-bottom:7px;cursor:pointer}
+.upcoming-item.urgent{background:var(--red-bg)}.upcoming-item.soon{background:var(--amber-bg)}.upcoming-item.ok{background:var(--green-bg)}
+.upcoming-days{font-size:22px;font-weight:700;min-width:38px;text-align:center;font-family:'DM Mono',monospace}
+.upcoming-days.urgent{color:var(--red)}.upcoming-days.soon{color:var(--amber)}.upcoming-days.ok{color:var(--green)}
 .tab-filter{display:flex;gap:4px;margin-bottom:1rem;flex-wrap:wrap}
-.tab-filter button{padding:6px 14px;border-radius:20px;border:1px solid #e5e5e5;background:#fff;cursor:pointer;font-size:13px;color:#888}
-.tab-filter button.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.back-btn{display:inline-flex;align-items:center;gap:6px;color:#888;cursor:pointer;font-size:13px;margin-bottom:1rem;background:none;border:none}
-.back-btn:hover{color:#1a1a1a}
-.progress-bar{height:5px;background:#eee;border-radius:10px;overflow:hidden;margin-top:6px}
-.progress-fill{height:100%;border-radius:10px;background:#1d9e75}
-.section-title{font-size:12px;font-weight:600;color:#888;margin:1.25rem 0 .5rem;text-transform:uppercase;letter-spacing:.05em}
-.empty{color:#888;font-size:13px;padding:.75rem 0}
-.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center}
+.tab-filter button{padding:6px 13px;border-radius:20px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:13px;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:600}
+.tab-filter button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--muted);cursor:pointer;font-size:13px;margin-bottom:1rem;background:none;border:none;font-family:'DM Sans',sans-serif;padding:0;font-weight:600}
+.back-btn:hover{color:var(--text)}
+.progress-bar{height:4px;background:var(--bg);border-radius:10px;overflow:hidden;margin-top:6px}
+.progress-fill{height:100%;border-radius:10px;background:var(--green)}
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;justify-content:center}
 .modal-wrap.open{display:flex}
-.modal{background:#fff;border-radius:14px;padding:1.5rem;width:92%;max-width:460px;border:1px solid #e5e5e5}
-.modal-title{font-size:15px;font-weight:600;margin-bottom:1.25rem}
+@media(min-width:520px){.modal-wrap{align-items:center}}
+.modal{background:var(--surface);border-radius:var(--radius) var(--radius) 0 0;padding:1.5rem;width:100%;max-width:480px;max-height:92vh;overflow-y:auto}
+@media(min-width:520px){.modal{border-radius:var(--radius)}}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:1.25rem;letter-spacing:-.2px}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:1.25rem}
-.search-bar{display:flex;gap:8px;margin-bottom:1rem}
-.search-bar input{flex:1}
-.view{display:none}.view.active{display:block}
-.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#1a1a1a;color:#fff;padding:10px 18px;border-radius:10px;font-size:13px;z-index:200;opacity:0;transition:opacity .3s}
+.pt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem}
+.pt-btn{padding:12px 6px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--surface);cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);text-align:center;font-family:'DM Sans',sans-serif;transition:all .15s}
+.pt-btn.active{border-color:var(--accent);background:var(--accent);color:#fff}
+.pt-icon{font-size:20px;display:block;margin-bottom:5px}
+.info-box{background:var(--bg);border-radius:var(--radius-sm);padding:.875rem;margin-bottom:1rem;font-size:13px;line-height:1.7}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0}
+.info-row span:first-child{color:var(--muted)}
+.info-row .val{font-weight:700;font-family:'DM Mono',monospace}
+.atraso-box{background:var(--red-bg);border:1px solid #f7c1c1;border-radius:var(--radius-sm);padding:.875rem;margin-bottom:1rem;font-size:13px}
+.hist-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;font-size:13px}
+.hist-item:last-child{border-bottom:none}
+.hist-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
+.empty{color:var(--muted);font-size:13px;padding:1rem 0;text-align:center}
+.acum-tag{font-size:11px;background:var(--red-bg);color:var(--red);padding:2px 7px;border-radius:10px;font-weight:700;margin-left:6px}
 </style>
 </head>
 <body>
 <div class="app">
 
+<!-- HOME -->
 <div class="view active" id="view-home">
-  <h1>💰 Gestão de Empréstimos</h1>
-
+  <h1>💰 Empréstimos</h1>
   <div class="metrics">
-    <div class="metric"><div class="metric-label">Pessoas ativas</div><div class="metric-value" id="m-pessoas" style="color:#534ab7">0</div></div>
-    <div class="metric"><div class="metric-label">Total emprestado</div><div class="metric-value" id="m-total">R$0</div></div>
-    <div class="metric"><div class="metric-label">A receber</div><div class="metric-value" id="m-receber" style="color:#0f6e56">R$0</div></div>
-    <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" id="m-atraso" style="color:#a32d2d">R$0</div></div>
+    <div class="metric"><div class="metric-label">Ativos</div><div class="metric-value" id="m-pessoas" style="color:var(--purple)">0</div></div>
+    <div class="metric"><div class="metric-label">Emprestado</div><div class="metric-value" id="m-total">—</div></div>
+    <div class="metric"><div class="metric-label">A receber</div><div class="metric-value" id="m-receber" style="color:var(--green)">—</div></div>
+    <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" id="m-atraso" style="color:var(--red)">—</div></div>
   </div>
-
-  <div class="section-title">⏰ Próximos vencimentos</div>
+  <div class="section-label">⏰ Próximos vencimentos</div>
   <div id="upcoming-list"></div>
-
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;margin-top:1.25rem">
-    <div class="section-title" style="margin:0">👥 Mutuários</div>
-    <div style="display:flex;gap:8px">
-      <input type="text" id="search-home" placeholder="Buscar..." style="width:150px;padding:5px 10px;font-size:13px" oninput="renderHome()">
-      <button class="btn btn-primary btn-sm" onclick="openModal()">+ Novo</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin:.875rem 0 .625rem">
+    <div class="section-label" style="margin:0">👥 Mutuários</div>
+    <div style="display:flex;gap:7px">
+      <input type="text" id="search-home" placeholder="Buscar..." style="width:140px;padding:6px 10px;font-size:13px" oninput="renderHome()">
+      <button class="btn btn-primary btn-sm" onclick="openNovoModal()">+ Novo</button>
     </div>
   </div>
   <div id="pessoas-list"></div>
 </div>
 
+<!-- PERFIL -->
 <div class="view" id="view-pessoa">
   <button class="back-btn" onclick="goHome()">← Todos os mutuários</button>
-  <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem;flex-wrap:wrap">
     <div class="avatar avatar-lg" id="p-avatar"></div>
-    <div style="flex:1">
-      <div style="font-size:18px;font-weight:600" id="p-nome"></div>
-      <div style="font-size:13px;color:#888;margin-top:2px" id="p-sub"></div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:18px;font-weight:700;letter-spacing:-.3px" id="p-nome"></div>
+      <div style="font-size:13px;color:var(--muted);margin-top:2px" id="p-sub"></div>
     </div>
-    <span class="badge" id="p-status-badge"></span>
-    <button class="btn btn-sm" onclick="excluirPessoa()" style="color:#a32d2d;border-color:#f7c1c1">🗑</button>
+    <div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap">
+      <span class="badge" id="p-status-badge"></span>
+      <button class="btn btn-sm" onclick="gerarPDFContrato()">📄 Contrato</button>
+      <button class="btn btn-sm btn-danger" onclick="excluirPessoa()">🗑</button>
+    </div>
   </div>
+
+  <!-- ALERTA DE JUROS ACUMULADOS -->
+  <div id="atraso-alerta" style="display:none"></div>
+
   <div class="metrics" id="p-metrics"></div>
-  <div class="section-title">Histórico de parcelas</div>
+  <div class="section-label">Histórico de eventos</div>
+  <div class="card" style="padding:.5rem 1.25rem" id="p-history"></div>
+  <div class="section-label">Parcelas</div>
   <div class="tab-filter">
     <button class="active" onclick="setFilter('todas',this)">Todas</button>
     <button onclick="setFilter('atrasadas',this)">Em atraso</button>
@@ -119,25 +150,64 @@ input:focus,select:focus{outline:none;border-color:#888}
   </div>
   <div class="card" style="padding:0;overflow:hidden">
     <table>
-      <thead><tr><th style="width:55px">Parcela</th><th style="width:95px">Vencimento</th><th style="width:105px">Valor</th><th style="width:90px">Status</th><th style="width:45px"></th></tr></thead>
+      <thead><tr>
+        <th style="width:48px">Parc.</th>
+        <th style="width:85px">Vencimento</th>
+        <th style="width:115px">Valor</th>
+        <th style="width:72px">Status</th>
+        <th style="width:100px"></th>
+      </tr></thead>
       <tbody id="parcelas-tbody"></tbody>
     </table>
   </div>
 </div>
 
-<div class="modal-wrap" id="modal">
+<!-- MODAL NOVO -->
+<div class="modal-wrap" id="modal-novo">
   <div class="modal">
     <div class="modal-title">Novo empréstimo</div>
     <div class="form-grid">
       <div class="form-group" style="grid-column:1/-1"><label>Nome do mutuário</label><input type="text" id="f-nome" placeholder="Ex: João Silva"></div>
-      <div class="form-group"><label>Valor total (R$)</label><input type="number" id="f-valor" min="0" step="0.01" placeholder="0,00"></div>
-      <div class="form-group"><label>Nº de parcelas</label><input type="number" id="f-np" min="1" max="360" placeholder="Ex: 12"></div>
-      <div class="form-group"><label>Juros ao mês (%)</label><input type="number" id="f-juros" min="0" step="0.1" value="0"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Telefone / WhatsApp</label><input type="text" id="f-tel" placeholder="Ex: 92999990000"></div>
+      <div class="form-group"><label>Valor emprestado (R$)</label><input type="number" id="f-valor" min="0" step="0.01" placeholder="0,00"></div>
+      <div class="form-group"><label>Nº de parcelas</label><input type="number" id="f-np" min="1" max="360" placeholder="Ex: 6"></div>
+      <div class="form-group"><label>Juros ao mês (%)</label><input type="number" id="f-juros" min="0" step="0.1" value="20"></div>
       <div class="form-group"><label>1º vencimento</label><input type="date" id="f-data"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Observações</label><textarea id="f-obs" placeholder="Garantias, acordos especiais..."></textarea></div>
     </div>
     <div class="modal-footer">
-      <button class="btn" onclick="closeModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="salvar()">Salvar empréstimo</button>
+      <button class="btn" onclick="closeModal('novo')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarEmprestimo()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PAGAMENTO -->
+<div class="modal-wrap" id="modal-pag">
+  <div class="modal">
+    <div class="modal-title" id="pag-title">Registrar pagamento</div>
+    <div id="pag-atraso-info" style="display:none;margin-bottom:1rem"></div>
+    <div class="section-label" style="margin-top:0">Tipo de pagamento</div>
+    <div class="pt-grid">
+      <button class="pt-btn active" id="pt-juros" onclick="selectPT('juros')"><span class="pt-icon">🔄</span>Só os juros</button>
+      <button class="pt-btn" id="pt-parcial" onclick="selectPT('parcial')"><span class="pt-icon">➕</span>Juros + abate</button>
+      <button class="pt-btn" id="pt-total" onclick="selectPT('total')"><span class="pt-icon">✅</span>Parcela total</button>
+    </div>
+    <div class="info-box" id="pag-info"></div>
+    <div id="pag-extra" style="display:none;margin-bottom:1rem">
+      <div class="form-group">
+        <label>Valor recebido (R$)</label>
+        <input type="number" id="f-pag-valor" min="0" step="0.01" placeholder="0,00" oninput="calcAbate()">
+      </div>
+      <div id="abate-info" style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.6"></div>
+    </div>
+    <div class="form-group">
+      <label>Observação (opcional)</label>
+      <input type="text" id="f-pag-obs" placeholder="Ex: pagou via Pix">
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('pag')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmarPagamento()">✅ Confirmar e gerar recibo</button>
     </div>
   </div>
 </div>
@@ -146,79 +216,97 @@ input:focus,select:focus{outline:none;border-color:#888}
 </div>
 
 <script>
-const STORAGE_KEY = 'emprestimos_v1';
-let data = [];
-let currentPessoa = null;
-let parcelaFilter = 'todas';
+const OWNER={nome:'Bernard Lima',tel:'92984111566',pix:'03180802227'};
+const KEY='emp_v4';
+let data=[];
+let currentId=null;
+let parcelaFilter='todas';
+let pagCtx=null;
+let pagType='juros';
 
-function load() {
-  try { data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch(e) { data = []; }
-}
-function persist() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
-}
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg; el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2500);
-}
-function today() { return new Date().toISOString().split('T')[0]; }
-function fmtVal(v) { return 'R$\u00a0' + Number(v).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
-function fmtDate(s) { if(!s) return '—'; const [y,m,d]=s.split('-'); return d+'/'+m+'/'+y; }
-function initials(n) { return n.trim().split(/\s+/).slice(0,2).map(w=>w[0].toUpperCase()).join(''); }
-function diffDays(dateStr) {
-  const t = new Date(today()+'T12:00:00');
-  const d = new Date(dateStr+'T12:00:00');
-  return Math.round((d-t)/86400000);
-}
-function getStatus(emp) {
-  const t = today();
-  const pend = emp.parcelas.filter(p=>!p.pago);
-  if(!pend.length) return 'quitado';
-  if(pend.some(p=>p.vencimento<t)) return 'atraso';
-  return 'ativo';
+function load(){try{data=JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){data=[];}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(data));}catch(e){}}
+function toast(msg,d=2500){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),d);}
+function today(){return new Date().toISOString().split('T')[0];}
+function nowStr(){return new Date().toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+function fv(v){return 'R$\u00a0'+Number(v).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+function fd(s){if(!s)return'—';const[y,m,d]=s.split('-');return d+'/'+m+'/'+y;}
+function initials(n){return n.trim().split(/\s+/).slice(0,2).map(w=>w[0].toUpperCase()).join('');}
+function getEmp(){return data.find(e=>e.id===currentId);}
+
+/* Calcula meses de atraso entre duas datas */
+function mesesAtraso(vencStr){
+  const t=new Date(today()+'T12:00:00');
+  const v=new Date(vencStr+'T12:00:00');
+  if(t<=v)return 0;
+  const anos=(t.getFullYear()-v.getFullYear());
+  const meses=(t.getMonth()-v.getMonth());
+  const total=anos*12+meses;
+  return Math.max(0,total);
 }
 
-function openModal() {
-  const next = new Date(); next.setMonth(next.getMonth()+1);
-  document.getElementById('f-data').value = next.toISOString().split('T')[0];
-  document.getElementById('f-nome').value='';
+/* Valor acumulado de uma parcela em atraso (juros simples) */
+function valorAcumulado(emp, p){
+  if(p.pago) return p.valor;
+  const t=today();
+  if(p.vencimento>=t) return p.valor;
+  const meses=mesesAtraso(p.vencimento);
+  if(meses<=1) return p.valor;
+  const jurosUnitario=emp.valorOriginal*(emp.taxaMensal/100);
+  return jurosUnitario*meses;
+}
+
+function getStatus(emp){
+  const t=today(),pend=emp.parcelas.filter(p=>!p.pago);
+  if(!pend.length)return'quitado';
+  if(pend.some(p=>p.vencimento<t))return'atraso';
+  return'ativo';
+}
+
+function totalEmAtraso(emp){
+  const t=today();
+  return emp.parcelas.filter(p=>!p.pago&&p.vencimento<t).reduce((s,p)=>s+valorAcumulado(emp,p),0);
+}
+
+function openNovoModal(){
+  const next=new Date();next.setMonth(next.getMonth()+1);
+  document.getElementById('f-data').value=next.toISOString().split('T')[0];
+  ['f-nome','f-tel','f-obs'].forEach(x=>document.getElementById(x).value='');
   document.getElementById('f-valor').value='';
   document.getElementById('f-np').value='';
-  document.getElementById('f-juros').value='0';
-  document.getElementById('modal').classList.add('open');
+  document.getElementById('f-juros').value='20';
+  openModal('novo');
 }
-function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function openModal(id){document.getElementById('modal-'+id).classList.add('open');}
+function closeModal(id){document.getElementById('modal-'+id).classList.remove('open');}
 
-function salvar() {
-  const nome = document.getElementById('f-nome').value.trim();
-  const valor = parseFloat(document.getElementById('f-valor').value);
-  const np = parseInt(document.getElementById('f-np').value);
-  const juros = parseFloat(document.getElementById('f-juros').value)||0;
-  const dataStr = document.getElementById('f-data').value;
-  if(!nome||!valor||!np||!dataStr) { alert('Preencha todos os campos.'); return; }
-  const taxa = juros/100;
-  let vp = taxa>0 ? valor*(taxa*Math.pow(1+taxa,np))/(Math.pow(1+taxa,np)-1) : valor/np;
-  const parcelas = [];
-  for(let i=0;i<np;i++) {
-    let d = new Date(dataStr+'T12:00:00');
-    d.setMonth(d.getMonth()+i);
-    parcelas.push({num:i+1, vencimento:d.toISOString().split('T')[0], valor:vp, pago:false});
+function salvarEmprestimo(){
+  const nome=document.getElementById('f-nome').value.trim();
+  const tel=document.getElementById('f-tel').value.trim();
+  const valor=parseFloat(document.getElementById('f-valor').value);
+  const np=parseInt(document.getElementById('f-np').value);
+  const juros=parseFloat(document.getElementById('f-juros').value)||0;
+  const dataStr=document.getElementById('f-data').value;
+  const obs=document.getElementById('f-obs').value.trim();
+  if(!nome||!valor||!np||!dataStr){alert('Preencha nome, valor, parcelas e data.');return;}
+  const taxa=juros/100;
+  const jurosUnitario=valor*taxa;
+  const parcelas=[];
+  for(let i=0;i<np;i++){
+    const d=new Date(dataStr+'T12:00:00');d.setMonth(d.getMonth()+i);
+    parcelas.push({num:i+1,vencimento:d.toISOString().split('T')[0],valor:jurosUnitario,pago:false});
   }
-  data.push({id:Date.now(), nome, valorOriginal:valor, parcelas, criadoEm:today()});
-  persist(); closeModal(); renderHome();
-  toast('Empréstimo de '+nome+' salvo!');
+  const emp={id:Date.now(),nome,tel,valorOriginal:valor,taxaMensal:juros,parcelas,obs,criadoEm:today(),historico:[]};
+  emp.historico.push({tipo:'contrato',data:nowStr(),desc:`Empréstimo de ${fv(valor)} · Juros ${juros}% a.m. = ${fv(jurosUnitario)}/mês · ${np} parcelas`});
+  data.push(emp);persist();closeModal('novo');renderHome();
+  toast('Empréstimo salvo!');
+  setTimeout(()=>{currentId=emp.id;gerarPDFContrato();currentId=null;},400);
 }
 
-function goHome() {
-  currentPessoa=null; parcelaFilter='todas';
-  document.getElementById('view-home').classList.add('active');
-  document.getElementById('view-pessoa').classList.remove('active');
-  renderHome();
-}
+function goHome(){currentId=null;parcelaFilter='todas';document.getElementById('view-home').classList.add('active');document.getElementById('view-pessoa').classList.remove('active');renderHome();}
 
-function openPessoa(id) {
-  currentPessoa=id;
+function openPessoa(id){
+  currentId=id;
   document.getElementById('view-home').classList.remove('active');
   document.getElementById('view-pessoa').classList.add('active');
   parcelaFilter='todas';
@@ -226,136 +314,331 @@ function openPessoa(id) {
   renderPessoa();
 }
 
-function setFilter(f, btn) {
-  parcelaFilter=f;
-  document.querySelectorAll('.tab-filter button').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderPessoa();
+function excluirPessoa(){
+  const emp=getEmp();if(!emp||!confirm('Excluir empréstimo de '+emp.nome+'?'))return;
+  data=data.filter(e=>e.id!==currentId);persist();goHome();toast('Excluído.');
 }
 
-function togglePago(empId, pNum) {
-  const emp = data.find(e=>e.id===empId);
-  if(!emp) return;
-  const p = emp.parcelas.find(p=>p.num===pNum);
-  if(p){ p.pago=!p.pago; persist(); renderPessoa(); renderHome(); toast(p.pago?'Parcela marcada como paga!':'Parcela desmarcada.'); }
+function setFilter(f,btn){parcelaFilter=f;document.querySelectorAll('.tab-filter button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderParcelas();}
+
+function abrirPagamento(empId,pNum){
+  const emp=data.find(e=>e.id===empId);if(!emp)return;
+  const p=emp.parcelas.find(x=>x.num===pNum);if(!p||p.pago)return;
+  pagCtx={empId,pNum};pagType='juros';
+  document.getElementById('f-pag-valor').value='';
+  document.getElementById('f-pag-obs').value='';
+  document.getElementById('abate-info').textContent='';
+  document.getElementById('pag-extra').style.display='none';
+  document.getElementById('pag-title').textContent=emp.nome+' — Parcela '+pNum+'/'+emp.parcelas.length;
+
+  const meses=mesesAtraso(p.vencimento);
+  const atrasoEl=document.getElementById('pag-atraso-info');
+  if(meses>1){
+    const acum=valorAcumulado(emp,p);
+    atrasoEl.style.display='block';
+    atrasoEl.innerHTML=`<div class="atraso-box">⚠️ <strong>${meses} meses em atraso</strong> — Juros acumulados: <strong style="font-family:'DM Mono',monospace">${fv(acum)}</strong> (${meses}x de ${fv(emp.valorOriginal*(emp.taxaMensal/100))})</div>`;
+  } else {
+    atrasoEl.style.display='none';
+  }
+
+  ['juros','parcial','total'].forEach(t=>document.getElementById('pt-'+t).classList.toggle('active',t==='juros'));
+  updatePagInfo();openModal('pag');
 }
 
-function excluirPessoa() {
-  const emp = data.find(e=>e.id===currentPessoa);
-  if(!emp||!confirm('Excluir empréstimo de '+emp.nome+'?')) return;
-  data=data.filter(e=>e.id!==currentPessoa);
-  persist(); goHome(); toast('Empréstimo excluído.');
+function selectPT(t){
+  pagType=t;
+  ['juros','parcial','total'].forEach(x=>document.getElementById('pt-'+x).classList.toggle('active',x===t));
+  document.getElementById('pag-extra').style.display=t==='parcial'?'block':'none';
+  document.getElementById('abate-info').textContent='';
+  updatePagInfo();
 }
 
-function renderHome() {
-  const t = today();
-  let totalVal=0, receberVal=0, atrasoVal=0;
-  const ativos = data.filter(e=>getStatus(e)!=='quitado');
+function updatePagInfo(){
+  const emp=data.find(e=>e.id===pagCtx.empId);
+  const p=emp.parcelas.find(x=>x.num===pagCtx.pNum);
+  const jurosUnitario=emp.valorOriginal*(emp.taxaMensal/100);
+  const meses=mesesAtraso(p.vencimento);
+  const acum=valorAcumulado(emp,p);
+  let html='';
+  if(pagType==='juros'){
+    if(meses>1){
+      html=`<div class="info-row"><span>Juros acumulados (${meses} meses)</span><span class="val" style="color:var(--red)">${fv(acum)}</span></div>
+      <div class="info-row"><span>Principal (continua)</span><span class="val">${fv(emp.valorOriginal)}</span></div>
+      <div class="info-row"><span>Próxima parcela</span><span class="val">+1 mês</span></div>`;
+    } else {
+      html=`<div class="info-row"><span>Valor dos juros</span><span class="val">${fv(jurosUnitario)}</span></div>
+      <div class="info-row"><span>Principal (continua)</span><span class="val">${fv(emp.valorOriginal)}</span></div>
+      <div class="info-row"><span>Próxima parcela</span><span class="val">+1 mês</span></div>`;
+    }
+  } else if(pagType==='parcial'){
+    html=`<div class="info-row"><span>Mínimo a pagar (juros acum.)</span><span class="val" style="color:var(--red)">${fv(acum)}</span></div>
+    <div class="info-row"><span>Valor acima abate o principal</span><span class="val"></span></div>`;
+  } else {
+    html=`<div class="info-row"><span>Juros acumulados</span><span class="val">${fv(acum)}</span></div>
+    <div class="info-row"><span>Principal</span><span class="val">${fv(emp.valorOriginal)}</span></div>
+    <div class="info-row"><span style="font-weight:700">Total para quitar</span><span class="val" style="color:var(--green)">${fv(acum+emp.valorOriginal)}</span></div>`;
+  }
+  document.getElementById('pag-info').innerHTML=html;
+}
+
+function calcAbate(){
+  const emp=data.find(e=>e.id===pagCtx.empId);
+  const p=emp.parcelas.find(x=>x.num===pagCtx.pNum);
+  const acum=valorAcumulado(emp,p);
+  const recebido=parseFloat(document.getElementById('f-pag-valor').value)||0;
+  const abate=recebido-acum;
+  const el=document.getElementById('abate-info');
+  if(recebido<acum){el.innerHTML=`<span style="color:var(--red)">Mínimo: ${fv(acum)} (juros acumulados)</span>`;}
+  else if(abate===0){el.innerHTML=`Cobre exatamente os juros — principal continua ${fv(emp.valorOriginal)}`;}
+  else{const novoP=Math.max(0,emp.valorOriginal-abate);el.innerHTML=`Juros: ${fv(acum)} · Abate: ${fv(abate)} · Novo principal: <strong>${fv(novoP)}</strong>`;}
+}
+
+function confirmarPagamento(){
+  const emp=data.find(e=>e.id===pagCtx.empId);
+  const p=emp.parcelas.find(x=>x.num===pagCtx.pNum);
+  const jurosUnitario=emp.valorOriginal*(emp.taxaMensal/100);
+  const meses=mesesAtraso(p.vencimento);
+  const acum=valorAcumulado(emp,p);
+  const obs=document.getElementById('f-pag-obs').value.trim();
+
+  if(pagType==='total'){
+    const totalQuitar=acum+emp.valorOriginal;
+    p.pago=true;p.pagoEm=nowStr();p.valorPago=totalQuitar;
+    emp.historico.push({tipo:'quitado',data:nowStr(),desc:`Empréstimo QUITADO — pagou ${fv(totalQuitar)} (juros acum. ${fv(acum)} + principal ${fv(emp.valorOriginal)})${obs?' ('+obs+')':''}`});
+    persist();closeModal('pag');renderPessoa();renderHome();toast('Empréstimo quitado!');
+    setTimeout(()=>gerarPDFRecibo(emp,p,'total',totalQuitar,obs,0,acum),300);
+
+  } else if(pagType==='juros'){
+    p.pago=true;p.pagoEm=nowStr();p.tipoP='juros';p.valorPago=acum;
+    const novaData=new Date(today()+'T12:00:00');novaData.setMonth(novaData.getMonth()+1);
+    const novaParc={num:emp.parcelas.length+1,vencimento:novaData.toISOString().split('T')[0],valor:jurosUnitario,pago:false};
+    emp.parcelas.push(novaParc);
+    const descAtraso=meses>1?` (${meses} meses acumulados)`:'';
+    emp.historico.push({tipo:'renovacao',data:nowStr(),desc:`Parcela ${p.num}: pagou juros${descAtraso} — ${fv(acum)} · Renovado. Próx: ${fd(novaParc.vencimento)}${obs?' ('+obs+')':''}`});
+    persist();closeModal('pag');renderPessoa();renderHome();toast('Renovado!');
+    setTimeout(()=>gerarPDFRecibo(emp,p,'juros',acum,obs,meses,acum),300);
+
+  } else {
+    const recebido=parseFloat(document.getElementById('f-pag-valor').value)||0;
+    if(recebido<acum){alert('Mínimo: '+fv(acum));return;}
+    const abate=recebido-acum;
+    emp.valorOriginal=Math.max(0,emp.valorOriginal-abate);
+    p.pago=true;p.pagoEm=nowStr();p.tipoP='parcial';p.valorPago=recebido;
+    const novaData=new Date(today()+'T12:00:00');novaData.setMonth(novaData.getMonth()+1);
+    const novoJuros=emp.valorOriginal*(emp.taxaMensal/100);
+    const novaParc={num:emp.parcelas.length+1,vencimento:novaData.toISOString().split('T')[0],valor:novoJuros,pago:false};
+    emp.parcelas.push(novaParc);
+    emp.historico.push({tipo:'parcial',data:nowStr(),desc:`Parcela ${p.num}: recebeu ${fv(recebido)} · juros acum. ${fv(acum)} + abate ${fv(abate)} · Novo principal: ${fv(emp.valorOriginal)}${obs?' ('+obs+')':''}`});
+    persist();closeModal('pag');renderPessoa();renderHome();toast('Registrado!');
+    setTimeout(()=>gerarPDFRecibo(emp,p,'parcial',recebido,obs,abate,acum),300);
+  }
+}
+
+function estornar(empId,pNum){
+  if(!confirm('Estornar esta parcela?'))return;
+  const emp=data.find(e=>e.id===empId);
+  const p=emp.parcelas.find(x=>x.num===pNum);
+  if(p){p.pago=false;delete p.pagoEm;delete p.tipoP;delete p.valorPago;
+  emp.historico.push({tipo:'estorno',data:nowStr(),desc:`Parcela ${pNum} estornada.`});
+  persist();renderPessoa();renderHome();toast('Estornado.');}
+}
+
+/* ---- PDF ---- */
+function gerarPDFContrato(){
+  const emp=getEmp();if(!emp)return;
+  try{
+    const {jsPDF}=window.jspdf;const doc=new jsPDF();const W=210,M=20;let y=20;
+    doc.setFillColor(26,24,20);doc.rect(0,0,W,38,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont('helvetica','bold');
+    doc.text('COMPROVANTE DE EMPRÉSTIMO',W/2,16,{align:'center'});
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    doc.text(OWNER.nome+' · WhatsApp: '+OWNER.tel+' · Pix: '+OWNER.pix,W/2,28,{align:'center'});
+    y=52;doc.setTextColor(26,24,20);doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text('DADOS DO CONTRATO',M,y);y+=7;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=8;
+    const jurosUnitario=emp.valorOriginal*(emp.taxaMensal/100);
+    const rows=[['Mutuário',emp.nome],['Telefone',emp.tel||'—'],['Data',fd(emp.criadoEm)],['Valor emprestado',fv(emp.valorOriginal)],['Juros mensais',emp.taxaMensal+'% a.m. = '+fv(jurosUnitario)+'/mês'],['Nº de parcelas',String(emp.parcelas.length)],['1º vencimento',fd(emp.parcelas[0]?.vencimento)]];
+    if(emp.obs)rows.push(['Observações',emp.obs]);
+    doc.setFontSize(10);
+    rows.forEach(([k,v])=>{doc.setFont('helvetica','bold');doc.setTextColor(120);doc.text(k+':',M,y);doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);doc.text(String(v),M+55,y,{maxWidth:W-M-55});y+=8;});
+    y+=4;doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(26,24,20);doc.text('TABELA DE PARCELAS',M,y);y+=7;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=6;
+    doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(120);
+    doc.text('Nº',M,y);doc.text('Vencimento',M+14,y);doc.text('Valor juros',M+58,y);doc.text('Status',M+100,y);y+=5;
+    doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);
+    emp.parcelas.forEach(p=>{if(y>272){doc.addPage();y=20;}doc.text(String(p.num),M,y);doc.text(fd(p.vencimento),M+14,y);doc.text(fv(p.valor),M+58,y);doc.text(p.pago?'Pago':'Pendente',M+100,y);y+=6;});
+    y+=8;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=7;doc.setFontSize(8);doc.setTextColor(160);doc.text('Gerado em: '+nowStr(),M,y);
+    doc.save('contrato_'+emp.nome.replace(/\s+/g,'_')+'.pdf');toast('PDF gerado!');
+  }catch(e){alert('Erro ao gerar PDF.');}
+}
+
+function gerarPDFRecibo(emp,p,tipo,valorPago,obs,extra,acum){
+  try{
+    const {jsPDF}=window.jspdf;const doc=new jsPDF();const W=210,M=20;let y=20;
+    const cor=tipo==='total'?[10,102,64]:tipo==='juros'?[138,90,0]:[74,53,176];
+    doc.setFillColor(...cor);doc.rect(0,0,W,38,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(14);doc.setFont('helvetica','bold');
+    const titulo=tipo==='total'?'RECIBO DE QUITAÇÃO':tipo==='juros'?'RECIBO — PAGAMENTO DE JUROS':'RECIBO — PAGAMENTO PARCIAL';
+    doc.text(titulo,W/2,16,{align:'center'});
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    doc.text(OWNER.nome+' · WhatsApp: '+OWNER.tel+' · Pix: '+OWNER.pix,W/2,28,{align:'center'});
+    y=52;doc.setTextColor(26,24,20);doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text('DETALHES DO PAGAMENTO',M,y);y+=7;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=8;
+    const rows=[['Mutuário',emp.nome],['Telefone',emp.tel||'—'],['Data do pagamento',nowStr()],['Parcela nº',p.num+'/'+emp.parcelas.length],['Vencimento original',fd(p.vencimento)]];
+    if(tipo==='juros'&&extra>1)rows.push(['Meses em atraso',extra+'x meses']);
+    rows.push(['Juros acumulados pagos',fv(acum)]);
+    if(tipo==='total'){rows.push(['Principal quitado',fv(emp.valorOriginal)]);rows.push(['TOTAL PAGO',fv(valorPago)]);}
+    else if(tipo==='parcial'){rows.push(['Abatido do principal',fv(extra)]);rows.push(['Novo principal',fv(emp.valorOriginal)]);}
+    else{rows.push(['Principal (continua)',fv(emp.valorOriginal)]);}
+    if(obs)rows.push(['Observação',obs]);
+    doc.setFontSize(10);
+    rows.forEach(([k,v])=>{doc.setFont('helvetica','bold');doc.setTextColor(120);doc.text(k+':',M,y);doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);doc.text(String(v),M+60,y);y+=8;});
+    y+=6;doc.setFillColor(...cor);doc.rect(M,y,W-M*2,16,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');
+    doc.text('VALOR RECEBIDO: '+fv(valorPago),W/2,y+10,{align:'center'});
+    y+=26;doc.setFontSize(8);doc.setTextColor(160);doc.setFont('helvetica','normal');doc.text('Gerado em: '+nowStr(),M,y);
+    doc.save('recibo_'+emp.nome.replace(/\s+/g,'_')+'_parc'+p.num+'.pdf');toast('Recibo gerado!');
+  }catch(e){toast('Erro ao gerar recibo.');}
+}
+
+/* ---- RENDER HOME ---- */
+function renderHome(){
+  const t=today();let totalVal=0,receberVal=0,atrasoVal=0;
+  const ativos=data.filter(e=>getStatus(e)!=='quitado');
   data.forEach(emp=>{
     totalVal+=emp.valorOriginal;
-    emp.parcelas.forEach(p=>{ if(!p.pago){ receberVal+=p.valor; if(p.vencimento<t) atrasoVal+=p.valor; } });
+    emp.parcelas.forEach(p=>{if(!p.pago){const va=valorAcumulado(emp,p);receberVal+=va;if(p.vencimento<t)atrasoVal+=va;}});
   });
   document.getElementById('m-pessoas').textContent=ativos.length;
-  document.getElementById('m-total').textContent=fmtVal(totalVal);
-  document.getElementById('m-receber').textContent=fmtVal(receberVal);
-  document.getElementById('m-atraso').textContent=fmtVal(atrasoVal);
+  document.getElementById('m-total').textContent=fv(totalVal);
+  document.getElementById('m-receber').textContent=fv(receberVal);
+  document.getElementById('m-atraso').textContent=fv(atrasoVal);
 
-  let upcoming = [];
+  let upcoming=[];
   data.forEach(emp=>{
-    const pend = emp.parcelas.filter(p=>!p.pago).sort((a,b)=>a.vencimento>b.vencimento?1:-1);
-    if(pend.length) upcoming.push({emp, p:pend[0], dias:diffDays(pend[0].vencimento)});
+    const pend=emp.parcelas.filter(p=>!p.pago).sort((a,b)=>a.vencimento>b.vencimento?1:-1);
+    if(pend.length){
+      const p=pend[0];
+      const dias=Math.round((new Date(p.vencimento+'T12:00:00')-new Date(t+'T12:00:00'))/86400000);
+      const meses=mesesAtraso(p.vencimento);
+      const acum=valorAcumulado(emp,p);
+      upcoming.push({emp,p,dias,meses,acum});
+    }
   });
   upcoming.sort((a,b)=>a.dias-b.dias);
-  const upEl = document.getElementById('upcoming-list');
-  upEl.innerHTML = upcoming.length ? upcoming.slice(0,8).map(({emp,p,dias})=>{
-    const cls = dias<0?'urgent':dias<=7?'soon':'ok';
-    const dLabel = dias<0?Math.abs(dias)+'d atraso':dias===0?'hoje':dias===1?'amanhã':dias+'d';
-    return `<div class="upcoming-item ${cls}" onclick="openPessoa(${emp.id})">
-      <div class="upcoming-days ${cls}">${Math.abs(dias)}</div>
+  const upEl=document.getElementById('upcoming-list');
+  upEl.innerHTML=upcoming.length?upcoming.slice(0,8).map(({emp,p,dias,meses,acum})=>{
+    const cls=dias<0?'urgent':dias<=7?'soon':'ok';
+    const dLabel=dias<0?(meses>1?meses+'m atraso':Math.abs(dias)+'d atraso'):dias===0?'hoje':dias===1?'amanhã':dias+'d';
+    const acumTag=meses>1?`<span class="acum-tag">${meses}x acum.</span>`:'';
+    return`<div class="upcoming-item ${cls}" onclick="openPessoa(${emp.id})">
+      <div class="upcoming-days ${cls}">${meses>1?meses+'m':Math.abs(dias)}</div>
       <div style="flex:1;min-width:0">
-        <div style="font-weight:600;font-size:14px">${emp.nome}</div>
-        <div style="font-size:12px;color:#888">Parcela ${p.num}/${emp.parcelas.length} · ${fmtDate(p.vencimento)}</div>
+        <div style="font-weight:700;font-size:14px">${emp.nome}${acumTag}</div>
+        <div style="font-size:12px;color:var(--muted)">Parcela ${p.num}/${emp.parcelas.length} · ${fd(p.vencimento)}</div>
       </div>
-      <div style="text-align:right">
-        <div style="font-weight:600;font-size:14px">${fmtVal(p.valor)}</div>
-        <div style="font-size:11px;color:#888">${dLabel}</div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-weight:700;font-size:14px;font-family:'DM Mono',monospace${meses>1?';color:var(--red)':''}">${fv(acum)}</div>
+        <div style="font-size:11px;color:var(--muted)">${dLabel}</div>
       </div>
     </div>`;
-  }).join('') : '<div class="empty">Nenhum vencimento pendente.</div>';
+  }).join(''):'<div class="empty">Nenhum vencimento pendente.</div>';
 
   const q=(document.getElementById('search-home')?.value||'').toLowerCase();
-  const lista=data.filter(e=>e.nome.toLowerCase().includes(q)).sort((a,b)=>{
-    const ord={atraso:0,ativo:1,quitado:2};
-    return ord[getStatus(a)]-ord[getStatus(b)];
-  });
+  const lista=data.filter(e=>e.nome.toLowerCase().includes(q)).sort((a,b)=>{const o={atraso:0,ativo:1,quitado:2};return o[getStatus(a)]-o[getStatus(b)];});
   const el=document.getElementById('pessoas-list');
-  el.innerHTML = lista.length ? lista.map(emp=>{
+  el.innerHTML=lista.length?lista.map(emp=>{
     const st=getStatus(emp);
     const pago=emp.parcelas.filter(p=>p.pago).reduce((s,p)=>s+p.valor,0);
     const total=emp.parcelas.reduce((s,p)=>s+p.valor,0);
     const pct=total>0?Math.round(pago/total*100):0;
-    const atrasadas=emp.parcelas.filter(p=>!p.pago&&p.vencimento<t).length;
+    const atrasadas=emp.parcelas.filter(p=>!p.pago&&p.vencimento<t);
+    const totalAtrasado=atrasadas.reduce((s,p)=>s+valorAcumulado(emp,p),0);
     const bCls=st==='quitado'?'b-green':st==='atraso'?'b-red':'b-gray';
     const bLbl=st==='quitado'?'Quitado':st==='atraso'?'Em atraso':'Ativo';
     const prox=emp.parcelas.filter(p=>!p.pago).sort((a,b)=>a.vencimento>b.vencimento?1:-1)[0];
-    return `<div class="person-card" onclick="openPessoa(${emp.id})">
+    const maxMeses=atrasadas.length?Math.max(...atrasadas.map(p=>mesesAtraso(p.vencimento))):0;
+    return`<div class="person-card${st==='atraso'?' atraso':''}" onclick="openPessoa(${emp.id})">
       <div class="avatar">${initials(emp.nome)}</div>
       <div class="person-info">
         <div class="person-name">${emp.nome}</div>
-        <div class="person-sub">${emp.parcelas.filter(p=>p.pago).length}/${emp.parcelas.length} parcelas pagas${atrasadas>0?' · <span style="color:#a32d2d">'+atrasadas+' atrasada'+(atrasadas>1?'s':'')+'</span>':''}</div>
+        <div class="person-sub">${st==='atraso'?`<span style="color:var(--red)">${fv(totalAtrasado)} em atraso${maxMeses>1?' ('+maxMeses+'m acum.)':''}</span>`:prox?'Próx: '+fd(prox.vencimento):'Ativo'}</div>
         <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
       </div>
-      <div class="person-right">
-        <span class="badge ${bCls}">${bLbl}</span>
-        <span style="font-size:12px;color:#888">${prox?'Próx: '+fmtDate(prox.vencimento):'Quitado'}</span>
-      </div>
+      <div class="person-right"><span class="badge ${bCls}">${bLbl}</span><span style="font-size:12px;color:var(--muted);font-family:'DM Mono',monospace">${fv(emp.valorOriginal)}</span></div>
     </div>`;
-  }).join('') : '<div class="empty">Nenhum mutuário cadastrado ainda.</div>';
+  }).join(''):'<div class="empty">Nenhum mutuário ainda. Clique em + Novo!</div>';
 }
 
-function renderPessoa() {
-  const emp=data.find(e=>e.id===currentPessoa);
-  if(!emp) return;
-  const t=today();
-  const st=getStatus(emp);
+/* ---- RENDER PESSOA ---- */
+function renderPessoa(){
+  const emp=getEmp();if(!emp)return;
+  const t=today(),st=getStatus(emp);
   document.getElementById('p-avatar').textContent=initials(emp.nome);
   document.getElementById('p-nome').textContent=emp.nome;
-  const pago=emp.parcelas.filter(p=>p.pago).reduce((s,p)=>s+p.valor,0);
-  const total=emp.parcelas.reduce((s,p)=>s+p.valor,0);
-  const pct=total>0?Math.round(pago/total*100):0;
-  document.getElementById('p-sub').textContent=`${emp.parcelas.filter(p=>p.pago).length}/${emp.parcelas.length} parcelas · ${pct}% pago`;
+  const pagas=emp.parcelas.filter(p=>p.pago);
+  const pct=emp.parcelas.length>0?Math.round(pagas.length/emp.parcelas.length*100):0;
+  document.getElementById('p-sub').textContent=`${pagas.length}/${emp.parcelas.length} parcelas · ${emp.taxaMensal}% a.m.${emp.tel?' · '+emp.tel:''}`;
   const badge=document.getElementById('p-status-badge');
   badge.className='badge '+(st==='quitado'?'b-green':st==='atraso'?'b-red':'b-gray');
   badge.textContent=st==='quitado'?'Quitado':st==='atraso'?'Em atraso':'Ativo';
+
   const atrasadas=emp.parcelas.filter(p=>!p.pago&&p.vencimento<t);
+  const totalAtrasado=atrasadas.reduce((s,p)=>s+valorAcumulado(emp,p),0);
+  const maxMeses=atrasadas.length?Math.max(...atrasadas.map(p=>mesesAtraso(p.vencimento))):0;
+  const alertaEl=document.getElementById('atraso-alerta');
+  if(atrasadas.length&&maxMeses>1){
+    alertaEl.style.display='block';
+    alertaEl.innerHTML=`<div class="atraso-box" style="margin-bottom:1rem">⚠️ <strong>${maxMeses} meses em atraso</strong> — Total acumulado: <strong style="font-family:'DM Mono',monospace;color:var(--red)">${fv(totalAtrasado)}</strong><br><span style="font-size:12px;color:var(--muted)">Juros simples: ${maxMeses}x ${fv(emp.valorOriginal*(emp.taxaMensal/100))}</span></div>`;
+  } else {alertaEl.style.display='none';}
+
+  const totalJuros=emp.parcelas.filter(p=>p.pago&&p.tipoP!=='quitado').reduce((s,p)=>s+(p.valorPago||p.valor),0);
   document.getElementById('p-metrics').innerHTML=`
-    <div class="metric"><div class="metric-label">Total do contrato</div><div class="metric-value" style="font-size:16px">${fmtVal(total)}</div></div>
-    <div class="metric"><div class="metric-label">Já pago</div><div class="metric-value" style="font-size:16px;color:#0f6e56">${fmtVal(pago)}</div></div>
-    <div class="metric"><div class="metric-label">Restante</div><div class="metric-value" style="font-size:16px;color:#534ab7">${fmtVal(total-pago)}</div></div>
-    <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" style="font-size:16px;color:#a32d2d">${atrasadas.length}</div></div>`;
-  let parcelas=[...emp.parcelas];
-  if(parcelaFilter==='atrasadas') parcelas=parcelas.filter(p=>!p.pago&&p.vencimento<t);
-  else if(parcelaFilter==='pendentes') parcelas=parcelas.filter(p=>!p.pago&&p.vencimento>=t);
-  else if(parcelaFilter==='pagas') parcelas=parcelas.filter(p=>p.pago);
-  const tbody=document.getElementById('parcelas-tbody');
-  tbody.innerHTML=parcelas.length ? parcelas.map(p=>{
-    let bCls='b-gray',bLbl='Pendente',rowBg='';
-    if(p.pago){bCls='b-green';bLbl='Pago';}
-    else if(p.vencimento<t){bCls='b-red';bLbl='Atrasado';rowBg='background:#fff8f8';}
-    const dias=diffDays(p.vencimento);
-    const dInfo=p.pago?'':dias<0?`<div style="font-size:11px;color:#a32d2d">${Math.abs(dias)}d atraso</div>`:dias<=7?`<div style="font-size:11px;color:#854f0b">em ${dias}d</div>`:'';
-    return `<tr style="${rowBg}">
-      <td style="color:#888">${p.num}ª</td>
-      <td>${fmtDate(p.vencimento)}${dInfo}</td>
-      <td style="font-weight:600">${fmtVal(p.valor)}</td>
-      <td><span class="badge ${bCls}">${bLbl}</span></td>
-      <td><button class="btn-ghost" onclick="togglePago(${emp.id},${p.num})" title="${p.pago?'Desmarcar':'Marcar como pago'}">${p.pago?'↩':'✓'}</button></td>
-    </tr>`;
-  }).join('') : '<tr><td colspan="5" style="padding:1.5rem;color:#888">Nenhuma parcela neste filtro.</td></tr>';
+    <div class="metric"><div class="metric-label">Principal</div><div class="metric-value" style="font-size:16px">${fv(emp.valorOriginal)}</div></div>
+    <div class="metric"><div class="metric-label">Juros/mês</div><div class="metric-value" style="font-size:16px;color:var(--purple)">${fv(emp.valorOriginal*(emp.taxaMensal/100))}</div></div>
+    <div class="metric"><div class="metric-label">Já recebido</div><div class="metric-value" style="font-size:16px;color:var(--green)">${fv(totalJuros)}</div></div>
+    <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" style="font-size:16px;color:var(--red)">${fv(totalAtrasado)}</div></div>`;
+
+  const hist=document.getElementById('p-history');
+  const dotCor={contrato:'#4a35b0',pago:'#0a6640',quitado:'#0a6640',renovacao:'#8a5a00',parcial:'#4a35b0',estorno:'#888'};
+  hist.innerHTML=emp.historico.length?[...emp.historico].reverse().map(h=>`
+    <div class="hist-item">
+      <div class="hist-dot" style="background:${dotCor[h.tipo]||'#888'}"></div>
+      <div style="flex:1"><div style="font-size:11px;color:var(--muted)">${h.data}</div><div style="margin-top:2px;font-size:13px">${h.desc}</div></div>
+    </div>`).join(''):'<div class="empty">Nenhum evento ainda.</div>';
+  renderParcelas();
 }
 
-load();
-renderHome();
+function renderParcelas(){
+  const emp=getEmp();if(!emp)return;
+  const t=today();
+  let parcelas=[...emp.parcelas];
+  if(parcelaFilter==='atrasadas')parcelas=parcelas.filter(p=>!p.pago&&p.vencimento<t);
+  else if(parcelaFilter==='pendentes')parcelas=parcelas.filter(p=>!p.pago&&p.vencimento>=t);
+  else if(parcelaFilter==='pagas')parcelas=parcelas.filter(p=>p.pago);
+  const tbody=document.getElementById('parcelas-tbody');
+  tbody.innerHTML=parcelas.length?parcelas.map(p=>{
+    let bCls='b-gray',bLbl='Pendente',rowBg='';
+    if(p.pago){bCls='b-green';bLbl=p.tipoP==='juros'?'Juros':p.tipoP==='parcial'?'Parcial':'Pago';}
+    else if(p.vencimento<t){bCls='b-red';bLbl='Atrasado';rowBg='background:#fff8f8;';}
+    const meses=mesesAtraso(p.vencimento);
+    const acum=valorAcumulado(emp,p);
+    const mostrarAcum=!p.pago&&meses>1;
+    const dias=Math.round((new Date(p.vencimento+'T12:00:00')-new Date(t+'T12:00:00'))/86400000);
+    const dInfo=p.pago?'':dias<0?(meses>1?`<div style="font-size:11px;color:var(--red);font-weight:700">${meses}m atraso</div>`:`<div style="font-size:11px;color:var(--red)">${Math.abs(dias)}d</div>`):dias<=7?`<div style="font-size:11px;color:var(--amber)">em ${dias}d</div>`:'';
+    const valorMostrar=mostrarAcum?`<span style="color:var(--red);font-weight:700">${fv(acum)}</span><div style="font-size:11px;color:var(--muted)">${meses}x acumulado</div>`:fv(p.pago&&p.valorPago?p.valorPago:p.valor);
+    const acoes=p.pago
+      ?`<button class="btn-ghost" onclick="estornar(${emp.id},${p.num})">↩ estornar</button>`
+      :`<button class="btn btn-sm btn-primary" onclick="abrirPagamento(${emp.id},${p.num})">💰 Pagar</button>`;
+    return`<tr style="${rowBg}">
+      <td style="color:var(--muted);font-size:12px">${p.num}ª</td>
+      <td>${fd(p.vencimento)}${dInfo}</td>
+      <td style="font-family:'DM Mono',monospace;font-size:13px">${valorMostrar}</td>
+      <td><span class="badge ${bCls}">${bLbl}</span></td>
+      <td>${acoes}</td>
+    </tr>`;
+  }).join(''):'<tr><td colspan="5" style="padding:1.5rem;color:var(--muted);text-align:center">Nenhuma parcela neste filtro.</td></tr>';
+}
+
+load();renderHome();
 </script>
 </body>
 </html>
