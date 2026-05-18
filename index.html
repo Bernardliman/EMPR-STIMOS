@@ -15,24 +15,18 @@
   --amber-bg:#fef3e2;--amber:#8a5a00;
   --red-bg:#fdecea;--red:#9b2020;
   --purple-bg:#f0eefe;--purple:#4a35b0;
-  --blue-bg:#e8f0fe;--blue:#1a56a0;
   --radius:12px;--radius-sm:8px;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#1a1814;--surface:#242220;--border:#3a3835;--border2:#555;
-    --text:#f0ede8;--muted:#8a8680;--accent:#f0ede8;
-    --green-bg:#0a2e1c;--green:#4caf82;
-    --amber-bg:#2e1e00;--amber:#f0a030;
-    --red-bg:#2e0e0e;--red:#e06060;
-    --purple-bg:#1a1530;--purple:#9080e0;
-    --blue-bg:#0e1a30;--blue:#5090e0;
-  }
-}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#1a1814;--surface:#242220;--border:#3a3835;--border2:#555;
+  --text:#f0ede8;--muted:#8a8680;--accent:#f0ede8;
+  --green-bg:#0a2e1c;--green:#4caf82;
+  --amber-bg:#2e1e00;--amber:#f0a030;
+  --red-bg:#2e0e0e;--red:#e06060;
+  --purple-bg:#1a1530;--purple:#9080e0;
+}}
 body{font-family:'DM Sans',system-ui,sans-serif;font-size:15px;color:var(--text);background:var(--bg);min-height:100vh}
 .app{max-width:680px;margin:0 auto;padding:0 0 4rem}
-
-/* PIN */
 #pin-screen{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem}
 .pin-title{font-size:20px;font-weight:700;margin-bottom:.5rem}
 .pin-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;text-align:center}
@@ -43,13 +37,10 @@ body{font-family:'DM Sans',system-ui,sans-serif;font-size:15px;color:var(--text)
 .pin-btn{height:64px;border-radius:var(--radius);border:1px solid var(--border2);background:var(--surface);font-size:22px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text);transition:all .1s}
 .pin-btn:active{transform:scale(.93);background:var(--border)}
 .pin-error{color:var(--red);font-size:13px;margin-top:.5rem;height:20px}
-
-/* NAV */
-.nav{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0;position:sticky;top:0;z-index:50}
+.nav{display:flex;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
 .nav-btn{flex:1;padding:12px 4px 10px;border:none;background:transparent;cursor:pointer;font-size:11px;font-weight:600;color:var(--muted);font-family:'DM Sans',sans-serif;display:flex;flex-direction:column;align-items:center;gap:3px;border-bottom:2px solid transparent;transition:all .15s}
 .nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
 .nav-icon{font-size:20px}
-
 .page{display:none;padding:1.25rem 1rem}.page.active{display:block}
 .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px;margin-bottom:1.25rem}
 .metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.875rem 1rem}
@@ -63,7 +54,6 @@ body{font-family:'DM Sans',system-ui,sans-serif;font-size:15px;color:var(--text)
 .b-amber{background:var(--amber-bg);color:var(--amber)}
 .b-gray{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
 .b-purple{background:var(--purple-bg);color:var(--purple)}
-.b-blue{background:var(--blue-bg);color:var(--blue)}
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 th{text-align:left;padding:7px 8px;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
 td{padding:10px 8px;border-bottom:1px solid var(--border);vertical-align:middle;overflow:hidden;text-overflow:ellipsis}
@@ -111,70 +101,59 @@ textarea{resize:vertical;min-height:60px}
 .modal-title{font-size:16px;font-weight:700;margin-bottom:.25rem}
 .modal-subtitle{font-size:13px;color:var(--muted);margin-bottom:1.25rem}
 .modal-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:1.25rem}
-.pt-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:1rem}
-.pt-btn{padding:12px 6px;border-radius:var(--radius-sm);border:2px solid var(--border);background:var(--surface);cursor:pointer;font-size:12px;font-weight:700;color:var(--muted);text-align:center;font-family:'DM Sans',sans-serif;transition:all .15s}
-.pt-btn.active{border-color:var(--accent);background:var(--accent);color:var(--bg)}
-.pt-icon{font-size:20px;display:block;margin-bottom:5px}
 .info-box{background:var(--bg);border-radius:var(--radius-sm);padding:.875rem;margin-bottom:1rem;font-size:13px;line-height:1.7}
 .info-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0}
 .info-row span:first-child{color:var(--muted)}
 .info-row .val{font-weight:700;font-family:'DM Mono',monospace}
 .atraso-box{background:var(--red-bg);border:1px solid var(--red);border-radius:var(--radius-sm);padding:.875rem;margin-bottom:1rem;font-size:13px}
-.hist-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:10px;font-size:13px}
-.hist-item:last-child{border-bottom:none}
-.hist-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.result-box{border-radius:var(--radius-sm);padding:.875rem;margin-top:1rem;font-size:13px;line-height:1.7;border:2px solid transparent;transition:all .2s}
+.result-box.juros{background:var(--amber-bg);border-color:var(--amber)}
+.result-box.parcial{background:var(--purple-bg);border-color:var(--purple)}
+.result-box.total{background:var(--green-bg);border-color:var(--green)}
+.result-box.invalido{background:var(--red-bg);border-color:var(--red)}
+.result-row{display:flex;justify-content:space-between;padding:2px 0}
+.result-row span:first-child{color:var(--muted)}
+.result-row .val{font-weight:700;font-family:'DM Mono',monospace}
 .toast{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--bg);padding:10px 20px;border-radius:20px;font-size:13px;font-weight:600;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
 .empty{color:var(--muted);font-size:13px;padding:1rem 0;text-align:center}
 .acum-tag{font-size:11px;background:var(--red-bg);color:var(--red);padding:2px 7px;border-radius:10px;font-weight:700;margin-left:6px}
 .emp-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1rem;overflow:hidden}
 .emp-block-header{display:flex;align-items:flex-start;justify-content:space-between;padding:.875rem 1.25rem;border-bottom:1px solid var(--border);background:var(--bg);gap:12px}
-.emp-block-title{font-weight:700;font-size:14px}
-.emp-block-sub{font-size:12px;color:var(--muted);margin-top:2px}
-/* RISK */
 .risk-badge{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700}
 .risk-confiavel{background:var(--green-bg);color:var(--green)}
 .risk-atencao{background:var(--amber-bg);color:var(--amber)}
 .risk-risco{background:var(--red-bg);color:var(--red)}
-/* MONTHLY */
-.month-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.75rem}
-.month-bar{height:8px;background:var(--bg);border-radius:10px;overflow:hidden;margin-top:8px}
-.month-bar-fill{height:100%;border-radius:10px;background:var(--green)}
-/* CAPITAL */
-.capital-ring{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-direction:column;margin:0 auto 1rem;position:relative}
+.emp-meta{display:flex;gap:16px;margin-top:6px;flex-wrap:wrap}
+.emp-meta-item{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.capital-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.capital-row:last-child{border-bottom:none}
+.capital-row-label{font-size:13px;color:var(--muted)}
+.capital-row-val{font-size:15px;font-weight:700;font-family:'DM Mono',monospace}
+.demo-banner{background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--radius-sm);padding:.75rem 1rem;margin-bottom:1rem;font-size:13px;color:var(--amber);display:flex;align-items:center;gap:8px}
 </style>
 </head>
 <body>
 
-<!-- PIN SCREEN -->
 <div id="pin-screen">
-  <div id="pin-logo" style="font-size:36px;margin-bottom:1rem">💰</div>
+  <div style="font-size:36px;margin-bottom:1rem">💰</div>
   <div class="pin-title" id="pin-title">Digite seu PIN</div>
   <div class="pin-sub" id="pin-sub">Acesso protegido</div>
-  <div class="pin-dots" id="pin-dots">
+  <div class="pin-dots">
     <div class="pin-dot" id="d0"></div><div class="pin-dot" id="d1"></div>
     <div class="pin-dot" id="d2"></div><div class="pin-dot" id="d3"></div>
   </div>
   <div class="pin-grid">
-    <button class="pin-btn" onclick="pinPress('1')">1</button>
-    <button class="pin-btn" onclick="pinPress('2')">2</button>
-    <button class="pin-btn" onclick="pinPress('3')">3</button>
-    <button class="pin-btn" onclick="pinPress('4')">4</button>
-    <button class="pin-btn" onclick="pinPress('5')">5</button>
-    <button class="pin-btn" onclick="pinPress('6')">6</button>
-    <button class="pin-btn" onclick="pinPress('7')">7</button>
-    <button class="pin-btn" onclick="pinPress('8')">8</button>
-    <button class="pin-btn" onclick="pinPress('9')">9</button>
-    <button class="pin-btn" onclick="pinPress('del')" style="font-size:16px">⌫</button>
-    <button class="pin-btn" onclick="pinPress('0')">0</button>
-    <button class="pin-btn" onclick="pinPress('ok')" style="font-size:14px">OK</button>
+    <button class="pin-btn" onclick="pinPress('1')">1</button><button class="pin-btn" onclick="pinPress('2')">2</button><button class="pin-btn" onclick="pinPress('3')">3</button>
+    <button class="pin-btn" onclick="pinPress('4')">4</button><button class="pin-btn" onclick="pinPress('5')">5</button><button class="pin-btn" onclick="pinPress('6')">6</button>
+    <button class="pin-btn" onclick="pinPress('7')">7</button><button class="pin-btn" onclick="pinPress('8')">8</button><button class="pin-btn" onclick="pinPress('9')">9</button>
+    <button class="pin-btn" onclick="pinPress('del')">⌫</button><button class="pin-btn" onclick="pinPress('0')">0</button><button class="pin-btn" onclick="pinPress('ok')" style="font-size:14px">OK</button>
   </div>
   <div class="pin-error" id="pin-error"></div>
   <button onclick="pinForgot()" style="margin-top:1rem;background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">Esqueci o PIN</button>
 </div>
 
 <div class="app" id="main-app" style="display:none">
-<!-- NAV -->
 <div class="nav">
   <button class="nav-btn active" onclick="showPage('home',this)"><span class="nav-icon">🏠</span>Início</button>
   <button class="nav-btn" onclick="showPage('clientes',this)"><span class="nav-icon">👥</span>Clientes</button>
@@ -209,7 +188,6 @@ textarea{resize:vertical;min-height:60px}
     <input type="text" id="search-home" placeholder="Buscar cliente..." style="margin-bottom:.875rem" oninput="renderClientes()">
     <div id="pessoas-list"></div>
   </div>
-
   <div id="view-pessoa" style="display:none">
     <button class="back-btn" onclick="goLista()">← Clientes</button>
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:1.25rem;flex-wrap:wrap">
@@ -226,8 +204,6 @@ textarea{resize:vertical;min-height:60px}
     </div>
     <div id="atraso-alerta"></div>
     <div class="metrics" id="p-metrics"></div>
-    <div class="section-label">Histórico</div>
-    <div class="card" style="padding:.5rem 1.25rem" id="p-history"></div>
     <div class="section-label">Empréstimos</div>
     <div id="p-emprestimos"></div>
   </div>
@@ -250,8 +226,8 @@ textarea{resize:vertical;min-height:60px}
 <div class="page" id="page-capital">
   <div style="font-size:18px;font-weight:700;margin-bottom:1.25rem;padding-top:.5rem">📊 Painel de capital</div>
   <div class="metrics" id="capital-metrics"></div>
-  <div class="section-label">Distribuição por risco</div>
-  <div id="capital-risco"></div>
+  <div class="section-label">Detalhamento</div>
+  <div class="card" id="capital-detalhe"></div>
   <div class="section-label">Ranking de clientes</div>
   <div id="capital-ranking"></div>
 </div>
@@ -261,7 +237,7 @@ textarea{resize:vertical;min-height:60px}
   <div style="font-size:18px;font-weight:700;margin-bottom:1.25rem;padding-top:.5rem">⚙️ Configurações</div>
   <div class="card">
     <div style="font-weight:700;margin-bottom:.75rem">🔒 Segurança</div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">
+    <div style="display:flex;justify-content:space-between;align-items:center">
       <div><div style="font-size:14px">PIN de acesso</div><div style="font-size:12px;color:var(--muted)" id="pin-status-text">—</div></div>
       <button class="btn btn-sm" onclick="openModal('mudar-pin')" id="pin-btn-text">Definir PIN</button>
     </div>
@@ -269,19 +245,19 @@ textarea{resize:vertical;min-height:60px}
   <div class="card">
     <div style="font-weight:700;margin-bottom:.75rem">🔔 Notificações</div>
     <div style="display:flex;justify-content:space-between;align-items:center">
-      <div><div style="font-size:14px">Alertas de vencimento</div><div style="font-size:12px;color:var(--muted)">1 dia antes do vencimento</div></div>
+      <div><div style="font-size:14px">Alertas de vencimento</div><div style="font-size:12px;color:var(--muted)">1 dia antes</div></div>
       <button class="btn btn-sm btn-green" onclick="pedirNotificacao()" id="notif-btn">Ativar</button>
     </div>
   </div>
   <div class="card">
-    <div style="font-weight:700;margin-bottom:.75rem">💾 Backup de dados</div>
+    <div style="font-weight:700;margin-bottom:.75rem">💾 Backup</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn btn-sm btn-green" onclick="exportarDados()">💾 Exportar</button>
       <label class="btn btn-sm" style="cursor:pointer">📂 Importar<input type="file" accept=".json" style="display:none" onchange="importarDados(event)"></label>
     </div>
   </div>
   <div class="card">
-    <div style="font-weight:700;margin-bottom:.75rem">📲 Meus dados (comprovantes)</div>
+    <div style="font-weight:700;margin-bottom:.75rem">📲 Meus dados (recibos)</div>
     <div class="form-grid">
       <div class="form-group" style="grid-column:1/-1"><label>Seu nome</label><input type="text" id="cfg-nome" placeholder="Bernard Lima"></div>
       <div class="form-group"><label>WhatsApp</label><input type="text" id="cfg-tel" placeholder="92984111566"></div>
@@ -289,10 +265,15 @@ textarea{resize:vertical;min-height:60px}
     </div>
     <div style="margin-top:.875rem"><button class="btn btn-primary btn-sm" onclick="salvarConfig()">Salvar</button></div>
   </div>
+  <div class="card" style="border-color:var(--red-bg)">
+    <div style="font-weight:700;margin-bottom:.75rem">🧪 Cliente demo</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:.75rem">Adiciona um cliente fictício para testar o app. Pode excluí-lo depois.</div>
+    <button class="btn btn-sm btn-amber" onclick="criarClienteDemo()">Criar cliente demo</button>
+  </div>
 </div>
 </div>
 
-<!-- MODAIS -->
+<!-- MODAL NOVO -->
 <div class="modal-wrap" id="modal-novo">
   <div class="modal">
     <div class="modal-title" id="novo-title">Novo cliente</div>
@@ -304,10 +285,10 @@ textarea{resize:vertical;min-height:60px}
         <select id="f-risco"><option value="confiavel">⭐ Confiável</option><option value="atencao">⚠️ Atenção</option><option value="risco">🔴 Risco</option></select>
       </div>
       <div class="form-group"><label>Valor (R$)</label><input type="number" id="f-valor" min="0" step="0.01" placeholder="0,00"></div>
-      <div class="form-group"><label>Parcelas</label><input type="number" id="f-np" min="1" max="360" placeholder="Ex: 6"></div>
+      <div class="form-group"><label>Parcelas</label><input type="number" id="f-np" min="1" max="360" placeholder="1 = aberto"></div>
       <div class="form-group"><label>Juros/mês (%)</label><input type="number" id="f-juros" min="0" step="0.1" value="20"></div>
       <div class="form-group"><label>1º vencimento</label><input type="date" id="f-data"></div>
-      <div class="form-group" style="grid-column:1/-1"><label>Garantia</label><input type="text" id="f-garantia" placeholder="Ex: Moto Honda CG 160, celular iPhone..."></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Garantia</label><input type="text" id="f-garantia" placeholder="Ex: Moto Honda CG 160..."></div>
       <div class="form-group" style="grid-column:1/-1"><label>Observações</label><textarea id="f-obs" placeholder="Acordos especiais..."></textarea></div>
     </div>
     <div class="modal-footer">
@@ -317,45 +298,48 @@ textarea{resize:vertical;min-height:60px}
   </div>
 </div>
 
+<!-- MODAL PAGAMENTO -->
 <div class="modal-wrap" id="modal-pag">
   <div class="modal">
-    <div class="modal-title" id="pag-title">Pagamento</div>
+    <div class="modal-title" id="pag-title">Registrar pagamento</div>
     <div class="modal-subtitle" id="pag-subtitle"></div>
     <div id="pag-atraso-info"></div>
-    <div class="section-label" style="margin-top:.5rem">Tipo</div>
-    <div class="pt-grid">
-      <button class="pt-btn active" id="pt-juros" onclick="selectPT('juros')"><span class="pt-icon">🔄</span>Só juros</button>
-      <button class="pt-btn" id="pt-parcial" onclick="selectPT('parcial')"><span class="pt-icon">➕</span>Juros+abate</button>
-      <button class="pt-btn" id="pt-total" onclick="selectPT('total')"><span class="pt-icon">✅</span>Quitar tudo</button>
+    <div class="info-box" id="pag-resumo"></div>
+    <div class="form-group" style="margin-bottom:.75rem">
+      <label style="font-size:14px;font-weight:700;color:var(--text)">Valor recebido (R$)</label>
+      <input type="number" id="f-pag-valor" min="0" step="0.01" placeholder="0,00"
+        style="font-size:22px;font-weight:700;text-align:center;padding:14px;font-family:'DM Mono',monospace"
+        oninput="calcPagamento()">
     </div>
-    <div class="info-box" id="pag-info"></div>
-    <div id="pag-extra" style="display:none;margin-bottom:1rem">
-      <div class="form-group"><label>Valor recebido (R$)</label><input type="number" id="f-pag-valor" min="0" step="0.01" placeholder="0,00" oninput="calcAbate()"></div>
-      <div id="abate-info" style="font-size:12px;color:var(--muted);margin-top:6px;line-height:1.6"></div>
+    <div id="pag-result" class="result-box" style="display:none"></div>
+    <div class="form-group" style="margin-top:.875rem">
+      <label>Observação (opcional)</label>
+      <input type="text" id="f-pag-obs" placeholder="Ex: pagou via Pix...">
     </div>
-    <div class="form-group"><label>Observação</label><input type="text" id="f-pag-obs" placeholder="Ex: pagou via Pix"></div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('pag')">Cancelar</button>
-      <button class="btn btn-primary" onclick="confirmarPagamento()">✅ Confirmar</button>
+      <button class="btn btn-primary" id="btn-confirmar-pag" onclick="confirmarPagamento()" disabled style="opacity:.4">✅ Confirmar</button>
     </div>
   </div>
 </div>
 
+<!-- MODAL COBRANÇAS -->
 <div class="modal-wrap" id="modal-cobranca">
   <div class="modal">
-    <div class="modal-title">📲 Cobranças em massa</div>
+    <div class="modal-title">📲 Cobranças</div>
     <div class="modal-subtitle" id="cob-sub"></div>
     <div id="cob-lista" style="max-height:60vh;overflow-y:auto"></div>
     <div class="modal-footer"><button class="btn" onclick="closeModal('cobranca')">Fechar</button></div>
   </div>
 </div>
 
+<!-- MODAL PIN -->
 <div class="modal-wrap" id="modal-mudar-pin">
   <div class="modal">
-    <div class="modal-title" id="mpin-title">Definir PIN</div>
+    <div class="modal-title">Definir PIN</div>
     <div class="modal-subtitle">Digite um PIN de 4 dígitos</div>
-    <input type="number" id="mpin-input" placeholder="4 dígitos" maxlength="4" style="font-size:24px;text-align:center;letter-spacing:8px;margin-bottom:1rem">
-    <input type="number" id="mpin-confirm" placeholder="Confirme o PIN" maxlength="4" style="font-size:24px;text-align:center;letter-spacing:8px">
+    <input type="number" id="mpin-input" placeholder="Novo PIN" style="font-size:24px;text-align:center;letter-spacing:8px;margin-bottom:1rem">
+    <input type="number" id="mpin-confirm" placeholder="Confirme" style="font-size:24px;text-align:center;letter-spacing:8px">
     <div id="mpin-error" style="color:var(--red);font-size:13px;margin-top:.5rem;height:20px"></div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('mudar-pin')">Cancelar</button>
@@ -372,20 +356,18 @@ const KEY='emp_v6';
 let clientes=[];
 let currentClienteId=null;
 let pagCtx=null;
-let pagType='juros';
-let novoParaClienteId=null;
 let mesAtual=new Date();
+let novoParaClienteId=null;
 
-/* ---- INIT ---- */
 function load(){
   try{clientes=JSON.parse(localStorage.getItem(KEY)||'[]');}catch(e){clientes=[];}
   const cfg=JSON.parse(localStorage.getItem('emp_cfg')||'{}');
-  if(cfg.nome)OWNER.nome=cfg.nome;
-  if(cfg.tel)OWNER.tel=cfg.tel;
-  if(cfg.pix)OWNER.pix=cfg.pix;
+  if(cfg.nome)OWNER.nome=cfg.nome;if(cfg.tel)OWNER.tel=cfg.tel;if(cfg.pix)OWNER.pix=cfg.pix;
   document.getElementById('cfg-nome').value=OWNER.nome;
   document.getElementById('cfg-tel').value=OWNER.tel;
   document.getElementById('cfg-pix').value=OWNER.pix;
+  // cria demo automaticamente se não houver dados
+  if(!clientes.length&&!localStorage.getItem('emp_demo_criado')){criarClienteDemo(true);}
 }
 function persist(){try{localStorage.setItem(KEY,JSON.stringify(clientes));}catch(e){}}
 function salvarConfig(){
@@ -395,98 +377,124 @@ function salvarConfig(){
   localStorage.setItem('emp_cfg',JSON.stringify(OWNER));toast('Configurações salvas!');
 }
 
-/* ---- PIN ---- */
-let pinBuffer='';
-let pinMode='verify'; // verify | set1 | set2
-let pinTemp='';
+/* ---- CLIENTE DEMO ---- */
+function criarClienteDemo(silencioso=false){
+  localStorage.setItem('emp_demo_criado','1');
+  const hoje=new Date();
+  // datas relativas ao hoje para parecer real
+  function dataStr(mesesAtras,dia){
+    const d=new Date(hoje);d.setMonth(d.getMonth()-mesesAtras);
+    if(dia)d.setDate(dia);
+    return d.toISOString().split('T')[0];
+  }
+  function dataFutura(mesesFuturos){
+    const d=new Date(hoje);d.setMonth(d.getMonth()+mesesFuturos);
+    return d.toISOString().split('T')[0];
+  }
 
+  // Empréstimo 1: R$2.000 a 20% — já pagou 3 meses, 1 atrasado
+  const emp1Parcelas=[];
+  for(let i=0;i<6;i++){
+    const d=new Date(hoje);d.setMonth(d.getMonth()-3+i);
+    const venc=d.toISOString().split('T')[0];
+    const pago=i<3;
+    emp1Parcelas.push({num:i+1,vencimento:venc,valor:400,pago,
+      ...(pago?{pagoEm:'Registrado',valorPago:400,tipoP:'juros'}:{})
+    });
+  }
+  const emp1={id:1001,valorOriginal:2000,taxaMensal:20,parcelas:emp1Parcelas,obs:'',garantia:'Moto Honda CG 160 2019',criadoEm:dataStr(3)};
+
+  // Empréstimo 2: R$500 a 15% — aberto (1 parcela), já pagou 2 meses, renovando
+  const emp2Parcelas=[];
+  for(let i=0;i<4;i++){
+    const d=new Date(hoje);d.setMonth(d.getMonth()-2+i);
+    const venc=d.toISOString().split('T')[0];
+    const pago=i<2;
+    emp2Parcelas.push({num:i+1,vencimento:venc,valor:75,pago,
+      ...(pago?{pagoEm:'Registrado',valorPago:75,tipoP:'juros'}:{})
+    });
+  }
+  const emp2={id:1002,valorOriginal:500,taxaMensal:15,parcelas:emp2Parcelas,obs:'Segundo empréstimo',garantia:'',criadoEm:dataStr(2)};
+
+  const demo={
+    id:9999,
+    nome:'João Silva (Demo)',
+    tel:'92999990000',
+    risco:'atencao',
+    emprestimos:[emp1,emp2]
+  };
+
+  // remove demo anterior se existir
+  clientes=clientes.filter(c=>c.id!==9999);
+  clientes.unshift(demo);
+  persist();
+  if(!silencioso){renderHome();renderClientes();toast('Cliente demo criado!');}
+}
+
+/* ---- PIN ---- */
+let pinBuffer='',pinMode='verify',pinTemp='';
 function initPin(){
   const saved=localStorage.getItem('emp_pin');
-  if(!saved){pinMode='set1';document.getElementById('pin-title').textContent='Crie seu PIN';document.getElementById('pin-sub').textContent='Escolha um PIN de 4 dígitos para proteger o app';}
-  else{pinMode='verify';}
+  if(!saved){pinMode='set1';document.getElementById('pin-title').textContent='Crie seu PIN';document.getElementById('pin-sub').textContent='Escolha um PIN de 4 dígitos';}
   updatePinStatus();
 }
 function pinPress(v){
-  if(v==='del'){pinBuffer=pinBuffer.slice(0,-1);}
-  else if(v==='ok'){checkPin();}
-  else if(pinBuffer.length<4){pinBuffer+=v;}
+  if(v==='del')pinBuffer=pinBuffer.slice(0,-1);
+  else if(v==='ok')checkPin();
+  else if(pinBuffer.length<4)pinBuffer+=v;
   updatePinDots();
   if(pinBuffer.length===4&&v!=='ok')checkPin();
 }
-function updatePinDots(){
-  for(let i=0;i<4;i++){document.getElementById('d'+i).classList.toggle('filled',i<pinBuffer.length);}
-}
+function updatePinDots(){for(let i=0;i<4;i++)document.getElementById('d'+i).classList.toggle('filled',i<pinBuffer.length);}
 function checkPin(){
   const saved=localStorage.getItem('emp_pin');
   if(pinMode==='verify'){
-    if(pinBuffer===saved){unlockApp();}
-    else{document.getElementById('pin-error').textContent='PIN incorreto. Tente novamente.';pinBuffer='';updatePinDots();}
+    if(pinBuffer===saved)unlockApp();
+    else{document.getElementById('pin-error').textContent='PIN incorreto.';pinBuffer='';updatePinDots();}
   } else if(pinMode==='set1'){
     if(pinBuffer.length<4){document.getElementById('pin-error').textContent='Digite 4 dígitos.';return;}
     pinTemp=pinBuffer;pinBuffer='';updatePinDots();
-    pinMode='set2';document.getElementById('pin-title').textContent='Confirme o PIN';document.getElementById('pin-sub').textContent='Digite o mesmo PIN novamente';
-    document.getElementById('pin-error').textContent='';
+    pinMode='set2';document.getElementById('pin-title').textContent='Confirme o PIN';document.getElementById('pin-error').textContent='';
   } else {
     if(pinBuffer===pinTemp){localStorage.setItem('emp_pin',pinBuffer);unlockApp();}
-    else{document.getElementById('pin-error').textContent='PINs não coincidem. Tente novamente.';pinBuffer='';pinTemp='';pinMode='set1';document.getElementById('pin-title').textContent='Crie seu PIN';document.getElementById('pin-sub').textContent='Escolha um PIN de 4 dígitos';updatePinDots();}
+    else{document.getElementById('pin-error').textContent='PINs não coincidem.';pinBuffer='';pinTemp='';pinMode='set1';document.getElementById('pin-title').textContent='Crie seu PIN';updatePinDots();}
   }
 }
-function unlockApp(){
-  document.getElementById('pin-screen').style.display='none';
-  document.getElementById('main-app').style.display='block';
-  updatePinStatus();renderHome();agendarNotificacoes();
-}
-function pinForgot(){
-  if(confirm('Resetar o PIN? Você precisará criar um novo.')){
-    localStorage.removeItem('emp_pin');
-    pinBuffer='';pinMode='set1';
-    document.getElementById('pin-title').textContent='Crie seu PIN';
-    document.getElementById('pin-sub').textContent='Escolha um PIN de 4 dígitos';
-    document.getElementById('pin-error').textContent='';
-    updatePinDots();
-  }
-}
+function unlockApp(){document.getElementById('pin-screen').style.display='none';document.getElementById('main-app').style.display='block';updatePinStatus();renderHome();agendarNotificacoes();}
+function pinForgot(){if(confirm('Resetar o PIN?')){localStorage.removeItem('emp_pin');pinBuffer='';pinMode='set1';document.getElementById('pin-title').textContent='Crie seu PIN';document.getElementById('pin-error').textContent='';updatePinDots();}}
 function salvarPin(){
-  const v1=document.getElementById('mpin-input').value;
-  const v2=document.getElementById('mpin-confirm').value;
+  const v1=document.getElementById('mpin-input').value,v2=document.getElementById('mpin-confirm').value;
   const err=document.getElementById('mpin-error');
-  if(v1.length!==4||v2.length!==4){err.textContent='Digite exatamente 4 dígitos em cada campo.';return;}
-  if(v1!==v2){err.textContent='Os PINs não coincidem.';return;}
-  localStorage.setItem('emp_pin',v1);
-  closeModal('mudar-pin');
-  document.getElementById('mpin-input').value='';
-  document.getElementById('mpin-confirm').value='';
-  err.textContent='';
+  if(v1.length!==4||v2.length!==4){err.textContent='Digite 4 dígitos.';return;}
+  if(v1!==v2){err.textContent='PINs não coincidem.';return;}
+  localStorage.setItem('emp_pin',v1);closeModal('mudar-pin');
+  document.getElementById('mpin-input').value='';document.getElementById('mpin-confirm').value='';err.textContent='';
   updatePinStatus();toast('PIN salvo!');
 }
 function updatePinStatus(){
   const has=!!localStorage.getItem('emp_pin');
-  const el=document.getElementById('pin-status-text');
-  const btn=document.getElementById('pin-btn-text');
-  if(el){el.textContent=has?'PIN ativo':'Sem PIN definido';}
-  if(btn){btn.textContent=has?'Alterar PIN':'Definir PIN';}
+  const el=document.getElementById('pin-status-text'),btn=document.getElementById('pin-btn-text');
+  if(el)el.textContent=has?'PIN ativo':'Sem PIN definido';
+  if(btn)btn.textContent=has?'Alterar PIN':'Definir PIN';
 }
 
 /* ---- NOTIFICAÇÕES ---- */
 function pedirNotificacao(){
-  if(!('Notification' in window)){toast('Notificações não suportadas neste navegador.');return;}
+  if(!('Notification' in window)){toast('Não suportado.');return;}
   Notification.requestPermission().then(p=>{
-    if(p==='granted'){localStorage.setItem('emp_notif','1');document.getElementById('notif-btn').textContent='✅ Ativo';toast('Notificações ativadas!');agendarNotificacoes();}
-    else{toast('Permissão negada.');}
+    if(p==='granted'){localStorage.setItem('emp_notif','1');document.getElementById('notif-btn').textContent='✅ Ativo';toast('Ativadas!');agendarNotificacoes();}
+    else toast('Permissão negada.');
   });
 }
 function agendarNotificacoes(){
   if(!('Notification' in window)||Notification.permission!=='granted')return;
-  const amanha=new Date();amanha.setDate(amanha.getDate()+1);
-  const amanhaStr=amanha.toISOString().split('T')[0];
-  clientes.forEach(c=>{
-    c.emprestimos.forEach(emp=>{
-      emp.parcelas.filter(p=>!p.pago&&p.vencimento===amanhaStr).forEach(p=>{
-        new Notification('💰 Vencimento amanhã',{body:`${c.nome} — ${fv(valorAcumulado(emp,p))} (${emp.taxaMensal}% a.m.)`,icon:'💰'});
-      });
+  const amanha=new Date();amanha.setDate(amanha.getDate()+1);const amanhaStr=amanha.toISOString().split('T')[0];
+  clientes.forEach(c=>{c.emprestimos.forEach(emp=>{
+    emp.parcelas.filter(p=>!p.pago&&p.vencimento===amanhaStr).forEach(()=>{
+      new Notification('💰 Vencimento amanhã',{body:`${c.nome} — ${fv(emp.valorOriginal*(emp.taxaMensal/100))} (${emp.taxaMensal}% a.m.)`});
     });
-  });
-  if(localStorage.getItem('emp_notif')==='1'){document.getElementById('notif-btn').textContent='✅ Ativo';}
+  });});
+  if(localStorage.getItem('emp_notif')==='1')document.getElementById('notif-btn').textContent='✅ Ativo';
 }
 
 /* ---- UTILS ---- */
@@ -525,9 +533,15 @@ function clienteStatus(c){
 function clienteTotalPrincipal(c){return c.emprestimos.filter(e=>empStatus(e)!=='quitado').reduce((s,e)=>s+e.valorOriginal,0);}
 function clienteTotalDevendo(c){return c.emprestimos.reduce((s,emp)=>s+emp.parcelas.filter(p=>!p.pago).reduce((ss,p)=>ss+valorAcumulado(emp,p),0),0);}
 function riscoBadge(r){
-  const m={confiavel:['risk-confiavel','⭐ Confiável'],atencao:['risk-atencao','⚠️ Atenção'],risco:['risk-risco','🔴 Risco']};
-  const [cls,lbl]=m[r]||m['atencao'];
+  const m={confiavel:['risk-confiavel','⭐'],atencao:['risk-atencao','⚠️'],risco:['risk-risco','🔴']};
+  const[cls,lbl]=m[r]||m['atencao'];
   return`<span class="risk-badge ${cls}">${lbl}</span>`;
+}
+function descParcelas(emp){
+  const total=emp.parcelas.length,pagas=emp.parcelas.filter(p=>p.pago).length;
+  const pct=total>0?Math.round(pagas/total*100):0;
+  if(total===1)return pct===100?'Quitado (100%)':'Aberto · '+pct+'% pago';
+  return`${pagas}/${total} parcelas · ${pct}%`;
 }
 
 /* ---- NAV ---- */
@@ -541,20 +555,16 @@ function showPage(id,btn){
   if(id==='mensal')renderMensal();
   if(id==='capital')renderCapital();
 }
-
-/* ---- MODAIS ---- */
 function openModal(id){document.getElementById('modal-'+id).classList.add('open');}
 function closeModal(id){document.getElementById('modal-'+id).classList.remove('open');}
 
+/* ---- NOVO EMPRÉSTIMO ---- */
 function openNovoModal(clienteId){
   novoParaClienteId=clienteId;
   const next=new Date();next.setMonth(next.getMonth()+1);
   document.getElementById('f-data').value=next.toISOString().split('T')[0];
-  document.getElementById('f-valor').value='';
-  document.getElementById('f-np').value='';
-  document.getElementById('f-juros').value='20';
-  document.getElementById('f-obs').value='';
-  document.getElementById('f-garantia').value='';
+  document.getElementById('f-valor').value='';document.getElementById('f-np').value='';
+  document.getElementById('f-juros').value='20';document.getElementById('f-obs').value='';document.getElementById('f-garantia').value='';
   if(clienteId){
     const c=clientes.find(x=>x.id===clienteId);
     document.getElementById('novo-title').textContent='Novo empréstimo';
@@ -568,21 +578,18 @@ function openNovoModal(clienteId){
     document.getElementById('nome-group').style.display='flex';
     document.getElementById('tel-group').style.display='flex';
     document.getElementById('risco-group').style.display='flex';
-    document.getElementById('f-nome').value='';
-    document.getElementById('f-tel').value='';
-    document.getElementById('f-risco').value='confiavel';
+    document.getElementById('f-nome').value='';document.getElementById('f-tel').value='';document.getElementById('f-risco').value='confiavel';
   }
   openModal('novo');
 }
-
 function salvarEmprestimo(){
   const valor=parseFloat(document.getElementById('f-valor').value);
-  const np=parseInt(document.getElementById('f-np').value);
+  const np=parseInt(document.getElementById('f-np').value)||1;
   const juros=parseFloat(document.getElementById('f-juros').value)||0;
   const dataStr=document.getElementById('f-data').value;
   const obs=document.getElementById('f-obs').value.trim();
   const garantia=document.getElementById('f-garantia').value.trim();
-  if(!valor||!np||!dataStr){alert('Preencha valor, parcelas e data.');return;}
+  if(!valor||!dataStr){alert('Preencha valor e data.');return;}
   const jurosUnit=valor*(juros/100);
   const parcelas=[];
   for(let i=0;i<np;i++){
@@ -590,75 +597,161 @@ function salvarEmprestimo(){
     parcelas.push({num:i+1,vencimento:d.toISOString().split('T')[0],valor:jurosUnit,pago:false});
   }
   const emp={id:uid(),valorOriginal:valor,taxaMensal:juros,parcelas,obs,garantia,criadoEm:today()};
-  const desc=`Empréstimo de ${fv(valor)} · ${juros}% a.m. = ${fv(jurosUnit)}/mês · ${np} parcelas${garantia?' · Garantia: '+garantia:''}`;
   if(novoParaClienteId){
     const c=clientes.find(x=>x.id===novoParaClienteId);
-    c.emprestimos.push(emp);
-    c.historico.push({tipo:'contrato',data:nowStr(),desc});
-    persist();closeModal('novo');
+    c.emprestimos.push(emp);persist();closeModal('novo');
     if(currentClienteId===novoParaClienteId)renderPessoa();
-    renderClientes();toast('Empréstimo adicionado!');
-    setTimeout(()=>gerarPDFContrato(c,emp),400);
+    renderClientes();renderHome();toast('Empréstimo adicionado!');
   } else {
     const nome=document.getElementById('f-nome').value.trim();
     const tel=document.getElementById('f-tel').value.trim();
     const risco=document.getElementById('f-risco').value;
     if(!nome){alert('Informe o nome.');return;}
-    const c={id:uid(),nome,tel,risco,historico:[{tipo:'contrato',data:nowStr(),desc}],emprestimos:[emp]};
+    const c={id:uid(),nome,tel,risco,emprestimos:[emp]};
     clientes.push(c);persist();closeModal('novo');renderClientes();renderHome();toast('Cliente salvo!');
-    setTimeout(()=>gerarPDFContrato(c,emp),400);
   }
 }
 
-/* ---- COBRANÇAS EM MASSA ---- */
+/* ---- PAGAMENTO INTELIGENTE ---- */
+function abrirPagamento(cId,eId,pNum){
+  const c=clientes.find(x=>x.id===cId);
+  const emp=c.emprestimos.find(e=>e.id===eId);
+  const p=emp.parcelas.find(x=>x.num===pNum);
+  if(!p||p.pago)return;
+  const m=mesesAtraso(p.vencimento);
+  const acum=valorAcumulado(emp,p);
+  const jurosUnit=emp.valorOriginal*(emp.taxaMensal/100);
+  const totalQuitar=acum+emp.valorOriginal;
+  pagCtx={cId,eId,pNum,acum,jurosUnit,totalQuitar,empValorOriginal:emp.valorOriginal};
+  document.getElementById('f-pag-valor').value='';
+  document.getElementById('f-pag-obs').value='';
+  document.getElementById('pag-result').style.display='none';
+  document.getElementById('pag-result').className='result-box';
+  document.getElementById('btn-confirmar-pag').disabled=true;
+  document.getElementById('btn-confirmar-pag').style.opacity='.4';
+  document.getElementById('pag-title').textContent=c.nome;
+  document.getElementById('pag-subtitle').textContent=`${fv(emp.valorOriginal)} · ${emp.taxaMensal}% a.m. · Parcela ${pNum}/${emp.parcelas.length}`;
+  document.getElementById('pag-atraso-info').innerHTML=m>1?`<div class="atraso-box">⚠️ <strong>${m} meses em atraso</strong> — Juros acumulados: <strong style="font-family:'DM Mono',monospace">${fv(acum)}</strong></div>`:'';
+  document.getElementById('pag-resumo').innerHTML=`
+    <div class="info-row"><span>Juros do mês</span><span class="val">${fv(jurosUnit)}</span></div>
+    ${m>1?`<div class="info-row"><span>Juros acumulados (${m}m)</span><span class="val" style="color:var(--red)">${fv(acum)}</span></div>`:''}
+    <div class="info-row"><span>Principal</span><span class="val">${fv(emp.valorOriginal)}</span></div>
+    <div class="info-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px"><span style="font-weight:700">Total para quitar</span><span class="val" style="color:var(--green)">${fv(totalQuitar)}</span></div>`;
+  openModal('pag');
+}
+function calcPagamento(){
+  const rec=parseFloat(document.getElementById('f-pag-valor').value)||0;
+  const{acum,jurosUnit,totalQuitar,empValorOriginal}=pagCtx;
+  const resultEl=document.getElementById('pag-result');
+  const btnEl=document.getElementById('btn-confirmar-pag');
+  if(!rec||rec<=0){resultEl.style.display='none';btnEl.disabled=true;btnEl.style.opacity='.4';return;}
+  resultEl.style.display='block';
+  let html='',cls='';
+  if(rec<acum){
+    cls='invalido';
+    html=`<div style="font-weight:700;color:var(--red);margin-bottom:6px">❌ Valor insuficiente</div>
+    <div class="result-row"><span>Mínimo (juros)</span><span class="val">${fv(acum)}</span></div>
+    <div class="result-row"><span>Faltam</span><span class="val" style="color:var(--red)">${fv(acum-rec)}</span></div>`;
+    btnEl.disabled=true;btnEl.style.opacity='.4';
+  } else if(rec<totalQuitar){
+    const abate=rec-acum;const novoP=Math.max(0,empValorOriginal-abate);
+    if(abate===0){
+      cls='juros';
+      html=`<div style="font-weight:700;color:var(--amber);margin-bottom:6px">🔄 Renovação — só os juros</div>
+      <div class="result-row"><span>Juros pagos</span><span class="val">${fv(acum)}</span></div>
+      <div class="result-row"><span>Principal (continua)</span><span class="val">${fv(empValorOriginal)}</span></div>
+      <div class="result-row"><span>Próxima parcela</span><span class="val">+1 mês</span></div>`;
+    } else {
+      cls='parcial';
+      html=`<div style="font-weight:700;color:var(--purple);margin-bottom:6px">➕ Renovação + abate no principal</div>
+      <div class="result-row"><span>Juros pagos</span><span class="val">${fv(acum)}</span></div>
+      <div class="result-row"><span>Abate no principal</span><span class="val">${fv(abate)}</span></div>
+      <div class="result-row"><span>Novo principal</span><span class="val">${fv(novoP)}</span></div>
+      <div class="result-row"><span>Próxima parcela</span><span class="val">+1 mês</span></div>`;
+    }
+    btnEl.disabled=false;btnEl.style.opacity='1';
+  } else {
+    cls='total';const troco=rec-totalQuitar;
+    html=`<div style="font-weight:700;color:var(--green);margin-bottom:6px">✅ Quitação total</div>
+    <div class="result-row"><span>Juros pagos</span><span class="val">${fv(acum)}</span></div>
+    <div class="result-row"><span>Principal quitado</span><span class="val">${fv(empValorOriginal)}</span></div>
+    ${troco>0?`<div class="result-row"><span>Troco</span><span class="val">${fv(troco)}</span></div>`:''}
+    <div class="result-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px"><span style="font-weight:700">Empréstimo encerrado</span><span class="val">🎉</span></div>`;
+    btnEl.disabled=false;btnEl.style.opacity='1';
+  }
+  resultEl.className='result-box '+cls;resultEl.innerHTML=html;
+}
+function confirmarPagamento(){
+  const c=clientes.find(x=>x.id===pagCtx.cId);
+  const emp=c.emprestimos.find(e=>e.id===pagCtx.eId);
+  const p=emp.parcelas.find(x=>x.num===pagCtx.pNum);
+  const rec=parseFloat(document.getElementById('f-pag-valor').value)||0;
+  const obs=document.getElementById('f-pag-obs').value.trim();
+  const{acum,jurosUnit,totalQuitar}=pagCtx;
+  const m=mesesAtraso(p.vencimento);
+  if(rec>=totalQuitar){
+    p.pago=true;p.pagoEm=nowStr();p.valorPago=rec;p.tipoP='total';
+    persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('🎉 Quitado!');
+    setTimeout(()=>gerarPDFRecibo(c,emp,p,'total',rec,obs,0,acum),300);
+  } else {
+    const abate=rec-acum;
+    if(abate>0){
+      emp.valorOriginal=Math.max(0,emp.valorOriginal-abate);
+      p.pago=true;p.pagoEm=nowStr();p.valorPago=rec;p.tipoP='parcial';
+      const novaData=new Date(today()+'T12:00:00');novaData.setMonth(novaData.getMonth()+1);
+      emp.parcelas.push({num:emp.parcelas.length+1,vencimento:novaData.toISOString().split('T')[0],valor:emp.valorOriginal*(emp.taxaMensal/100),pago:false});
+      persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('Registrado!');
+      setTimeout(()=>gerarPDFRecibo(c,emp,p,'parcial',rec,obs,abate,acum),300);
+    } else {
+      p.pago=true;p.pagoEm=nowStr();p.valorPago=acum;p.tipoP='juros';
+      const novaData=new Date(today()+'T12:00:00');novaData.setMonth(novaData.getMonth()+1);
+      emp.parcelas.push({num:emp.parcelas.length+1,vencimento:novaData.toISOString().split('T')[0],valor:jurosUnit,pago:false});
+      persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('Renovado!');
+      setTimeout(()=>gerarPDFRecibo(c,emp,p,'juros',acum,obs,m,acum),300);
+    }
+  }
+}
+function estornar(cId,eId,pNum){
+  if(!confirm('Estornar parcela?'))return;
+  const c=clientes.find(x=>x.id===cId);
+  const emp=c.emprestimos.find(e=>e.id===eId);
+  const p=emp.parcelas.find(x=>x.num===pNum);
+  if(p){p.pago=false;delete p.pagoEm;delete p.tipoP;delete p.valorPago;persist();renderPessoa();renderHome();toast('Estornado.');}
+}
+
+/* ---- COBRANÇAS ---- */
 function abrirCobrancaMassa(){
-  const t=today();
-  const amanha=new Date();amanha.setDate(amanha.getDate()+1);
-  const amanhaStr=amanha.toISOString().split('T')[0];
+  const t=today();const amanha=new Date();amanha.setDate(amanha.getDate()+1);const amanhaStr=amanha.toISOString().split('T')[0];
   let itens=[];
-  clientes.forEach(c=>{
-    c.emprestimos.forEach(emp=>{
-      emp.parcelas.filter(p=>!p.pago&&(p.vencimento<=amanhaStr||p.vencimento<t)).forEach(p=>{
-        const m=mesesAtraso(p.vencimento);
-        const acum=valorAcumulado(emp,p);
-        const dias=Math.round((new Date(p.vencimento+'T12:00:00')-new Date(t+'T12:00:00'))/86400000);
-        itens.push({c,emp,p,m,acum,dias});
-      });
+  clientes.forEach(c=>{c.emprestimos.forEach(emp=>{
+    emp.parcelas.filter(p=>!p.pago&&(p.vencimento<=amanhaStr||p.vencimento<t)).forEach(p=>{
+      const m=mesesAtraso(p.vencimento);const acum=valorAcumulado(emp,p);
+      const dias=Math.round((new Date(p.vencimento+'T12:00:00')-new Date(t+'T12:00:00'))/86400000);
+      itens.push({c,emp,p,m,acum,dias});
     });
-  });
+  });});
   itens.sort((a,b)=>a.dias-b.dias);
   document.getElementById('cob-sub').textContent=itens.length+' cobrança(s) pendente(s)';
   document.getElementById('cob-lista').innerHTML=itens.length?itens.map(({c,emp,p,m,acum,dias})=>{
-    const status=dias<0?(m>1?`${m} meses em atraso`:`${Math.abs(dias)} dia(s) atrasado`):'vence amanhã';
-    const msg=`Olá ${c.nome.split(' ')[0]}! 😊\nPassando para lembrar que ${dias<0?'sua parcela de':'sua parcela de'} *${fv(acum)}* está ${status}.\n\nPix: ${OWNER.pix}\nQualquer dúvida, fique à vontade!\n— ${OWNER.nome}`;
+    const status=dias<0?(m>1?`${m} meses em atraso`:`${Math.abs(dias)}d atrasado`):'vence amanhã';
+    const msg=`Olá ${c.nome.split(' ')[0]}! 😊\nPassando para lembrar que sua parcela de *${fv(acum)}* está ${status}.\n\nPix: ${OWNER.pix}\nQualquer dúvida é só falar!\n— ${OWNER.nome}`;
     const waLink=c.tel?`https://wa.me/55${c.tel.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`:'';
     return`<div style="padding:12px 0;border-bottom:1px solid var(--border)">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-        <div>
-          <div style="font-weight:700;font-size:14px">${c.nome} ${riscoBadge(c.risco||'atencao')}</div>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">${fv(acum)} · ${status}</div>
-          ${emp.garantia?`<div style="font-size:12px;color:var(--muted)">Garantia: ${emp.garantia}</div>`:''}
+        <div><div style="font-weight:700;font-size:14px">${c.nome} ${riscoBadge(c.risco||'atencao')}</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">${fv(acum)} · ${status}</div>
+        ${emp.garantia?`<div style="font-size:12px;color:var(--muted)">🔒 ${emp.garantia}</div>`:''}
         </div>
-        ${waLink?`<a href="${waLink}" target="_blank" class="btn btn-sm btn-green" style="white-space:nowrap;text-decoration:none">📲 WhatsApp</a>`:`<span style="font-size:12px;color:var(--muted)">Sem tel.</span>`}
+        ${waLink?`<a href="${waLink}" target="_blank" class="btn btn-sm btn-green" style="text-decoration:none;white-space:nowrap">📲 WhatsApp</a>`:`<span style="font-size:12px;color:var(--muted)">Sem tel.</span>`}
       </div>
     </div>`;
-  }).join(''):'<div class="empty">Nenhuma cobrança pendente para hoje ou amanhã.</div>';
+  }).join(''):'<div class="empty">Nenhuma cobrança pendente.</div>';
   openModal('cobranca');
 }
 
-/* ---- NAVEGAÇÃO CLIENTES ---- */
-function goLista(){
-  currentClienteId=null;
-  document.getElementById('view-lista').style.display='block';
-  document.getElementById('view-pessoa').style.display='none';
-  renderClientes();
-}
-function openPessoa(id){
-  currentClienteId=id;
-  document.getElementById('view-lista').style.display='none';
-  document.getElementById('view-pessoa').style.display='block';
-  renderPessoa();
-}
+/* ---- NAVEGAÇÃO ---- */
+function goLista(){currentClienteId=null;document.getElementById('view-lista').style.display='block';document.getElementById('view-pessoa').style.display='none';renderClientes();}
+function openPessoa(id){currentClienteId=id;document.getElementById('view-lista').style.display='none';document.getElementById('view-pessoa').style.display='block';renderPessoa();}
 function excluirCliente(){
   const c=getCliente();if(!c||!confirm('Excluir '+c.nome+'?'))return;
   clientes=clientes.filter(x=>x.id!==currentClienteId);persist();goLista();toast('Excluído.');
@@ -670,111 +763,13 @@ function excluirEmp(cId,eId){
   persist();renderPessoa();renderClientes();toast('Excluído.');
 }
 
-/* ---- PAGAMENTO ---- */
-function abrirPagamento(cId,eId,pNum){
-  const c=clientes.find(x=>x.id===cId);
-  const emp=c.emprestimos.find(e=>e.id===eId);
-  const p=emp.parcelas.find(x=>x.num===pNum);
-  if(!p||p.pago)return;
-  pagCtx={cId,eId,pNum};pagType='juros';
-  document.getElementById('f-pag-valor').value='';
-  document.getElementById('f-pag-obs').value='';
-  document.getElementById('abate-info').textContent='';
-  document.getElementById('pag-extra').style.display='none';
-  document.getElementById('pag-title').textContent=c.nome;
-  document.getElementById('pag-subtitle').textContent=`${fv(emp.valorOriginal)} · ${emp.taxaMensal}% a.m. · Parcela ${pNum}/${emp.parcelas.length}`;
-  const m=mesesAtraso(p.vencimento);const acum=valorAcumulado(emp,p);
-  document.getElementById('pag-atraso-info').innerHTML=m>1?`<div class="atraso-box">⚠️ <strong>${m} meses em atraso</strong> — Acumulado: <strong style="font-family:'DM Mono',monospace">${fv(acum)}</strong></div>`:'';
-  ['juros','parcial','total'].forEach(t=>document.getElementById('pt-'+t).classList.toggle('active',t==='juros'));
-  updatePagInfo();openModal('pag');
-}
-function selectPT(t){
-  pagType=t;
-  ['juros','parcial','total'].forEach(x=>document.getElementById('pt-'+x).classList.toggle('active',x===t));
-  document.getElementById('pag-extra').style.display=t==='parcial'?'block':'none';
-  document.getElementById('abate-info').textContent='';
-  updatePagInfo();
-}
-function updatePagInfo(){
-  const c=clientes.find(x=>x.id===pagCtx.cId);
-  const emp=c.emprestimos.find(e=>e.id===pagCtx.eId);
-  const p=emp.parcelas.find(x=>x.num===pagCtx.pNum);
-  const m=mesesAtraso(p.vencimento);const acum=valorAcumulado(emp,p);
-  let html='';
-  if(pagType==='juros'){
-    html=`<div class="info-row"><span>${m>1?'Juros acum. ('+m+'m)':'Juros do mês'}</span><span class="val" ${m>1?'style="color:var(--red)"':''}>${fv(acum)}</span></div>
-    <div class="info-row"><span>Principal (continua)</span><span class="val">${fv(emp.valorOriginal)}</span></div>
-    <div class="info-row"><span>Próxima parcela</span><span class="val">+1 mês</span></div>`;
-  } else if(pagType==='parcial'){
-    html=`<div class="info-row"><span>Mínimo (juros acum.)</span><span class="val" style="color:var(--red)">${fv(acum)}</span></div><div class="info-row"><span>Excedente abate o principal</span><span></span></div>`;
-  } else {
-    html=`<div class="info-row"><span>Juros acumulados</span><span class="val">${fv(acum)}</span></div>
-    <div class="info-row"><span>Principal</span><span class="val">${fv(emp.valorOriginal)}</span></div>
-    <div class="info-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px"><span style="font-weight:700">Total para quitar</span><span class="val" style="color:var(--green)">${fv(acum+emp.valorOriginal)}</span></div>`;
-  }
-  document.getElementById('pag-info').innerHTML=html;
-}
-function calcAbate(){
-  const c=clientes.find(x=>x.id===pagCtx.cId);
-  const emp=c.emprestimos.find(e=>e.id===pagCtx.eId);
-  const p=emp.parcelas.find(x=>x.num===pagCtx.pNum);
-  const acum=valorAcumulado(emp,p);
-  const rec=parseFloat(document.getElementById('f-pag-valor').value)||0;
-  const abate=rec-acum;
-  const el=document.getElementById('abate-info');
-  if(rec<acum){el.innerHTML=`<span style="color:var(--red)">Mínimo: ${fv(acum)}</span>`;}
-  else if(abate===0){el.innerHTML=`Cobre os juros — principal continua ${fv(emp.valorOriginal)}`;}
-  else{el.innerHTML=`Juros: ${fv(acum)} · Abate: ${fv(abate)} · Novo principal: <strong>${fv(Math.max(0,emp.valorOriginal-abate))}</strong>`;}
-}
-function confirmarPagamento(){
-  const c=clientes.find(x=>x.id===pagCtx.cId);
-  const emp=c.emprestimos.find(e=>e.id===pagCtx.eId);
-  const p=emp.parcelas.find(x=>x.num===pagCtx.pNum);
-  const jurosUnit=emp.valorOriginal*(emp.taxaMensal/100);
-  const m=mesesAtraso(p.vencimento);const acum=valorAcumulado(emp,p);
-  const obs=document.getElementById('f-pag-obs').value.trim();
-  if(pagType==='total'){
-    const total=acum+emp.valorOriginal;p.pago=true;p.pagoEm=nowStr();p.valorPago=total;
-    c.historico.push({tipo:'quitado',data:nowStr(),desc:`Emp. ${fv(emp.valorOriginal)} QUITADO — ${fv(total)}${obs?' ('+obs+')':''}`});
-    persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('Quitado!');
-    setTimeout(()=>gerarPDFRecibo(c,emp,p,'total',total,obs,0,acum),300);
-  } else if(pagType==='juros'){
-    p.pago=true;p.pagoEm=nowStr();p.tipoP='juros';p.valorPago=acum;
-    const novaData=new Date(today()+'T12:00:00');novaData.setMonth(novaData.getMonth()+1);
-    emp.parcelas.push({num:emp.parcelas.length+1,vencimento:novaData.toISOString().split('T')[0],valor:jurosUnit,pago:false});
-    c.historico.push({tipo:'renovacao',data:nowStr(),desc:`Parc. ${p.num}: juros${m>1?' ('+m+'m)':''} ${fv(acum)} · renovado${obs?' ('+obs+')':''}`});
-    persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('Renovado!');
-    setTimeout(()=>gerarPDFRecibo(c,emp,p,'juros',acum,obs,m,acum),300);
-  } else {
-    const rec=parseFloat(document.getElementById('f-pag-valor').value)||0;
-    if(rec<acum){alert('Mínimo: '+fv(acum));return;}
-    const abate=rec-acum;emp.valorOriginal=Math.max(0,emp.valorOriginal-abate);
-    p.pago=true;p.pagoEm=nowStr();p.tipoP='parcial';p.valorPago=rec;
-    const novaData=new Date(today()+'T12:00:00');novaData.setMonth(novaData.getMonth()+1);
-    emp.parcelas.push({num:emp.parcelas.length+1,vencimento:novaData.toISOString().split('T')[0],valor:emp.valorOriginal*(emp.taxaMensal/100),pago:false});
-    c.historico.push({tipo:'parcial',data:nowStr(),desc:`Parc. ${p.num}: ${fv(rec)} · abate ${fv(abate)} · novo principal ${fv(emp.valorOriginal)}${obs?' ('+obs+')':''}`});
-    persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('Registrado!');
-    setTimeout(()=>gerarPDFRecibo(c,emp,p,'parcial',rec,obs,abate,acum),300);
-  }
-}
-function estornar(cId,eId,pNum){
-  if(!confirm('Estornar parcela?'))return;
-  const c=clientes.find(x=>x.id===cId);
-  const emp=c.emprestimos.find(e=>e.id===eId);
-  const p=emp.parcelas.find(x=>x.num===pNum);
-  if(p){p.pago=false;delete p.pagoEm;delete p.tipoP;delete p.valorPago;
-  c.historico.push({tipo:'estorno',data:nowStr(),desc:`Parc. ${pNum} emp. ${fv(emp.valorOriginal)} estornada.`});
-  persist();renderPessoa();renderHome();toast('Estornado.');}
-}
-
 /* ---- BACKUP ---- */
 function exportarDados(){
   if(!clientes.length){toast('Nenhum dado.');return;}
   const blob=new Blob([JSON.stringify({versao:'v6',exportadoEm:nowStr(),clientes},null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);const a=document.createElement('a');
   a.href=url;a.download='emprestimos_backup_'+today()+'.json';
-  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
-  toast('Backup exportado! '+clientes.length+' clientes.');
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);toast('Backup exportado!');
 }
 function importarDados(event){
   const file=event.target.files[0];if(!file)return;
@@ -787,6 +782,35 @@ function importarDados(event){
       clientes=imp;persist();renderHome();renderClientes();toast('✅ '+imp.length+' clientes importados!');
     }catch(err){alert('Arquivo inválido.');}
   };reader.readAsText(file);event.target.value='';
+}
+
+/* ---- PDF ---- */
+function gerarPDFRecibo(c,emp,p,tipo,valorPago,obs,extra,acum){
+  try{
+    const{jsPDF}=window.jspdf;const doc=new jsPDF();const W=210,M=20;let y=20;
+    const cor=tipo==='total'?[10,102,64]:tipo==='juros'?[138,90,0]:[74,53,176];
+    doc.setFillColor(...cor);doc.rect(0,0,W,38,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(14);doc.setFont('helvetica','bold');
+    doc.text(tipo==='total'?'RECIBO DE QUITAÇÃO':tipo==='juros'?'RECIBO — JUROS':'RECIBO — PAGAMENTO PARCIAL',W/2,16,{align:'center'});
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    doc.text(OWNER.nome+' · WhatsApp: '+OWNER.tel+' · Pix: '+OWNER.pix,W/2,28,{align:'center'});
+    y=52;doc.setTextColor(26,24,20);doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text('DETALHES DO PAGAMENTO',M,y);y+=7;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=8;
+    const rows=[['Cliente',c.nome],['WhatsApp',c.tel||'—'],['Data',nowStr()],['Empréstimo',fv(emp.valorOriginal)+' · '+emp.taxaMensal+'% a.m.'],['Parcela',p.num+'/'+emp.parcelas.length],['Venc. original',fd(p.vencimento)]];
+    if(tipo==='juros'&&extra>1)rows.push(['Meses em atraso',extra+'x']);
+    rows.push(['Juros pagos',fv(acum)]);
+    if(tipo==='total'){rows.push(['Principal quitado',fv(emp.valorOriginal)]);rows.push(['TOTAL PAGO',fv(valorPago)]);}
+    else if(tipo==='parcial'){rows.push(['Abate no principal',fv(extra)]);rows.push(['Novo principal',fv(emp.valorOriginal)]);}
+    else rows.push(['Principal (continua)',fv(emp.valorOriginal)]);
+    if(emp.garantia)rows.push(['Garantia',emp.garantia]);
+    if(obs)rows.push(['Observação',obs]);
+    doc.setFontSize(10);rows.forEach(([k,v])=>{doc.setFont('helvetica','bold');doc.setTextColor(120);doc.text(k+':',M,y);doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);doc.text(String(v),M+55,y,{maxWidth:W-M-55});y+=8;});
+    y+=6;doc.setFillColor(...cor);doc.rect(M,y,W-M*2,16,'F');
+    doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');
+    doc.text('VALOR RECEBIDO: '+fv(valorPago),W/2,y+10,{align:'center'});
+    y+=26;doc.setFontSize(8);doc.setTextColor(160);doc.setFont('helvetica','normal');doc.text('Gerado em: '+nowStr(),M,y);
+    doc.save('recibo_'+c.nome.replace(/\s+/g,'_')+'_parc'+p.num+'.pdf');toast('Recibo gerado!');
+  }catch(e){toast('Erro ao gerar recibo.');}
 }
 
 /* ---- RENDER HOME ---- */
@@ -807,8 +831,7 @@ function renderHome(){
     if(pend.length){const p=pend[0];const dias=Math.round((new Date(p.vencimento+'T12:00:00')-new Date(t+'T12:00:00'))/86400000);const m=mesesAtraso(p.vencimento);upcoming.push({c,emp,p,dias,m,acum:valorAcumulado(emp,p)});}
   });});
   upcoming.sort((a,b)=>a.dias-b.dias);
-  const upEl=document.getElementById('upcoming-list');
-  upEl.innerHTML=upcoming.length?upcoming.slice(0,10).map(({c,emp,p,dias,m,acum})=>{
+  document.getElementById('upcoming-list').innerHTML=upcoming.length?upcoming.slice(0,10).map(({c,emp,p,dias,m,acum})=>{
     const cls=dias<0?'urgent':dias<=7?'soon':'ok';
     const dLabel=dias<0?(m>1?m+'m atraso':Math.abs(dias)+'d atraso'):dias===0?'hoje':dias===1?'amanhã':dias+'d';
     const acumTag=m>1?`<span class="acum-tag">${m}x</span>`:'';
@@ -824,22 +847,21 @@ function renderHome(){
 
 /* ---- RENDER CLIENTES ---- */
 function renderClientes(){
-  const t=today();
   const q=(document.getElementById('search-home')?.value||'').toLowerCase();
   const lista=clientes.filter(c=>c.nome.toLowerCase().includes(q)).sort((a,b)=>{const o={atraso:0,ativo:1,quitado:2};return o[clienteStatus(a)]-o[clienteStatus(b)];});
-  const el=document.getElementById('pessoas-list');
-  el.innerHTML=lista.length?lista.map(c=>{
+  document.getElementById('pessoas-list').innerHTML=lista.length?lista.map(c=>{
     const st=clienteStatus(c);
     const bCls=st==='quitado'?'b-green':st==='atraso'?'b-red':'b-gray';
     const bLbl=st==='quitado'?'Quitado':st==='atraso'?'Em atraso':'Ativo';
-    const principal=clienteTotalPrincipal(c);
-    const dev=clienteTotalDevendo(c);
+    const principal=clienteTotalPrincipal(c);const dev=clienteTotalDevendo(c);
     const nEmp=c.emprestimos.filter(e=>empStatus(e)!=='quitado').length;
+    const subDesc=c.emprestimos.filter(e=>empStatus(e)!=='quitado').map(emp=>descParcelas(emp)).join(' · ');
+    const isDemo=c.id===9999;
     return`<div class="person-card${st==='atraso'?' atraso':''}" onclick="openPessoa(${c.id})">
       <div class="avatar">${initials(c.nome)}</div>
       <div class="person-info">
-        <div class="person-name">${c.nome} ${riscoBadge(c.risco||'atencao')}</div>
-        <div class="person-sub">${nEmp} emp. ativo${nEmp!==1?'s':''} · principal ${fv(principal)}</div>
+        <div class="person-name">${c.nome} ${riscoBadge(c.risco||'atencao')}${isDemo?'<span style="font-size:10px;background:var(--amber-bg);color:var(--amber);padding:1px 6px;border-radius:8px;margin-left:4px;font-weight:700">DEMO</span>':''}</div>
+        <div class="person-sub">${subDesc||nEmp+' emp.'} · ${fv(principal)}</div>
       </div>
       <div class="person-right"><span class="badge ${bCls}">${bLbl}</span>
       <span style="font-size:13px;font-weight:700;font-family:'DM Mono',monospace;color:${st==='atraso'?'var(--red)':'var(--text)'}">${fv(dev)}</span></div>
@@ -852,7 +874,7 @@ function renderPessoa(){
   const c=getCliente();if(!c)return;
   const t=today(),st=clienteStatus(c);
   document.getElementById('p-avatar').textContent=initials(c.nome);
-  document.getElementById('p-nome').textContent=c.nome;
+  document.getElementById('p-nome').textContent=c.nome+(c.id===9999?' 🧪':'');
   const nEmp=c.emprestimos.filter(e=>empStatus(e)!=='quitado').length;
   document.getElementById('p-sub').textContent=`${nEmp} emp. ativo${nEmp!==1?'s':''}${c.tel?' · '+c.tel:''}`;
   const badge=document.getElementById('p-status-badge');
@@ -868,10 +890,6 @@ function renderPessoa(){
     <div class="metric"><div class="metric-label">A receber</div><div class="metric-value" style="font-size:15px;color:var(--purple)">${fv(dev)}</div></div>
     <div class="metric"><div class="metric-label">Recebido</div><div class="metric-value" style="font-size:15px;color:var(--green)">${fv(recebido)}</div></div>
     <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" style="font-size:15px;color:var(--red)">${fv(atrasado)}</div></div>`;
-  const dotCor={contrato:'#4a35b0',quitado:'#0a6640',renovacao:'#8a5a00',parcial:'#4a35b0',estorno:'#888'};
-  document.getElementById('p-history').innerHTML=c.historico.length?[...c.historico].reverse().map(h=>`
-    <div class="hist-item"><div class="hist-dot" style="background:${dotCor[h.tipo]||'#888'}"></div>
-    <div style="flex:1"><div style="font-size:11px;color:var(--muted)">${h.data}</div><div style="margin-top:2px;font-size:13px">${h.desc}</div></div></div>`).join(''):'<div class="empty">Nenhum evento.</div>';
   document.getElementById('p-emprestimos').innerHTML=c.emprestimos.map(emp=>{
     const est=empStatus(emp);
     const bCls=est==='quitado'?'b-green':est==='atraso'?'b-red':'b-gray';
@@ -895,14 +913,15 @@ function renderPessoa(){
     return`<div class="emp-block">
       <div class="emp-block-header">
         <div style="flex:1;min-width:0">
-          <div class="emp-block-title">${fv(emp.valorOriginal)} <span class="badge ${bCls}" style="vertical-align:middle;margin-left:4px">${bLbl}</span></div>
-          <div class="emp-block-sub">${emp.taxaMensal}% a.m. = ${fv(jurosUnit)}/mês · ${pagas}/${total} pagas${prox?' · Próx: '+fd(prox.vencimento):''}${emp.garantia?' · 🔒 '+emp.garantia:''}</div>
+          <div style="font-weight:700;font-size:14px">${fv(emp.valorOriginal)} <span class="badge ${bCls}" style="vertical-align:middle;margin-left:4px">${bLbl}</span></div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px">${emp.taxaMensal}% a.m. = ${fv(jurosUnit)}/mês · ${descParcelas(emp)}${emp.garantia?' · 🔒 '+emp.garantia:''}</div>
+          <div class="emp-meta">
+            <div class="emp-meta-item">📅 Emprestado: <strong>${fd(emp.criadoEm)}</strong></div>
+            <div class="emp-meta-item">⏳ Próx. venc.: <strong>${prox?fd(prox.vencimento):'—'}</strong></div>
+          </div>
           <div class="progress-bar" style="max-width:260px"><div class="progress-fill" style="width:${pct}%"></div></div>
         </div>
-        <div style="display:flex;gap:6px;flex-shrink:0">
-          <button class="btn btn-xs" onclick="gerarPDFContrato(clientes.find(x=>x.id===${c.id}),clientes.find(x=>x.id===${c.id}).emprestimos.find(e=>e.id===${emp.id}))">📄</button>
-          <button class="btn btn-xs btn-danger" onclick="excluirEmp(${c.id},${emp.id})">🗑</button>
-        </div>
+        <button class="btn btn-xs btn-danger" onclick="excluirEmp(${c.id},${emp.id})">🗑</button>
       </div>
       <table><thead><tr><th style="width:48px">Parc.</th><th style="width:85px">Venc.</th><th style="width:115px">Valor</th><th style="width:72px">Status</th><th style="width:100px"></th></tr></thead>
       <tbody>${parcelasHtml}</tbody></table>
@@ -911,47 +930,37 @@ function renderPessoa(){
 }
 
 /* ---- MENSAL ---- */
-function mudarMes(d){mesAtual.setMonth(mesAtual.getMonth()+d);renderMensal();}
+function mudarMes(d){mesAtual=new Date(mesAtual);mesAtual.setMonth(mesAtual.getMonth()+d);renderMensal();}
 function renderMensal(){
   const ano=mesAtual.getFullYear(),mes=mesAtual.getMonth();
   const nomes=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   document.getElementById('mes-titulo').textContent=nomes[mes]+' '+ano;
   const mesStr=`${ano}-${String(mes+1).padStart(2,'0')}`;
-  let itens=[];
-  let totalMes=0,pagoMes=0,pendentesMes=0,atrasadosMes=0;
+  let itens=[];let totalMes=0,pagoMes=0,pendentesMes=0,atrasadosMes=0;
   const t=today();
-  clientes.forEach(c=>{
-    c.emprestimos.forEach(emp=>{
-      emp.parcelas.filter(p=>p.vencimento.startsWith(mesStr)).forEach(p=>{
-        const acum=valorAcumulado(emp,p);
-        totalMes+=acum;
-        if(p.pago)pagoMes+=p.valorPago||p.valor;
-        else if(p.vencimento<t)atrasadosMes+=acum;
-        else pendentesMes+=acum;
-        itens.push({c,emp,p,acum});
-      });
+  clientes.forEach(c=>{c.emprestimos.forEach(emp=>{
+    emp.parcelas.filter(p=>p.vencimento.startsWith(mesStr)).forEach(p=>{
+      const acum=valorAcumulado(emp,p);totalMes+=acum;
+      if(p.pago)pagoMes+=p.valorPago||p.valor;
+      else if(p.vencimento<t)atrasadosMes+=acum;
+      else pendentesMes+=acum;
+      itens.push({c,emp,p,acum});
     });
-  });
+  });});
   document.getElementById('mensal-metrics').innerHTML=`
     <div class="metric"><div class="metric-label">Total do mês</div><div class="metric-value" style="font-size:15px">${fv(totalMes)}</div></div>
     <div class="metric"><div class="metric-label">Já recebido</div><div class="metric-value" style="font-size:15px;color:var(--green)">${fv(pagoMes)}</div></div>
     <div class="metric"><div class="metric-label">Pendente</div><div class="metric-value" style="font-size:15px;color:var(--amber)">${fv(pendentesMes)}</div></div>
     <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" style="font-size:15px;color:var(--red)">${fv(atrasadosMes)}</div></div>`;
-  const lista=document.getElementById('mensal-lista');
-  lista.innerHTML=itens.length?itens.map(({c,emp,p,acum})=>{
+  document.getElementById('mensal-lista').innerHTML=itens.length?itens.map(({c,emp,p,acum})=>{
     let bC='b-amber',bL='Pendente';
-    if(p.pago){bC='b-green';bL='Pago';}
-    else if(p.vencimento<t){bC='b-red';bL='Atrasado';}
-    const acao=p.pago?'':`<button class="btn btn-sm btn-primary" onclick="showPage('clientes');setTimeout(()=>{openPessoa(${c.id})},50)">Ver cliente</button>`;
+    if(p.pago){bC='b-green';bL='Pago';}else if(p.vencimento<t){bC='b-red';bL='Atrasado';}
     return`<div class="card" style="margin-bottom:.75rem">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
-        <div>
-          <div style="font-weight:700">${c.nome} <span class="badge ${bC}">${bL}</span></div>
-          <div style="font-size:12px;color:var(--muted);margin-top:3px">Parc. ${p.num} · ${fd(p.vencimento)} · ${fv(emp.valorOriginal)} a ${emp.taxaMensal}%</div>
-        </div>
-        <div style="text-align:right;flex-shrink:0">
-          <div style="font-weight:700;font-family:'DM Mono',monospace;font-size:15px">${fv(acum)}</div>
-          ${acao}
+        <div><div style="font-weight:700">${c.nome} <span class="badge ${bC}">${bL}</span></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:3px">Parc. ${p.num} · ${fd(p.vencimento)} · ${fv(emp.valorOriginal)} a ${emp.taxaMensal}%</div></div>
+        <div style="text-align:right;flex-shrink:0"><div style="font-weight:700;font-family:'DM Mono',monospace;font-size:15px">${fv(acum)}</div>
+        ${!p.pago?`<button class="btn btn-sm btn-primary" style="margin-top:4px" onclick="showPage('clientes');setTimeout(()=>openPessoa(${c.id}),50)">Ver</button>`:''}
         </div>
       </div>
     </div>`;
@@ -961,42 +970,36 @@ function renderMensal(){
 /* ---- CAPITAL ---- */
 function renderCapital(){
   const t=today();
-  let totalPrincipal=0,totalJurosRecebido=0,totalAtrasado=0,totalAReceber=0;
-  const porRisco={confiavel:0,atencao:0,risco:0};
+  let totalPrincipal=0,totalJurosRecebido=0,totalAtrasado=0,totalAReceber=0,totalQuitado=0;
+  let qtdAtivos=0,qtdAtrasados=0,qtdQuitados=0;
   clientes.forEach(c=>{
-    const p=clienteTotalPrincipal(c);
-    totalPrincipal+=p;
-    porRisco[c.risco||'atencao']+=p;
     c.emprestimos.forEach(emp=>{
+      const est=empStatus(emp);
+      if(est==='quitado'){qtdQuitados++;totalQuitado+=emp.valorOriginal;}
+      else{
+        qtdAtivos++;totalPrincipal+=emp.valorOriginal;
+        if(est==='atraso')qtdAtrasados++;
+      }
       totalJurosRecebido+=emp.parcelas.filter(p=>p.pago&&p.tipoP==='juros').reduce((s,p)=>s+(p.valorPago||p.valor),0);
-      emp.parcelas.filter(p=>!p.pago).forEach(p=>{
-        const va=valorAcumulado(emp,p);
-        totalAReceber+=va;
-        if(p.vencimento<t)totalAtrasado+=va;
-      });
+      emp.parcelas.filter(p=>!p.pago).forEach(p=>{const va=valorAcumulado(emp,p);totalAReceber+=va;if(p.vencimento<t)totalAtrasado+=va;});
     });
   });
   const taxaInad=totalAReceber>0?Math.round(totalAtrasado/totalAReceber*100):0;
-  const retornoMensal=totalPrincipal>0?Math.round(totalJurosRecebido/totalPrincipal*100*10)/10:0;
-  document.getElementById('capital-metrics').innerHTML=`
-    <div class="metric"><div class="metric-label">Capital na rua</div><div class="metric-value" style="font-size:15px">${fv(totalPrincipal)}</div></div>
-    <div class="metric"><div class="metric-label">Juros recebidos</div><div class="metric-value" style="font-size:15px;color:var(--green)">${fv(totalJurosRecebido)}</div></div>
-    <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" style="font-size:15px;color:var(--red)">${fv(totalAtrasado)}</div></div>
-    <div class="metric"><div class="metric-label">Inadimplência</div><div class="metric-value" style="font-size:15px;color:${taxaInad>20?'var(--red)':taxaInad>10?'var(--amber)':'var(--green)'}">${taxaInad}%</div></div>`;
+  const retorno=totalPrincipal>0?(totalJurosRecebido/totalPrincipal*100).toFixed(1):0;
 
-  const riscoEl=document.getElementById('capital-risco');
-  const riscoNomes={confiavel:'⭐ Confiável',atencao:'⚠️ Atenção',risco:'🔴 Risco'};
-  const riscoCores={confiavel:'var(--green)',atencao:'var(--amber)',risco:'var(--red)'};
-  riscoEl.innerHTML=['confiavel','atencao','risco'].map(r=>{
-    const val=porRisco[r];const pct=totalPrincipal>0?Math.round(val/totalPrincipal*100):0;
-    return`<div class="card" style="margin-bottom:.75rem">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <span style="font-weight:700">${riscoNomes[r]}</span>
-        <span style="font-family:'DM Mono',monospace;font-weight:700;color:${riscoCores[r]}">${fv(val)} (${pct}%)</span>
-      </div>
-      <div class="month-bar"><div class="month-bar-fill" style="width:${pct}%;background:${riscoCores[r]}"></div></div>
-    </div>`;
-  }).join('');
+  document.getElementById('capital-metrics').innerHTML=`
+    <div class="metric"><div class="metric-label">Capital ativo</div><div class="metric-value" style="font-size:16px">${fv(totalPrincipal)}</div></div>
+    <div class="metric"><div class="metric-label">Juros recebidos</div><div class="metric-value" style="font-size:16px;color:var(--green)">${fv(totalJurosRecebido)}</div></div>
+    <div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" style="font-size:16px;color:var(--red)">${fv(totalAtrasado)}</div></div>
+    <div class="metric"><div class="metric-label">Inadimplência</div><div class="metric-value" style="font-size:16px;color:${taxaInad>20?'var(--red)':taxaInad>10?'var(--amber)':'var(--green)'}">${taxaInad}%</div></div>`;
+
+  document.getElementById('capital-detalhe').innerHTML=`
+    <div class="capital-row"><span class="capital-row-label">Empréstimos ativos</span><span class="capital-row-val">${qtdAtivos}</span></div>
+    <div class="capital-row"><span class="capital-row-label">Empréstimos em atraso</span><span class="capital-row-val" style="color:var(--red)">${qtdAtrasados}</span></div>
+    <div class="capital-row"><span class="capital-row-label">Empréstimos quitados</span><span class="capital-row-val" style="color:var(--green)">${qtdQuitados}</span></div>
+    <div class="capital-row"><span class="capital-row-label">Capital já recuperado (quitados)</span><span class="capital-row-val">${fv(totalQuitado)}</span></div>
+    <div class="capital-row"><span class="capital-row-label">Total a receber</span><span class="capital-row-val" style="color:var(--purple)">${fv(totalAReceber)}</span></div>
+    <div class="capital-row"><span class="capital-row-label">Retorno sobre capital (%)</span><span class="capital-row-val" style="color:var(--green)">${retorno}%</span></div>`;
 
   const ranking=[...clientes].sort((a,b)=>clienteTotalPrincipal(b)-clienteTotalPrincipal(a)).slice(0,10);
   document.getElementById('capital-ranking').innerHTML=ranking.length?ranking.map((c,i)=>{
@@ -1005,66 +1008,12 @@ function renderCapital(){
     return`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)">
       <div style="font-size:13px;color:var(--muted);min-width:20px;font-weight:700">${i+1}</div>
       <div class="avatar" style="width:32px;height:32px;font-size:11px">${initials(c.nome)}</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:700;font-size:14px">${c.nome} ${riscoBadge(c.risco||'atencao')}</div>
-        <div style="font-size:12px;color:var(--muted)">${c.emprestimos.filter(e=>empStatus(e)!=='quitado').length} emp. ativo(s)</div>
-      </div>
-      <div style="text-align:right"><div style="font-weight:700;font-family:'DM Mono',monospace">${fv(p)}</div><span class="badge ${bCls}" style="margin-top:3px">${st==='atraso'?'Em atraso':st==='quitado'?'Quitado':'Ativo'}</span></div>
+      <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:14px">${c.nome}</div>
+      <div style="font-size:12px;color:var(--muted)">${c.emprestimos.filter(e=>empStatus(e)!=='quitado').length} emp. ativo(s)</div></div>
+      <div style="text-align:right"><div style="font-weight:700;font-family:'DM Mono',monospace">${fv(p)}</div>
+      <span class="badge ${bCls}">${st==='atraso'?'Em atraso':st==='quitado'?'Quitado':'Ativo'}</span></div>
     </div>`;
   }).join(''):'<div class="empty">Nenhum cliente ainda.</div>';
-}
-
-/* ---- PDF ---- */
-function gerarPDFContrato(c,emp){
-  try{
-    const {jsPDF}=window.jspdf;const doc=new jsPDF();const W=210,M=20;let y=20;
-    doc.setFillColor(26,24,20);doc.rect(0,0,W,38,'F');
-    doc.setTextColor(255,255,255);doc.setFontSize(16);doc.setFont('helvetica','bold');
-    doc.text('COMPROVANTE DE EMPRÉSTIMO',W/2,16,{align:'center'});
-    doc.setFontSize(9);doc.setFont('helvetica','normal');
-    doc.text(OWNER.nome+' · WhatsApp: '+OWNER.tel+' · Pix: '+OWNER.pix,W/2,28,{align:'center'});
-    y=52;doc.setTextColor(26,24,20);doc.setFontSize(11);doc.setFont('helvetica','bold');
-    doc.text('DADOS DO CONTRATO',M,y);y+=7;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=8;
-    const jurosUnit=emp.valorOriginal*(emp.taxaMensal/100);
-    const rows=[['Cliente',c.nome],['WhatsApp',c.tel||'—'],['Data',fd(emp.criadoEm)],['Valor emprestado',fv(emp.valorOriginal)],['Juros mensais',emp.taxaMensal+'% a.m. = '+fv(jurosUnit)+'/mês'],['Nº de parcelas',String(emp.parcelas.length)],['1º vencimento',fd(emp.parcelas[0]?.vencimento)]];
-    if(emp.garantia)rows.push(['Garantia',emp.garantia]);
-    if(emp.obs)rows.push(['Observações',emp.obs]);
-    doc.setFontSize(10);rows.forEach(([k,v])=>{doc.setFont('helvetica','bold');doc.setTextColor(120);doc.text(k+':',M,y);doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);doc.text(String(v),M+55,y,{maxWidth:W-M-55});y+=8;});
-    y+=4;doc.setFont('helvetica','bold');doc.setFontSize(11);doc.text('TABELA DE PARCELAS',M,y);y+=7;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=6;
-    doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(120);
-    doc.text('Nº',M,y);doc.text('Vencimento',M+14,y);doc.text('Juros/mês',M+60,y);doc.text('Status',M+100,y);y+=5;
-    doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);
-    emp.parcelas.forEach(p=>{if(y>272){doc.addPage();y=20;}doc.text(String(p.num),M,y);doc.text(fd(p.vencimento),M+14,y);doc.text(fv(p.valor),M+60,y);doc.text(p.pago?'Pago':'Pendente',M+100,y);y+=6;});
-    y+=8;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=7;doc.setFontSize(8);doc.setTextColor(160);doc.text('Gerado em: '+nowStr(),M,y);
-    doc.save('contrato_'+c.nome.replace(/\s+/g,'_')+'.pdf');toast('PDF gerado!');
-  }catch(e){alert('Erro ao gerar PDF.');}
-}
-
-function gerarPDFRecibo(c,emp,p,tipo,valorPago,obs,extra,acum){
-  try{
-    const {jsPDF}=window.jspdf;const doc=new jsPDF();const W=210,M=20;let y=20;
-    const cor=tipo==='total'?[10,102,64]:tipo==='juros'?[138,90,0]:[74,53,176];
-    doc.setFillColor(...cor);doc.rect(0,0,W,38,'F');
-    doc.setTextColor(255,255,255);doc.setFontSize(14);doc.setFont('helvetica','bold');
-    doc.text(tipo==='total'?'RECIBO DE QUITAÇÃO':tipo==='juros'?'RECIBO — JUROS':'RECIBO — PAGAMENTO PARCIAL',W/2,16,{align:'center'});
-    doc.setFontSize(9);doc.setFont('helvetica','normal');
-    doc.text(OWNER.nome+' · WhatsApp: '+OWNER.tel+' · Pix: '+OWNER.pix,W/2,28,{align:'center'});
-    y=52;doc.setTextColor(26,24,20);doc.setFontSize(11);doc.setFont('helvetica','bold');
-    doc.text('DETALHES',M,y);y+=7;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=8;
-    const rows=[['Cliente',c.nome],['WhatsApp',c.tel||'—'],['Data',nowStr()],['Empréstimo',fv(emp.valorOriginal)+' · '+emp.taxaMensal+'% a.m.'],['Parcela',p.num+'/'+emp.parcelas.length],['Venc. original',fd(p.vencimento)]];
-    if(tipo==='juros'&&extra>1)rows.push(['Meses em atraso',extra+'x']);
-    rows.push(['Juros pagos',fv(acum)]);
-    if(tipo==='total'){rows.push(['Principal quitado',fv(emp.valorOriginal)]);rows.push(['TOTAL',fv(valorPago)]);}
-    else if(tipo==='parcial'){rows.push(['Abate no principal',fv(extra)]);rows.push(['Novo principal',fv(emp.valorOriginal)]);}
-    else{rows.push(['Principal (continua)',fv(emp.valorOriginal)]);}
-    if(obs)rows.push(['Observação',obs]);
-    doc.setFontSize(10);rows.forEach(([k,v])=>{doc.setFont('helvetica','bold');doc.setTextColor(120);doc.text(k+':',M,y);doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);doc.text(String(v),M+55,y);y+=8;});
-    y+=6;doc.setFillColor(...cor);doc.rect(M,y,W-M*2,16,'F');
-    doc.setTextColor(255,255,255);doc.setFontSize(13);doc.setFont('helvetica','bold');
-    doc.text('RECEBIDO: '+fv(valorPago),W/2,y+10,{align:'center'});
-    y+=26;doc.setFontSize(8);doc.setTextColor(160);doc.setFont('helvetica','normal');doc.text('Gerado em: '+nowStr(),M,y);
-    doc.save('recibo_'+c.nome.replace(/\s+/g,'_')+'_parc'+p.num+'.pdf');toast('Recibo gerado!');
-  }catch(e){toast('Erro ao gerar recibo.');}
 }
 
 load();initPin();
