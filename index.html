@@ -248,7 +248,7 @@ textarea{resize:vertical;min-height:60px}
     <div class="section-label">E se parcelar diferente?</div>
     <div class="metrics" id="calc-cenarios"></div>
 
-    <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="calcCompartilhar()">Enviar simulacao pelo WhatsApp</button>
+    <button class="btn btn-primary" style="width:100%;margin-top:.5rem" onclick="calcCompartilhar()">Gerar PDF para enviar no WhatsApp</button>
   </div>
   <div id="calc-vazio" style="text-align:center;padding:3rem 1rem;color:var(--muted);font-size:13px">
     Preencha o valor acima para ver a simulacao
@@ -1098,19 +1098,146 @@ function calcCompartilhar(){
   const juros=parseFloat(elJuros.value)||0;
   const prazo=parseInt(elPrazo.value)||0;
   if(!valor||!juros||!prazo){toast('Preencha a simulacao primeiro.');return;}
-  const taxa=juros/100;
-  const jurosTotal=valor*taxa;
-  const totalDevolvido=valor+jurosTotal;
-  const parcela=totalDevolvido/prazo;
-  const msg='Simulacao do Emprestimo\n\n'+
-    'Valor emprestado: '+fv(valor)+'\n'+
-    'Juros: '+juros+'% ao mes\n'+
-    'Prazo: '+prazo+' parcela'+(prazo>1?'s':'')+'\n'+
-    'Parcela: '+fv(parcela)+'\n'+
-    'Total de juros: '+fv(jurosTotal)+'\n'+
-    'TOTAL A PAGAR: '+fv(totalDevolvido)+'\n\n'+
-    'Simulado no CreditoFacil';
-  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+
+  try{
+    const{jsPDF}=window.jspdf;
+    const doc=new jsPDF();
+    const W=210,M=20;let y=20;
+
+    // HEADER
+    doc.setFillColor(26,24,20);doc.rect(0,0,W,42,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(18);doc.setFont('helvetica','bold');
+    doc.text('SIMULACAO DE EMPRESTIMO',W/2,17,{align:'center'});
+    doc.setFontSize(9);doc.setFont('helvetica','normal');
+    doc.text(OWNER.nome+' - WhatsApp: '+OWNER.tel+' - Pix: '+OWNER.pix,W/2,28,{align:'center'});
+    doc.setFontSize(8);doc.setTextColor(180,180,180);
+    doc.text('Simulado em: '+nowStr(),W/2,36,{align:'center'});
+
+    // CALCULO
+    const taxaTotal=juros/100;
+    const jurosTotal=valor*taxaTotal;
+    const totalDevolvido=valor+jurosTotal;
+    const parcela=totalDevolvido/prazo;
+    const jurosM=jurosTotal/prazo;
+    const amortM=valor/prazo;
+    const taxaMensal=(juros/prazo).toFixed(1);
+
+    y=54;
+
+    // DESTAQUE - box verde com parcela
+    doc.setFillColor(10,102,64);doc.rect(M,y,W-M*2,24,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(11);doc.setFont('helvetica','normal');
+    doc.text('PARCELA MENSAL',W/2,y+8,{align:'center'});
+    doc.setFontSize(22);doc.setFont('helvetica','bold');
+    doc.text(fv(parcela),W/2,y+19,{align:'center'});
+    y+=32;
+
+    // DADOS PRINCIPAIS
+    doc.setTextColor(26,24,20);
+    doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text('RESUMO DO EMPRESTIMO',M,y);y+=7;
+    doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=8;
+
+    const rows=[
+      ['Valor emprestado',fv(valor)],
+      ['Taxa total combinada',juros+'% ('+taxaMensal+'% ao mes)'],
+      ['Numero de parcelas',prazo+'x'],
+      ['Valor de cada parcela',fv(parcela)],
+      ['Total de juros',fv(jurosTotal)],
+      ['TOTAL A PAGAR',fv(totalDevolvido)],
+    ];
+    doc.setFontSize(10);
+    rows.forEach(function(r,i){
+      const isLast=i===rows.length-1;
+      if(isLast){
+        doc.setFillColor(232,245,238);doc.rect(M,y-5,W-M*2,10,'F');
+        doc.setFont('helvetica','bold');doc.setTextColor(10,102,64);
+      } else {
+        doc.setFont('helvetica','bold');doc.setTextColor(120,120,120);
+      }
+      doc.text(r[0]+':',M+2,y);
+      if(isLast){doc.setFont('helvetica','bold');doc.setTextColor(10,102,64);}
+      else{doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);}
+      doc.text(String(r[1]),W-M-2,y,{align:'right'});
+      y+=10;
+    });
+    y+=4;
+
+    // TABELA PARCELA A PARCELA
+    doc.setTextColor(26,24,20);
+    doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text('PARCELA A PARCELA',M,y);y+=7;
+    doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=6;
+
+    // cabecalho tabela
+    doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(120);
+    doc.text('MES',M+2,y);
+    doc.text('PARCELA',M+30,y);
+    doc.text('JUROS',M+80,y);
+    doc.text('PRINCIPAL',M+120,y);
+    doc.text('SALDO',M+160,y);
+    y+=5;doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=5;
+
+    doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);
+    let saldo=valor;
+    for(let i=1;i<=prazo;i++){
+      if(y>270){doc.addPage();y=20;}
+      saldo=Math.max(0,saldo-amortM);
+      if(i%2===0){doc.setFillColor(248,248,246);doc.rect(M,y-4,W-M*2,8,'F');}
+      doc.setFontSize(9);
+      doc.text(String(i),M+2,y);
+      doc.text(fv(parcela),M+30,y);
+      doc.text(fv(jurosM),M+80,y);
+      doc.text(fv(amortM),M+120,y);
+      doc.text(fv(saldo),M+160,y);
+      y+=8;
+    }
+    y+=6;
+
+    // COMPARATIVO
+    doc.setTextColor(26,24,20);
+    doc.setFontSize(11);doc.setFont('helvetica','bold');
+    doc.text('E SE PARCELAR DIFERENTE?',M,y);y+=7;
+    doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=6;
+
+    doc.setFontSize(9);doc.setFont('helvetica','bold');doc.setTextColor(120);
+    doc.text('PRAZO',M+2,y);doc.text('PARCELA',M+40,y);doc.text('JUROS TOTAIS',M+90,y);doc.text('TOTAL',M+150,y);
+    y+=5;doc.line(M,y,W-M,y);y+=5;
+
+    doc.setFont('helvetica','normal');doc.setTextColor(26,24,20);
+    [1,2,3,6,12].forEach(function(p){
+      if(y>275){doc.addPage();y=20;}
+      const tj=valor*taxaTotal;
+      const tot=valor+tj;
+      const parc=tot/p;
+      const isAtual=p===prazo;
+      if(isAtual){doc.setFillColor(232,245,238);doc.rect(M,y-4,W-M*2,8,'F');doc.setFont('helvetica','bold');}
+      doc.text(p+' mes'+(p>1?'es':'')+(isAtual?' (atual)':''),M+2,y);
+      doc.text(fv(parc),M+40,y);
+      doc.text(fv(tj),M+90,y);
+      doc.text(fv(tot),M+150,y);
+      if(isAtual)doc.setFont('helvetica','normal');
+      y+=8;
+    });
+    y+=8;
+
+    // RODAPE
+    doc.setDrawColor(220);doc.line(M,y,W-M,y);y+=6;
+    doc.setFontSize(8);doc.setTextColor(150);doc.setFont('helvetica','normal');
+    doc.text('Este documento e apenas uma simulacao. Os valores podem ser ajustados conforme acordo entre as partes.',M,y,{maxWidth:W-M*2});
+    y+=6;doc.text('Para aceitar o emprestimo, entre em contato: WhatsApp '+OWNER.tel+' - Pix: '+OWNER.pix,M,y,{maxWidth:W-M*2});
+
+    // Salva e notifica
+    const nomeArq='simulacao_emprestimo_'+fv(valor).replace(/[^0-9]/g,'')+'_'+prazo+'x.pdf';
+    doc.save(nomeArq);
+    toast('PDF gerado! Salve e envie no WhatsApp.');
+
+  }catch(e){
+    toast('Erro ao gerar PDF: '+e.message);
+    console.error(e);
+  }
 }
 
 
