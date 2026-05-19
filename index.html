@@ -332,6 +332,29 @@ textarea{resize:vertical;min-height:60px}
   </div>
 </div>
 
+
+<div class="modal-wrap" id="modal-editar">
+  <div class="modal">
+    <div class="modal-title">Editar emprestimo</div>
+    <div class="modal-subtitle" id="editar-subtitle"></div>
+    <div class="form-grid">
+      <div class="form-group"><label>Valor principal (R$)</label><input type="number" id="e-valor" min="0" step="0.01"></div>
+      <div class="form-group"><label>Juros/mes (%)</label><input type="number" id="e-juros" min="0" step="0.1"></div>
+      <div class="form-group"><label>1o vencimento</label><input type="date" id="e-data"></div>
+      <div class="form-group"><label>Parcelas totais</label><input type="number" id="e-np" min="1" max="360"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Garantia</label><input type="text" id="e-garantia"></div>
+      <div class="form-group" style="grid-column:1/-1"><label>Observacoes</label><textarea id="e-obs"></textarea></div>
+    </div>
+    <div style="background:var(--amber-bg);border-radius:var(--radius-sm);padding:.75rem;font-size:12px;color:var(--amber);margin-bottom:.5rem">
+      Alterar o numero de parcelas vai recalcular todas as parcelas nao pagas a partir do 1o vencimento.
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('editar')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarEdicao()">Salvar alteracoes</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-wrap" id="modal-pag">
   <div class="modal">
     <div class="modal-title" id="pag-title">Registrar pagamento</div>
@@ -350,6 +373,25 @@ textarea{resize:vertical;min-height:60px}
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('pag')">Cancelar</button>
       <button class="btn btn-primary" id="btn-confirmar-pag" onclick="confirmarPagamento()" disabled style="opacity:.4">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-wrap" id="modal-msg-cob">
+  <div class="modal">
+    <div class="modal-title">Personalizar mensagem</div>
+    <div class="modal-subtitle" id="msg-cob-subtitle"></div>
+    <div class="form-group" style="margin-bottom:1rem">
+      <label>Mensagem de cobranca</label>
+      <textarea id="msg-cob-texto" style="min-height:140px;font-size:13px"></textarea>
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-bottom:1rem">
+      Variaveis disponiveis: {nome} {valor} {vencimento} {pix} {seu_nome}
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('msg-cob')">Cancelar</button>
+      <button class="btn btn-green" onclick="enviarMsgCob()">Enviar no WhatsApp</button>
     </div>
   </div>
 </div>
@@ -587,10 +629,10 @@ function abrirPagamento(cId,eId,pNum){
   document.getElementById('pag-subtitle').textContent=fv(emp.valorOriginal)+' - '+emp.taxaMensal+'% a.m. - Parcela '+pNum+'/'+emp.parcelas.length;
   document.getElementById('pag-atraso-info').innerHTML=m>1?'<div class="atraso-box">'+m+' meses em atraso - Acumulado: '+fv(acum)+'</div>':'';
   document.getElementById('pag-resumo').innerHTML=
-    '<div class="info-row"><span>Juros do mes</span><span class="val">'+fv(jurosUnit)+'</span></div>'+
-    (m>1?'<div class="info-row"><span>Juros acum. ('+m+'m)</span><span class="val" style="color:var(--red)">'+fv(acum)+'</span></div>':'')+
-    '<div class="info-row"><span>Principal</span><span class="val">'+fv(emp.valorOriginal)+'</span></div>'+
-    '<div class="info-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px"><span style="font-weight:700">Total para quitar</span><span class="val" style="color:var(--green)">'+fv(totalQuitar)+'</span></div>';
+    '<div class="info-row"><span>Juros '+(m>1?'acumulados ('+m+'m)':'do mes')+'</span><span class="val" '+(m>1?'style="color:var(--red)"':'')+'>'+fv(acum)+'</span></div>'+
+    '<div class="info-row"><span>Principal atual</span><span class="val">'+fv(emp.valorOriginal)+'</span></div>'+
+    '<div class="info-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px"><span style="font-weight:700">Para quitar tudo</span><span class="val" style="color:var(--green)">'+fv(totalQuitar)+'</span></div>'+
+    '<div style="font-size:11px;color:var(--muted);margin-top:6px">Digite qualquer valor. Se pagar menos que os juros, a diferenca e adicionada ao principal.</div>';
   openModal('pag');
 }
 function calcPagamento(){
@@ -601,12 +643,18 @@ function calcPagamento(){
   if(!rec||rec<=0){resultEl.style.display='none';btnEl.disabled=true;btnEl.style.opacity='.4';return;}
   resultEl.style.display='block';
   let html='',cls='';
+  btnEl.disabled=false;btnEl.style.opacity='1';
   if(rec<acum){
-    cls='invalido';
-    html='<div style="font-weight:700;color:var(--red);margin-bottom:6px">Valor insuficiente</div>'+
-    '<div class="result-row"><span>Minimo (juros)</span><span class="val">'+fv(acum)+'</span></div>'+
-    '<div class="result-row"><span>Faltam</span><span class="val" style="color:var(--red)">'+fv(acum-rec)+'</span></div>';
-    btnEl.disabled=true;btnEl.style.opacity='.4';
+    // Pagamento parcial - menos que os juros - diferenca vai pro principal
+    const falta=acum-rec;
+    const novoP=empValorOriginal+falta;
+    cls='parcial';
+    html='<div style="font-weight:700;color:var(--amber);margin-bottom:6px">Pagamento parcial</div>'+
+    '<div class="result-row"><span>Valor recebido</span><span class="val">'+fv(rec)+'</span></div>'+
+    '<div class="result-row"><span>Juros devidos</span><span class="val" style="color:var(--amber)">'+fv(acum)+'</span></div>'+
+    '<div class="result-row"><span>Diferenca incorporada ao principal</span><span class="val" style="color:var(--red)">+'+fv(falta)+'</span></div>'+
+    '<div class="result-row"><span>Novo principal</span><span class="val" style="color:var(--red)">'+fv(novoP)+'</span></div>'+
+    '<div class="result-row"><span>Proxima parcela</span><span class="val">+1 mes</span></div>';
   } else if(rec<totalQuitar){
     const abate=rec-acum;const novoP=Math.max(0,empValorOriginal-abate);
     if(abate===0){
@@ -647,6 +695,15 @@ function confirmarPagamento(){
     p.pago=true;p.pagoEm=nowStr();p.valorPago=rec;p.tipoP='total';
     persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('Quitado!');
     setTimeout(()=>gerarPDFRecibo(c,emp,p,'total',rec,obs,0,acum),300);
+  } else if(rec<acum){
+    // Pagamento abaixo dos juros - diferenca incorpora ao principal
+    const falta=acum-rec;
+    emp.valorOriginal=emp.valorOriginal+falta;
+    p.pago=true;p.pagoEm=nowStr();p.valorPago=rec;p.tipoP='parcial';
+    const novaData=new Date(today()+'T12:00:00');novaData.setMonth(novaData.getMonth()+1);
+    emp.parcelas.push({num:emp.parcelas.length+1,vencimento:novaData.toISOString().split('T')[0],valor:emp.valorOriginal*(emp.taxaMensal/100),pago:false});
+    persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('Registrado! Diferenca adicionada ao principal.');
+    setTimeout(()=>gerarPDFRecibo(c,emp,p,'parcial',rec,obs,falta,acum),300);
   } else {
     const abate=rec-acum;
     if(abate>0){
@@ -806,7 +863,7 @@ function renderHome(){
     const acumTag=m>1?'<span class="acum-tag">'+m+'x</span>':'';
     const msg='Ola '+c.nome.split(' ')[0]+'!\nPassando para lembrar que sua parcela de '+fv(acum)+' '+dLabel+'.\n\nPix: '+OWNER.pix+'\n-- '+OWNER.nome;
     const waLink=c.tel?'https://wa.me/55'+c.tel.replace(/\D/g,'')+'?text='+encodeURIComponent(msg):'';
-    const wppBtn=waLink?'<a class="btn-up-wpp" href="'+waLink+'" target="_blank">WhatsApp</a>':'';
+    const wppBtn=c.tel?'<button class="btn-up-wpp" onclick="abrirMsgCobUpcoming('+c.id+','+emp.id+','+p.num+')">WhatsApp</button>':'';
     return '<div class="upcoming-item '+cls+'">'+
       '<div class="upcoming-top" onclick="showPage(\'clientes\');setTimeout(()=>openPessoa('+c.id+'),50)">'+
         '<div class="upcoming-days '+cls+'">'+(m>1?m+'m':Math.abs(dias))+'</div>'+
@@ -880,7 +937,7 @@ function renderPessoa(){
       const acao=p.pago?'<button class="btn-ghost" onclick="estornar('+c.id+','+emp.id+','+p.num+')">desfazer</button>':'<button class="btn btn-sm btn-primary" onclick="abrirPagamento('+c.id+','+emp.id+','+p.num+')">Pagar</button>';
       return '<tr style="'+rowBg+'"><td style="color:var(--muted);font-size:12px">'+p.num+'</td><td>'+fd(p.vencimento)+dInfo+'</td><td style="font-family:monospace;font-size:13px">'+valM+'</td><td><span class="badge '+bC+'">'+bL+'</span></td><td>'+acao+'</td></tr>';
     }).join('');
-    return '<div class="emp-block"><div class="emp-block-header"><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:14px">'+fv(emp.valorOriginal)+' <span class="badge '+bCls+'" style="vertical-align:middle;margin-left:4px">'+bLbl+'</span></div><div style="font-size:12px;color:var(--muted);margin-top:3px">'+emp.taxaMensal+'% a.m. = '+fv(jurosUnit)+'/mes - '+descParcelas(emp)+(emp.garantia?' - '+emp.garantia:'')+'</div><div class="emp-meta"><div class="emp-meta-item">Emprestado: <strong>'+fd(emp.criadoEm)+'</strong></div><div class="emp-meta-item">Prox. venc.: <strong>'+(prox?fd(prox.vencimento):'--')+'</strong></div></div><div class="progress-bar" style="max-width:260px"><div class="progress-fill" style="width:'+pct+'%"></div></div></div><button class="btn btn-xs btn-danger" onclick="excluirEmp('+c.id+','+emp.id+')">excluir</button></div><table><thead><tr><th style="width:48px">Parc.</th><th style="width:85px">Venc.</th><th style="width:115px">Valor</th><th style="width:72px">Status</th><th style="width:100px"></th></tr></thead><tbody>'+parcelasHtml+'</tbody></table></div>';
+    return '<div class="emp-block"><div class="emp-block-header"><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:14px">'+fv(emp.valorOriginal)+' <span class="badge '+bCls+'" style="vertical-align:middle;margin-left:4px">'+bLbl+'</span></div><div style="font-size:12px;color:var(--muted);margin-top:3px">'+emp.taxaMensal+'% a.m. = '+fv(jurosUnit)+'/mes - '+descParcelas(emp)+(emp.garantia?' - '+emp.garantia:'')+'</div><div class="emp-meta"><div class="emp-meta-item">Emprestado: <strong>'+fd(emp.criadoEm)+'</strong></div><div class="emp-meta-item">Prox. venc.: <strong>'+(prox?fd(prox.vencimento):'--')+'</strong></div></div><div class="progress-bar" style="max-width:260px"><div class="progress-fill" style="width:'+pct+'%"></div></div></div><button class="btn btn-xs" onclick="abrirEditar('+c.id+','+emp.id+')">editar</button><button class="btn btn-xs btn-danger" onclick="excluirEmp('+c.id+','+emp.id+')">excluir</button></div><table><thead><tr><th style="width:48px">Parc.</th><th style="width:85px">Venc.</th><th style="width:115px">Valor</th><th style="width:72px">Status</th><th style="width:100px"></th></tr></thead><tbody>'+parcelasHtml+'</tbody></table></div>';
   }).join('');
 }
 
@@ -1241,6 +1298,96 @@ function calcCompartilhar(){
 }
 
 
+
+/* ---- EDITAR EMPRESTIMO ---- */
+let editCtx=null;
+function abrirEditar(cId,eId){
+  const c=clientes.find(x=>x.id===cId);
+  const emp=c.emprestimos.find(e=>e.id===eId);
+  editCtx={cId,eId};
+  document.getElementById('editar-subtitle').textContent='Cliente: '+c.nome+' - Emp. de '+fv(emp.valorOriginal);
+  document.getElementById('e-valor').value=emp.valorOriginal;
+  document.getElementById('e-juros').value=emp.taxaMensal;
+  document.getElementById('e-np').value=emp.parcelas.length;
+  document.getElementById('e-data').value=emp.parcelas[0]?emp.parcelas[0].vencimento:'';
+  document.getElementById('e-garantia').value=emp.garantia||'';
+  document.getElementById('e-obs').value=emp.obs||'';
+  openModal('editar');
+}
+function salvarEdicao(){
+  const c=clientes.find(x=>x.id===editCtx.cId);
+  const emp=c.emprestimos.find(e=>e.id===editCtx.eId);
+  const novoValor=parseFloat(document.getElementById('e-valor').value)||emp.valorOriginal;
+  const novoJuros=parseFloat(document.getElementById('e-juros').value)||emp.taxaMensal;
+  const novoNp=parseInt(document.getElementById('e-np').value)||emp.parcelas.length;
+  const novaData=document.getElementById('e-data').value||emp.parcelas[0]?.vencimento;
+  const novaGarantia=document.getElementById('e-garantia').value.trim();
+  const novaObs=document.getElementById('e-obs').value.trim();
+  emp.valorOriginal=novoValor;
+  emp.taxaMensal=novoJuros;
+  emp.garantia=novaGarantia;
+  emp.obs=novaObs;
+  // Recalcula parcelas nao pagas mantendo as pagas
+  const pagas=emp.parcelas.filter(p=>p.pago);
+  const novasNaoPagas=[];
+  const jurosUnit=novoValor*(novoJuros/100);
+  const baseDate=new Date(novaData+'T12:00:00');
+  for(let i=0;i<novoNp;i++){
+    const d=new Date(baseDate);d.setMonth(d.getMonth()+i);
+    novasNaoPagas.push({num:pagas.length+i+1,vencimento:d.toISOString().split('T')[0],valor:jurosUnit,pago:false});
+  }
+  // Renumera pagas
+  pagas.forEach((p,i)=>p.num=i+1);
+  novasNaoPagas.forEach((p,i)=>p.num=pagas.length+i+1);
+  emp.parcelas=[...pagas,...novasNaoPagas];
+  persist();closeModal('editar');renderPessoa();renderClientes();toast('Emprestimo atualizado!');
+}
+
+/* ---- MENSAGEM DE COBRANCA PERSONALIZAVEL ---- */
+let msgCobCtx=null;
+const MSG_KEY='emp_msg_cob';
+function getMsgTemplate(){
+  return localStorage.getItem(MSG_KEY)||
+    'Ola {nome}! Como voce esta?
+
+Passando para lembrar que sua parcela de *{valor}* vence em *{vencimento}*.
+
+Para pagamento via Pix: *{pix}*
+
+Qualquer duvida so chamar!
+-- {seu_nome}';
+}
+function abrirMsgCob(cId,eId,pNum){
+  const c=clientes.find(x=>x.id===cId);
+  const emp=c.emprestimos.find(e=>e.id===eId);
+  const p=emp.parcelas.find(x=>x.num===pNum);
+  if(!p||!c.tel){toast('Cliente sem telefone cadastrado.');return;}
+  msgCobCtx={cId,eId,pNum};
+  const acum=valorAcumulado(emp,p);
+  const template=getMsgTemplate();
+  const msg=template
+    .replace(/{nome}/g,c.nome.split(' ')[0])
+    .replace(/{valor}/g,fv(acum))
+    .replace(/{vencimento}/g,fd(p.vencimento))
+    .replace(/{pix}/g,OWNER.pix)
+    .replace(/{seu_nome}/g,OWNER.nome);
+  document.getElementById('msg-cob-subtitle').textContent=c.nome+' - '+fv(acum);
+  document.getElementById('msg-cob-texto').value=msg;
+  openModal('msg-cob');
+}
+function abrirMsgCobUpcoming(cId,eId,pNum){
+  abrirMsgCob(cId,eId,pNum);
+}
+function enviarMsgCob(){
+  const c=clientes.find(x=>x.id===msgCobCtx.cId);
+  const msg=document.getElementById('msg-cob-texto').value;
+  // Salva template (sem as variaveis substituidas - guarda o original)
+  const waLink='https://wa.me/55'+c.tel.replace(/\D/g,'')+'?text='+encodeURIComponent(msg);
+  closeModal('msg-cob');
+  window.open(waLink,'_blank');
+}
+
+/* ---- PAGAMENTO LIVRE (qualquer valor) ---- */
 load();initPin();renderHome();
 </script>
 </body>
