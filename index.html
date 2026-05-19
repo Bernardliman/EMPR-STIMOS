@@ -451,7 +451,10 @@ function salvarConfig(){
 /* PIN OPCIONAL */
 function initPin(){
   const saved=localStorage.getItem('emp_pin');
-  if(saved){const ps=document.getElementById('pin-screen');ps.style.display='flex';ps.style.pointerEvents='all';}
+  if(saved){
+    const ps=document.getElementById('pin-screen');
+    if(ps){ps.style.display='flex';ps.style.pointerEvents='all';}
+  }
   updatePinStatus();
 }
 function pinPress(v){
@@ -466,7 +469,7 @@ function checkPin(){
   if(pinBuffer===saved){const ps=document.getElementById('pin-screen');ps.style.display='none';ps.style.pointerEvents='none';document.getElementById('pin-error').textContent='';pinBuffer='';}
   else{document.getElementById('pin-error').textContent='PIN incorreto.';pinBuffer='';for(let i=0;i<4;i++)document.getElementById('d'+i).classList.remove('filled');}
 }
-function pinForgot(){if(confirm('Desativar o PIN?')){localStorage.removeItem('emp_pin');document.getElementById('pin-screen').style.display='none';updatePinStatus();toast('PIN removido.');}}
+function pinForgot(){if(confirm('Desativar o PIN?')){localStorage.removeItem('emp_pin');const ps=document.getElementById('pin-screen');ps.style.display='none';ps.style.pointerEvents='none';updatePinStatus();toast('PIN removido.');}}
 function removerPin(){if(confirm('Remover o PIN?')){localStorage.removeItem('emp_pin');updatePinStatus();toast('PIN removido.');}}
 function salvarPin(){
   const v1=document.getElementById('mpin-input').value,v2=document.getElementById('mpin-confirm').value;
@@ -1358,17 +1361,10 @@ function abrirMsgCob(cId,eId,pNum){
   msgCobCtx={cId,eId,pNum};
   const acum=valorAcumulado(emp,p);
   const template=getMsgTemplate();
-  const jurosVal=emp.valorOriginal*(emp.taxaMensal/100);
-  const meses=mesesAtraso(p.vencimento);
-  const jurosDesc=meses>1?fv(jurosVal)+' x '+meses+'m':fv(jurosVal)+' ('+emp.taxaMensal+'%/mes)';
-  const totalQuitar2=emp.valorOriginal+acum;
   const msg=template
     .replace(/{nome}/g,c.nome.split(' ')[0])
     .replace(/{valor}/g,fv(acum))
     .replace(/{vencimento}/g,fd(p.vencimento))
-    .replace(/{principal}/g,fv(emp.valorOriginal))
-    .replace(/{juros_desc}/g,jurosDesc)
-    .replace(/{total}/g,fv(totalQuitar2))
     .replace(/{pix}/g,OWNER.pix)
     .replace(/{seu_nome}/g,OWNER.nome);
   document.getElementById('msg-cob-subtitle').textContent=c.nome+' - '+fv(acum);
