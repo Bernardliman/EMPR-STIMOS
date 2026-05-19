@@ -1348,14 +1348,11 @@ let msgCobCtx=null;
 const MSG_KEY='emp_msg_cob';
 function getMsgTemplate(){
   return localStorage.getItem(MSG_KEY)||
-    'Ola {nome}! Como voce esta?
-
-Passando para lembrar que sua parcela de *{valor}* vence em *{vencimento}*.
-
-Para pagamento via Pix: *{pix}*
-
-Qualquer duvida so chamar!
--- {seu_nome}';
+    '[Aviso] *{nome}*
+Parcela: *{valor}* | Venc: *{vencimento}*
+Detalhes: {principal} + {juros_desc} = *{total}*
+Pix: *{pix}*
+Envie o comprovante apos o pagamento.';
 }
 function abrirMsgCob(cId,eId,pNum){
   const c=clientes.find(x=>x.id===cId);
@@ -1365,10 +1362,17 @@ function abrirMsgCob(cId,eId,pNum){
   msgCobCtx={cId,eId,pNum};
   const acum=valorAcumulado(emp,p);
   const template=getMsgTemplate();
+  const jurosVal=emp.valorOriginal*(emp.taxaMensal/100);
+  const meses=mesesAtraso(p.vencimento);
+  const jurosDesc=meses>1?fv(jurosVal)+' x '+meses+'m atraso':fv(jurosVal)+' ('+emp.taxaMensal+'%/mes)';
+  const totalQuitar=emp.valorOriginal+acum;
   const msg=template
     .replace(/{nome}/g,c.nome.split(' ')[0])
     .replace(/{valor}/g,fv(acum))
     .replace(/{vencimento}/g,fd(p.vencimento))
+    .replace(/{principal}/g,fv(emp.valorOriginal))
+    .replace(/{juros_desc}/g,jurosDesc)
+    .replace(/{total}/g,fv(totalQuitar))
     .replace(/{pix}/g,OWNER.pix)
     .replace(/{seu_nome}/g,OWNER.nome);
   document.getElementById('msg-cob-subtitle').textContent=c.nome+' - '+fv(acum);
