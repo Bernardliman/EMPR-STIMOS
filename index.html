@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iMTgiIGZpbGw9IiMxYTE4MTQiLz48cGF0aCBkPSJNMjAgNTUgTDMyIDM1IEw0NCA0NSBMNTYgMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRjYWY4MiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjU2IiBjeT0iMjUiIHI9IjQiIGZpbGw9IiM0Y2FmODIiLz48Y2lyY2xlIGN4PSIzMiIgY3k9IjM1IiByPSIzIiBmaWxsPSIjNGNhZjgyIiBvcGFjaXR5PSIwLjciLz48Y2lyY2xlIGN4PSI0NCIgY3k9IjQ1IiByPSIzIiBmaWxsPSIjNGNhZjgyIiBvcGFjaXR5PSIwLjciLz48Y2lyY2xlIGN4PSIyMCIgY3k9IjU1IiByPSIzIiBmaWxsPSIjNGNhZjgyIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI1OCIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZjBlZGU4Ij5SJDwvdGV4dD48L3N2Zz4=">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iMTgiIGZpbGw9IiMxYTE4MTQiLz48cGF0aCBkPSJNMjAgNTUgTDMyIDM1IEw0NCA0NSBMNTYgMjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzRjYWY4MiIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxjaXJjbGUgY3g9IjU2IiBjeT0iMjUiIHI9IjQiIGZpbGw9IiM0Y2FmODIiLz48Y2lyY2xlIGN4PSIzMiIgY3k9IjM1IiByPSIzIiBmaWxsPSIjNGNhZjgyIiBvcGFjaXR5PSIwLjciLz48Y2lyY2xlIGN4PSI0NCIgY3k9IjQ1IiByPSIzIiBmaWxsPSIjNGNhZjgyIiBvcGFjaXR5PSIwLjciLz48Y2lyY2xlIGN4PSIyMCIgY3k9IjU1IiByPSIzIiBmaWxsPSIjNGNhZjgyIiBvcGFjaXR5PSIwLjUiLz48dGV4dCB4PSI1OCIgeT0iNjIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzYW5zLXNlcmlmIiBmb250LXNpemU9IjEzIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZjBlZGU4Ij5SJDwvdGV4dD48L3N2Zz4=">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Emprestimos">
 <title>Empréstimos</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
@@ -129,7 +133,7 @@ textarea{resize:vertical;min-height:60px}
 <div class="nav">
   <button class="nav-btn active" onclick="showPage('home',this)"><span class="nav-icon">&#127968;</span>Inicio</button>
   <button class="nav-btn" onclick="showPage('clientes',this)"><span class="nav-icon">&#128101;</span>Clientes</button>
-  <button class="nav-btn" onclick="showPage('mensal',this)"><span class="nav-icon">&#128197;</span>Mensal</button>
+  <button class="nav-btn" onclick="showPage('mensal',this)"><span class="nav-icon">&#128197;</span>Calendario</button>
   <button class="nav-btn" onclick="showPage('calc',this)"><span class="nav-icon">&#129518;</span>Simular</button>
   <button class="nav-btn" onclick="showPage('capital',this)"><span class="nav-icon">&#128202;</span>Capital</button>
   <button class="nav-btn" onclick="showPage('config',this)"><span class="nav-icon">&#9881;</span>Config</button>
@@ -181,21 +185,63 @@ textarea{resize:vertical;min-height:60px}
 </div>
 
 <div class="page" id="page-mensal">
-  <div style="font-size:18px;font-weight:700;margin-bottom:1rem;padding-top:.5rem">Resumo mensal</div>
-  <div style="display:flex;gap:8px;margin-bottom:1.25rem;align-items:center">
-    <button class="btn btn-sm" onclick="mudarMes(-1)">&#8592;</button>
-    <div style="flex:1;text-align:center;font-weight:700;font-size:15px" id="mes-titulo"></div>
-    <button class="btn btn-sm" onclick="mudarMes(1)">&#8594;</button>
-  </div>
-  <div class="metrics" id="mensal-metrics"></div>
-  <div class="section-label">Ultimos 6 meses</div>
-  <div class="card" style="padding:1rem 1rem .5rem;margin-bottom:1.25rem">
-    <canvas id="grafico-mensal" height="160"></canvas>
-  </div>
-  <div class="section-label">Parcelas do mes</div>
-  <div id="mensal-lista"></div>
-</div>
+  <div style="padding-top:.5rem">
 
+    <!-- HEADER DO MES -->
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:56px;z-index:40">
+      <button onclick="mudarMes(-1)" style="width:40px;height:40px;border:1px solid var(--border2);border-radius:50%;background:var(--bg);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;color:var(--text);flex-shrink:0">&#8592;</button>
+      <div style="text-align:center;flex:1">
+        <div style="font-size:24px;font-weight:800;letter-spacing:-.04em;color:var(--text)" id="mes-titulo"></div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px;font-weight:600" id="mes-ano-sub"></div>
+      </div>
+      <button onclick="mudarMes(1)" style="width:40px;height:40px;border:1px solid var(--border2);border-radius:50%;background:var(--bg);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;color:var(--text);flex-shrink:0">&#8594;</button>
+    </div>
+
+    <!-- METRICAS -->
+    <div class="metrics" id="mensal-metrics" style="margin-bottom:1.25rem"></div>
+
+    <!-- GRAFICO -->
+    <div class="card" style="padding:1rem 1rem .5rem;margin-bottom:1.25rem">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem">Ultimos 6 meses</div>
+      <canvas id="grafico-mensal" height="120"></canvas>
+      <div style="display:flex;gap:14px;margin-top:.75rem;justify-content:center">
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)"><div style="width:10px;height:10px;border-radius:2px;background:var(--green)"></div>Pago</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)"><div style="width:10px;height:10px;border-radius:2px;background:var(--amber)"></div>Pendente</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)"><div style="width:10px;height:10px;border-radius:2px;background:var(--red)"></div>Atraso</div>
+      </div>
+    </div>
+
+    <!-- CALENDARIO -->
+    <div class="card" style="padding:1rem;margin-bottom:1rem">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.875rem">Calendario</div>
+      <!-- dias da semana -->
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px">
+        <div style="text-align:center;font-size:11px;font-weight:700;color:var(--red);padding:4px">D</div>
+        <div style="text-align:center;font-size:11px;font-weight:600;color:var(--muted);padding:4px">S</div>
+        <div style="text-align:center;font-size:11px;font-weight:600;color:var(--muted);padding:4px">T</div>
+        <div style="text-align:center;font-size:11px;font-weight:600;color:var(--muted);padding:4px">Q</div>
+        <div style="text-align:center;font-size:11px;font-weight:600;color:var(--muted);padding:4px">Q</div>
+        <div style="text-align:center;font-size:11px;font-weight:600;color:var(--muted);padding:4px">S</div>
+        <div style="text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:4px">S</div>
+      </div>
+      <div id="calendario-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
+      <!-- legenda -->
+      <div style="display:flex;gap:12px;margin-top:.875rem;padding-top:.875rem;border-top:1px solid var(--border);flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:var(--red)"></div>Atrasado</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:var(--amber)"></div>Pendente</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)"><div style="width:7px;height:7px;border-radius:50%;background:var(--green)"></div>Pago</div>
+      </div>
+    </div>
+
+    <!-- DIA SELECIONADO -->
+    <div id="dia-selecionado-label" class="section-label" style="display:none"></div>
+    <div id="dia-pagamentos"></div>
+
+    <!-- LISTA DO MES -->
+    <div class="section-label">Parcelas do mes</div>
+    <div id="mensal-lista"></div>
+  </div>
+</div>
 
 <div class="page" id="page-calc">
   <div style="font-size:18px;font-weight:700;margin-bottom:.25rem;padding-top:.5rem">Simulador de Emprestimo</div>
@@ -319,9 +365,19 @@ textarea{resize:vertical;min-height:60px}
         <select id="f-risco"><option value="confiavel">Confiavel</option><option value="atencao">Atencao</option><option value="risco">Risco</option></select>
       </div>
       <div class="form-group"><label>Valor (R$)</label><input type="number" id="f-valor" min="0" step="0.01" placeholder="0,00"></div>
-      <div class="form-group"><label>Parcelas</label><input type="number" id="f-np" min="1" max="360" placeholder="1 = aberto"></div>
-      <div class="form-group"><label>Juros/mes (%)</label><input type="number" id="f-juros" min="0" step="0.1" value="20"></div>
+      <div class="form-group"><label>Juros/mes (%)</label><input type="number" id="f-juros" min="0" step="0.1" value="20" oninput="calcPreviewEmp()"></div>
+      <div class="form-group"><label>Frequencia</label>
+        <select id="f-freq" onchange="calcPreviewEmp()">
+          <option value="mensal">Mensal</option>
+          <option value="quinzenal">Quinzenal</option>
+          <option value="semanal">Semanal</option>
+          <option value="diaria">Diaria</option>
+        </select>
+      </div>
+      <div class="form-group"><label>No de parcelas (deixe vazio = aberto)</label><input type="number" id="f-np" min="1" max="360" placeholder="Vazio = so juros mensais" oninput="calcPreviewEmp()"></div>
+      <div class="form-group"><label>Valor da parcela acordada (R$)</label><input type="number" id="f-parcela-acordo" min="0" step="0.01" placeholder="Opcional - se houver acordo" oninput="calcPreviewEmp()"></div>
       <div class="form-group"><label>1o vencimento</label><input type="date" id="f-data"></div>
+      <div id="emp-preview" style="display:none;grid-column:1/-1;background:var(--bg);border-radius:var(--radius-sm);padding:.875rem;font-size:13px;line-height:1.8"></div>
       <div class="form-group" style="grid-column:1/-1"><label>Garantia</label><input type="text" id="f-garantia" placeholder="Ex: Moto Honda CG 160..."></div>
       <div class="form-group" style="grid-column:1/-1"><label>Observacoes</label><textarea id="f-obs" placeholder="Acordos especiais..."></textarea></div>
     </div>
@@ -562,7 +618,7 @@ function openNovoModal(clienteId){
   novoParaClienteId=clienteId;
   const next=new Date();next.setMonth(next.getMonth()+1);
   document.getElementById('f-data').value=next.toISOString().split('T')[0];
-  document.getElementById('f-valor').value='';document.getElementById('f-np').value='';
+  document.getElementById('f-valor').value='';document.getElementById('f-np').value='';if(document.getElementById('f-parcela-acordo'))document.getElementById('f-parcela-acordo').value='';if(document.getElementById('emp-preview'))document.getElementById('emp-preview').style.display='none';
   document.getElementById('f-juros').value='20';document.getElementById('f-obs').value='';document.getElementById('f-garantia').value='';
   if(clienteId){
     const c=clientes.find(x=>x.id===clienteId);
@@ -581,23 +637,81 @@ function openNovoModal(clienteId){
   }
   openModal('novo');
 }
+function calcPreviewEmp(){
+  const valor=parseFloat(document.getElementById('f-valor').value)||0;
+  const np=parseInt(document.getElementById('f-np').value)||0;
+  const juros=parseFloat(document.getElementById('f-juros').value)||0;
+  const prev=document.getElementById('f-preview-emp');
+  if(!prev)return;
+  if(!valor||!juros){prev.style.display='none';return;}
+  if(np>=1){
+    // Parcela fixa: taxa total aplicada, dividida em parcelas iguais
+    const jurosTotal=valor*(juros/100);
+    const totalDevolvido=valor+jurosTotal;
+    const parcela=totalDevolvido/np;
+    const taxaMensal=(juros/np).toFixed(1);
+    prev.style.display='block';
+    prev.innerHTML=
+      '<div style="font-weight:700;color:var(--green);margin-bottom:4px">Resumo do emprestimo</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">'+
+      '<span style="color:var(--muted)">Juros totais:</span><strong>'+fv(jurosTotal)+'</strong>'+
+      '<span style="color:var(--muted)">Total a receber:</span><strong>'+fv(totalDevolvido)+'</strong>'+
+      '<span style="color:var(--muted)">Parcela fixa:</span><strong>'+fv(parcela)+' x'+np+'</strong>'+
+      '<span style="color:var(--muted)">Taxa equiv.:</span><strong>'+taxaMensal+'%/mes</strong>'+
+      '</div>';
+  } else {
+    // Aberto: so juros mensais
+    const jurosM=valor*(juros/100);
+    prev.style.display='block';
+    prev.innerHTML=
+      '<div style="font-weight:700;color:var(--green);margin-bottom:4px">Emprestimo aberto</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">'+
+      '<span style="color:var(--muted)">Juros/mes:</span><strong>'+fv(jurosM)+'</strong>'+
+      '<span style="color:var(--muted)">Principal:</span><strong>'+fv(valor)+'</strong>'+
+      '</div>'+
+      '<div style="font-size:11px;color:var(--muted);margin-top:4px">Sem parcelas fixas - a cada pagamento voce define se renova ou quita.</div>';
+  }
+}
+
 function salvarEmprestimo(){
   const valor=parseFloat(document.getElementById('f-valor').value);
-  const np=parseInt(document.getElementById('f-np').value)||1;
+  const npRaw=document.getElementById('f-np').value;
+  const np=parseInt(npRaw)||0;
   const juros=parseFloat(document.getElementById('f-juros').value)||0;
   const dataStr=document.getElementById('f-data').value;
   const obs=document.getElementById('f-obs').value.trim();
   const garantia=document.getElementById('f-garantia').value.trim();
+  const freq=document.getElementById('f-freq')?document.getElementById('f-freq').value:'mensal';
   if(!valor||!dataStr){alert('Preencha valor e data.');return;}
-  const jurosUnit=valor*(juros/100);
-  const parcelas=[];
-  for(let i=0;i<np;i++){
-    const d=new Date(dataStr+'T12:00:00');d.setMonth(d.getMonth()+i);
-    parcelas.push({num:i+1,vencimento:d.toISOString().split('T')[0],valor:jurosUnit,pago:false});
+
+  let parcelas=[];
+  let tipoEmp='aberto'; // aberto ou fixo
+
+  if(np>=1){
+    // Parcela fixa: taxa total, dividida em parcelas iguais
+    tipoEmp='fixo';
+    const jurosTotal=valor*(juros/100);
+    const totalDevolvido=valor+jurosTotal;
+    const parcelaValor=totalDevolvido/np;
+    for(let i=0;i<np;i++){
+      const d=new Date(dataStr+'T12:00:00');
+      if(freq==='mensal')d.setMonth(d.getMonth()+i);
+      else if(freq==='quinzenal')d.setDate(d.getDate()+i*15);
+      else if(freq==='semanal')d.setDate(d.getDate()+i*7);
+      else if(freq==='diaria')d.setDate(d.getDate()+i);
+      parcelas.push({num:i+1,vencimento:d.toISOString().split('T')[0],valor:parcelaValor,pago:false});
+    }
+  } else {
+    // Aberto: so juros mensais, 1 parcela inicial
+    tipoEmp='aberto';
+    const jurosM=valor*(juros/100);
+    parcelas.push({num:1,vencimento:dataStr,valor:jurosM,pago:false});
   }
-  const emp={id:uid(),valorOriginal:valor,taxaMensal:juros,parcelas,obs,garantia,criadoEm:today()};
+
+  const emp={id:uid(),valorOriginal:valor,taxaMensal:juros,tipoEmp:tipoEmp,freq:freq||'mensal',parcelas:parcelas,obs:obs,garantia:garantia,criadoEm:today()};
+
   if(novoParaClienteId){
-    const c=clientes.find(x=>x.id===novoParaClienteId);
+    const c=clientes.find(function(x){return x.id===novoParaClienteId;});
     c.emprestimos.push(emp);persist();closeModal('novo');
     if(currentClienteId===novoParaClienteId)renderPessoa();
     renderClientes();renderHome();toast('Emprestimo adicionado!');
@@ -606,12 +720,11 @@ function salvarEmprestimo(){
     const tel=document.getElementById('f-tel').value.trim();
     const risco=document.getElementById('f-risco').value;
     if(!nome){alert('Informe o nome.');return;}
-    const c={id:uid(),nome,tel,risco,emprestimos:[emp]};
+    const c={id:uid(),nome:nome,tel:tel,risco:risco,emprestimos:[emp]};
     clientes.push(c);persist();closeModal('novo');renderClientes();renderHome();toast('Cliente salvo!');
   }
 }
 
-/* PAGAMENTO INTELIGENTE */
 function abrirPagamento(cId,eId,pNum){
   const c=clientes.find(x=>x.id===cId);
   const emp=c.emprestimos.find(e=>e.id===eId);
@@ -621,7 +734,10 @@ function abrirPagamento(cId,eId,pNum){
   const acum=valorAcumulado(emp,p);
   const jurosUnit=emp.valorOriginal*(emp.taxaMensal/100);
   const totalQuitar=acum+emp.valorOriginal;
-  pagCtx={cId,eId,pNum,acum,jurosUnit,totalQuitar,empValorOriginal:emp.valorOriginal};
+  const parcelasRestantes=emp.parcelas.filter(function(x){return !x.pago;}).length;
+  pagCtx={cId:cId,eId:eId,pNum:pNum,acum:acum,jurosUnit:jurosUnit,totalQuitar:totalQuitar,
+    empValorOriginal:emp.valorOriginal,tipoEmp:emp.tipoEmp||'aberto',
+    parcelaFixa:p.valor,parcelasRestantes:parcelasRestantes};
   document.getElementById('f-pag-valor').value='';
   document.getElementById('f-pag-obs').value='';
   document.getElementById('pag-result').style.display='none';
@@ -631,22 +747,62 @@ function abrirPagamento(cId,eId,pNum){
   document.getElementById('pag-title').textContent=c.nome;
   document.getElementById('pag-subtitle').textContent=fv(emp.valorOriginal)+' - '+emp.taxaMensal+'% a.m. - Parcela '+pNum+'/'+emp.parcelas.length;
   document.getElementById('pag-atraso-info').innerHTML=m>1?'<div class="atraso-box">'+m+' meses em atraso - Acumulado: '+fv(acum)+'</div>':'';
-  document.getElementById('pag-resumo').innerHTML=
-    '<div class="info-row"><span>Juros '+(m>1?'acumulados ('+m+'m)':'do mes')+'</span><span class="val" '+(m>1?'style="color:var(--red)"':'')+'>'+fv(acum)+'</span></div>'+
-    '<div class="info-row"><span>Principal atual</span><span class="val">'+fv(emp.valorOriginal)+'</span></div>'+
-    '<div class="info-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px"><span style="font-weight:700">Para quitar tudo</span><span class="val" style="color:var(--green)">'+fv(totalQuitar)+'</span></div>'+
-    '<div style="font-size:11px;color:var(--muted);margin-top:6px">Digite qualquer valor. Se pagar menos que os juros, a diferenca e adicionada ao principal.</div>';
+  const isFixo=(emp.tipoEmp||'aberto')==='fixo';
+  const parcelasRestantes2=emp.parcelas.filter(function(x){return !x.pago;}).length;
+  if(isFixo){
+    document.getElementById('pag-resumo').innerHTML=
+      '<div class="info-row"><span>Valor da parcela</span><span class="val" style="color:var(--green)">'+fv(p.valor)+'</span></div>'+
+      '<div class="info-row"><span>Parcelas restantes</span><span class="val">'+parcelasRestantes2+'</span></div>'+
+      '<div class="info-row"><span>Total ainda a pagar</span><span class="val">'+fv(p.valor*parcelasRestantes2)+'</span></div>'+
+      '<div style="font-size:11px;color:var(--muted);margin-top:6px">Parcela fixa acordada. Digite o valor da parcela para confirmar.</div>';
+  } else {
+    document.getElementById('pag-resumo').innerHTML=
+      '<div class="info-row"><span>Juros '+(m>1?'acumulados ('+m+'m)':'do mes')+'</span><span class="val" '+(m>1?'style="color:var(--red)"':'')+'>'+fv(acum)+'</span></div>'+
+      '<div class="info-row"><span>Principal atual</span><span class="val">'+fv(emp.valorOriginal)+'</span></div>'+
+      '<div class="info-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px"><span style="font-weight:700">Para quitar tudo</span><span class="val" style="color:var(--green)">'+fv(totalQuitar)+'</span></div>'+
+      '<div style="font-size:11px;color:var(--muted);margin-top:6px">Digite qualquer valor. Se pagar menos que os juros, a diferenca e adicionada ao principal.</div>';
+  }
   openModal('pag');
 }
 function calcPagamento(){
   const rec=parseFloat(document.getElementById('f-pag-valor').value)||0;
-  const{acum,jurosUnit,totalQuitar,empValorOriginal}=pagCtx;
+  const ctx=pagCtx;
+  const acum=ctx.acum,jurosUnit=ctx.jurosUnit,totalQuitar=ctx.totalQuitar,empValorOriginal=ctx.empValorOriginal;
+  const tipoEmp=ctx.tipoEmp||'aberto';
+  const parcelaFixa=ctx.parcelaFixa||0;
   const resultEl=document.getElementById('pag-result');
   const btnEl=document.getElementById('btn-confirmar-pag');
   if(!rec||rec<=0){resultEl.style.display='none';btnEl.disabled=true;btnEl.style.opacity='.4';return;}
   resultEl.style.display='block';
   let html='',cls='';
   btnEl.disabled=false;btnEl.style.opacity='1';
+
+  if(tipoEmp==='fixo'){
+    if(rec<=0){resultEl.style.display='none';btnEl.disabled=true;btnEl.style.opacity='.4';return;}
+    if(rec<parcelaFixa){
+      // Pagamento parcial - diferenca vai pro proximo mes
+      const falta=parcelaFixa-rec;
+      const novaParc=parcelaFixa+falta;
+      cls='parcial';
+      html='<div style="font-weight:700;color:var(--amber);margin-bottom:6px">Pagamento parcial</div>'+
+      '<div class="result-row"><span>Valor recebido</span><span class="val">'+fv(rec)+'</span></div>'+
+      '<div class="result-row"><span>Parcela acordada</span><span class="val">'+fv(parcelaFixa)+'</span></div>'+
+      '<div class="result-row"><span>Diferenca</span><span class="val" style="color:var(--red)">'+fv(falta)+'</span></div>'+
+      '<div class="result-row" style="border-top:1px solid var(--border);margin-top:4px;padding-top:6px"><span style="font-weight:700">Proxima parcela</span><span class="val" style="color:var(--red)">'+fv(novaParc)+'</span></div>';
+    } else {
+      // Pagamento completo
+      const troco=rec-parcelaFixa;
+      cls='total';
+      html='<div style="font-weight:700;color:var(--green);margin-bottom:6px">Parcela quitada</div>'+
+      '<div class="result-row"><span>Valor recebido</span><span class="val">'+fv(rec)+'</span></div>'+
+      (troco>0?'<div class="result-row"><span>Troco</span><span class="val">'+fv(troco)+'</span></div>':'')+
+      '<div class="result-row"><span>Parcelas restantes</span><span class="val">'+(ctx.parcelasRestantes-1)+'</span></div>';
+    }
+    resultEl.className='result-box '+cls;
+    resultEl.innerHTML=html;
+    return;
+  }
+
   if(rec<acum){
     // Pagamento parcial - menos que os juros - diferenca vai pro principal
     const falta=acum-rec;
@@ -655,7 +811,7 @@ function calcPagamento(){
     html='<div style="font-weight:700;color:var(--amber);margin-bottom:6px">Pagamento parcial</div>'+
     '<div class="result-row"><span>Valor recebido</span><span class="val">'+fv(rec)+'</span></div>'+
     '<div class="result-row"><span>Juros devidos</span><span class="val" style="color:var(--amber)">'+fv(acum)+'</span></div>'+
-    '<div class="result-row"><span>Diferenca incorporada ao principal</span><span class="val" style="color:var(--red)">+'+fv(falta)+'</span></div>'+
+    '<div class="result-row"><span>Diferenca ao principal</span><span class="val" style="color:var(--red)">+'+fv(falta)+'</span></div>'+
     '<div class="result-row"><span>Novo principal</span><span class="val" style="color:var(--red)">'+fv(novoP)+'</span></div>'+
     '<div class="result-row"><span>Proxima parcela</span><span class="val">+1 mes</span></div>';
   } else if(rec<totalQuitar){
@@ -694,10 +850,42 @@ function confirmarPagamento(){
   const obs=document.getElementById('f-pag-obs').value.trim();
   const{acum,jurosUnit,totalQuitar}=pagCtx;
   const m=mesesAtraso(p.vencimento);
+  const tipoEmp=pagCtx.tipoEmp||'aberto';
+
+  if(tipoEmp==='fixo'){
+    const parcelaFixa2=pagCtx.parcelaFixa;
+    if(rec<parcelaFixa2){
+      // Pagamento parcial - diferenca soma na proxima parcela
+      const falta=parcelaFixa2-rec;
+      p.pago=true;p.pagoEm=nowStr();p.valorPago=rec;p.tipoP='parcial';
+      // Encontra proxima parcela e aumenta o valor
+      const proxima=emp.parcelas.find(function(x){return !x.pago;});
+      if(proxima){
+        proxima.valor=proxima.valor+falta;
+      } else {
+        // Se era a ultima, cria uma nova com a diferenca
+        const ultimaData=new Date(p.vencimento+'T12:00:00');
+        ultimaData.setMonth(ultimaData.getMonth()+1);
+        emp.parcelas.push({num:emp.parcelas.length+1,vencimento:ultimaData.toISOString().split('T')[0],valor:falta,pago:false});
+      }
+      persist();closeModal('pag');renderPessoa();renderHome();renderClientes();
+      toast('Parcial registrado! Diferenca de '+fv(falta)+' adicionada a proxima parcela.');
+      setTimeout(function(){gerarPDFRecibo(c,emp,p,'parcial',rec,obs,falta,parcelaFixa2);},300);
+    } else {
+      // Pagamento completo
+      p.pago=true;p.pagoEm=nowStr();p.valorPago=rec;p.tipoP='fixo';
+      persist();closeModal('pag');renderPessoa();renderHome();renderClientes();
+      const restantes=emp.parcelas.filter(function(x){return !x.pago;}).length;
+      toast(restantes===0?'Emprestimo quitado!':'Parcela paga! '+restantes+' restante(s).');
+      setTimeout(function(){gerarPDFRecibo(c,emp,p,'total',rec,obs,0,parcelaFixa2);},300);
+    }
+    return;
+  }
+
   if(rec>=totalQuitar){
     p.pago=true;p.pagoEm=nowStr();p.valorPago=rec;p.tipoP='total';
     persist();closeModal('pag');renderPessoa();renderHome();renderClientes();toast('Quitado!');
-    setTimeout(()=>gerarPDFRecibo(c,emp,p,'total',rec,obs,0,acum),300);
+    setTimeout(function(){gerarPDFRecibo(c,emp,p,'total',rec,obs,0,acum);},300);
   } else if(rec<acum){
     // Pagamento abaixo dos juros - diferenca incorpora ao principal
     const falta=acum-rec;
@@ -946,30 +1134,42 @@ function renderPessoa(){
 
 /* MENSAL */
 let graficoInstance=null;
-function mudarMes(d){mesAtual=new Date(mesAtual);mesAtual.setMonth(mesAtual.getMonth()+d);renderMensal();}
+let diaSelecionado=null;
+
+function mudarMes(d){mesAtual=new Date(mesAtual);mesAtual.setMonth(mesAtual.getMonth()+d);diaSelecionado=null;renderMensal();}
+
 function renderMensal(){
   const ano=mesAtual.getFullYear(),mes=mesAtual.getMonth();
   const nomes=['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  document.getElementById('mes-titulo').textContent=nomes[mes]+' '+ano;
+  document.getElementById('mes-titulo').textContent=nomes[mes];
+  document.getElementById('mes-ano-sub').textContent=String(ano);
   const mesStr=ano+'-'+String(mes+1).padStart(2,'0');
   let itens=[],totalMes=0,pagoMes=0,pendentesMes=0,atrasadosMes=0;
   const t=today();
-  clientes.forEach(c=>{c.emprestimos.forEach(emp=>{
-    emp.parcelas.filter(p=>p.vencimento.startsWith(mesStr)).forEach(p=>{
+
+  // Agrupa parcelas por dia
+  const porDia={};
+  clientes.forEach(function(c){c.emprestimos.forEach(function(emp){
+    emp.parcelas.forEach(function(p){
+      if(!p.vencimento.startsWith(mesStr))return;
+      const dia=p.vencimento.split('-')[2];
+      if(!porDia[dia])porDia[dia]=[];
+      porDia[dia].push({c:c,emp:emp,p:p});
       const acum=valorAcumulado(emp,p);totalMes+=acum;
       if(p.pago)pagoMes+=p.valorPago||p.valor;
       else if(p.vencimento<t)atrasadosMes+=acum;
       else pendentesMes+=acum;
-      itens.push({c,emp,p,acum});
+      itens.push({c:c,emp:emp,p:p,acum:acum});
     });
   });});
+
   document.getElementById('mensal-metrics').innerHTML=
     '<div class="metric"><div class="metric-label">Total do mes</div><div class="metric-value" style="font-size:15px">'+fv(totalMes)+'</div></div>'+
     '<div class="metric"><div class="metric-label">Ja recebido</div><div class="metric-value" style="font-size:15px;color:var(--green)">'+fv(pagoMes)+'</div></div>'+
     '<div class="metric"><div class="metric-label">Pendente</div><div class="metric-value" style="font-size:15px;color:var(--amber)">'+fv(pendentesMes)+'</div></div>'+
     '<div class="metric"><div class="metric-label">Em atraso</div><div class="metric-value" style="font-size:15px;color:var(--red)">'+fv(atrasadosMes)+'</div></div>';
 
-  /* GRAFICO 6 MESES */
+  /* GRAFICO */
   const labels=[],dadosPago=[],dadosPendente=[],dadosAtraso=[];
   for(let i=5;i>=0;i--){
     const d=new Date(mesAtual);d.setMonth(d.getMonth()-i);
@@ -987,7 +1187,7 @@ function renderMensal(){
     dadosPago.push(Math.round(pg));dadosPendente.push(Math.round(pend));dadosAtraso.push(Math.round(atr));
   }
   const isDark=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches;
-  const textColor=isDark?'#8a8680':'#8a8680';
+  const textColor='#8a8680';
   const canvas=document.getElementById('grafico-mensal');
   const ctx=canvas.getContext('2d');
   if(graficoInstance){graficoInstance.destroy();graficoInstance=null;}
@@ -998,40 +1198,130 @@ function renderMensal(){
   const chartW=W-padL-padR;const chartH=canvas.height-padT-padB;
   const barW=Math.floor(chartW/labels.length);const grpW=Math.floor(barW*0.8);const bW=Math.floor(grpW/3);
   ctx.clearRect(0,0,W,canvas.height);
-  // grid
   ctx.strokeStyle=isDark?'#3a3835':'#e8e6e0';ctx.lineWidth=1;
   for(let g=0;g<=4;g++){const y=padT+chartH-(chartH/4*g);ctx.beginPath();ctx.moveTo(padL,y);ctx.lineTo(W-padR,y);ctx.stroke();}
-  // bars
-  const colors=['#0a6640','#8a5a00','#9b2020'];
-  const darkColors=['#4caf82','#f0a030','#e06060'];
-  const clrs=isDark?darkColors:colors;
+  const clrs=isDark?['#4caf82','#f0a030','#e06060']:['#0a6640','#8a5a00','#9b2020'];
   labels.forEach((lbl,i)=>{
     const x=padL+i*barW+Math.floor((barW-grpW)/2);
-    const vals=[dadosPago[i],dadosPendente[i],dadosAtraso[i]];
-    vals.forEach((v,j)=>{
+    [dadosPago[i],dadosPendente[i],dadosAtraso[i]].forEach((v,j)=>{
       const bH=Math.round((v/maxVal)*chartH);
-      const bx=x+j*bW;const by=padT+chartH-bH;
-      ctx.fillStyle=clrs[j];ctx.fillRect(bx,by,bW-2,bH);
+      ctx.fillStyle=clrs[j];ctx.fillRect(x+j*bW,padT+chartH-bH,bW-2,bH);
     });
     ctx.fillStyle=textColor;ctx.font='10px sans-serif';ctx.textAlign='center';
     ctx.fillText(lbl,padL+i*barW+barW/2,canvas.height-8);
   });
-  // legenda
   const leg=[['Pago',clrs[0]],['Pendente',clrs[1]],['Atraso',clrs[2]]];
   let lx=padL;
-  leg.forEach(([lbl,clr])=>{
-    ctx.fillStyle=clr;ctx.fillRect(lx,2,10,8);
-    ctx.fillStyle=textColor;ctx.font='10px sans-serif';ctx.textAlign='left';
-    ctx.fillText(lbl,lx+13,10);lx+=ctx.measureText(lbl).width+30;
-  });
+  leg.forEach(([lbl,clr])=>{ctx.fillStyle=clr;ctx.fillRect(lx,2,10,8);ctx.fillStyle=textColor;ctx.font='10px sans-serif';ctx.textAlign='left';ctx.fillText(lbl,lx+13,10);lx+=ctx.measureText(lbl).width+30;});
 
+  /* CALENDARIO */
+  const primeiroDia=new Date(ano,mes,1).getDay();
+  const ultimoDia=new Date(ano,mes+1,0).getDate();
+  const grid=document.getElementById('calendario-grid');
+  grid.innerHTML='';
+  for(let i=0;i<primeiroDia;i++){
+    const empty=document.createElement('div');
+    grid.appendChild(empty);
+  }
+  for(let d=1;d<=ultimoDia;d++){
+    const dStr=String(d).padStart(2,'0');
+    const parcsDia=porDia[dStr]||[];
+    const pagas=parcsDia.filter(function(x){return x.p.pago;}).length;
+    const atrasadas=parcsDia.filter(function(x){return !x.p.pago&&x.p.vencimento<t;}).length;
+    const pendentes=parcsDia.filter(function(x){return !x.p.pago&&x.p.vencimento>=t;}).length;
+    const isHoje=mesStr+'-'+dStr===t;
+    const isSel=diaSelecionado===dStr;
+    const hasPagamentos=parcsDia.length>0;
+    const el=document.createElement('div');
+    // Estilo do dia
+    let bgColor='transparent';
+    let textColor='var(--text)';
+    let borderVal='none';
+    let opacity='1';
+    if(isSel){bgColor='var(--accent)';textColor='var(--bg)';}
+    else if(isHoje){borderVal='2px solid var(--accent)';}
+    // dias sem pagamento ficam levemente esmaecidos
+    if(!hasPagamentos&&!isHoje&&!isSel)opacity='.45';
+    el.style.cssText='cursor:'+(hasPagamentos?'pointer':'default')+';border-radius:10px;padding:6px 2px 5px;text-align:center;background:'+bgColor+';border:'+borderVal+';position:relative;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;opacity:'+opacity;
+    // numero do dia
+    const numDiv=document.createElement('div');
+    numDiv.style.cssText='font-size:14px;font-weight:'+(isHoje||hasPagamentos?'700':'400')+';color:'+textColor+';line-height:1.2';
+    numDiv.textContent=d;
+    el.appendChild(numDiv);
+    // bolinhas de status
+    if(hasPagamentos){
+      const dotsDiv=document.createElement('div');
+      dotsDiv.style.cssText='display:flex;justify-content:center;gap:2px;margin-top:3px';
+      if(atrasadas>0){const dot=document.createElement('div');dot.style.cssText='width:5px;height:5px;border-radius:50%;background:var(--red)';dotsDiv.appendChild(dot);}
+      if(pendentes>0){const dot=document.createElement('div');dot.style.cssText='width:5px;height:5px;border-radius:50%;background:var(--amber)';dotsDiv.appendChild(dot);}
+      if(pagas>0){const dot=document.createElement('div');dot.style.cssText='width:5px;height:5px;border-radius:50%;background:var(--green)';dotsDiv.appendChild(dot);}
+      // total de pagamentos
+      const countDiv=document.createElement('div');
+      countDiv.style.cssText='font-size:9px;color:'+(isSel?'var(--bg)':'var(--muted)')+';margin-top:2px';
+      countDiv.textContent=parcsDia.length+'x';
+      el.appendChild(dotsDiv);
+      el.appendChild(countDiv);
+    }
+    el.onclick=(function(ds){return function(){selecionarDia(ds);};})(dStr);
+    grid.appendChild(el);
+  }
+
+  // Mostra dia selecionado
+  renderDiaSelecionado(porDia,t);
+
+  /* LISTA */
   document.getElementById('mensal-lista').innerHTML=itens.length?itens.map(function(item){
-    const c=item.c,emp=item.emp,p=item.p,acum=item.acum;
     let bC='b-amber',bL='Pendente';
     if(p.pago){bC='b-green';bL='Pago';}else if(p.vencimento<t){bC='b-red';bL='Atrasado';}
-    return '<div class="card" style="margin-bottom:.75rem"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div><div style="font-weight:700">'+c.nome+' <span class="badge '+bC+'">'+bL+'</span></div><div style="font-size:12px;color:var(--muted);margin-top:3px">Parc. '+p.num+' - '+fd(p.vencimento)+' - '+fv(emp.valorOriginal)+' a '+emp.taxaMensal+'%</div></div><div style="text-align:right;flex-shrink:0"><div style="font-weight:700;font-family:monospace;font-size:15px">'+fv(acum)+'</div>'+(p.pago?'':'<button class="btn btn-sm btn-primary" style="margin-top:4px" onclick="showPage(\'clientes\');setTimeout(()=>openPessoa('+c.id+'),50)">Ver</button>')+'</div></div></div>';
-  }).join(''):'<div class="empty">Nenhuma parcela neste mes.</div>';
+    const freqLabel={mensal:'mensal',quinzenal:'quinzenal',semanal:'semanal',diaria:'diaria'}[emp.freq||'mensal'];
+    const btnVer=p.pago?'':'<button class=\"btn btn-sm btn-primary\" style=\"margin-top:4px\" onclick=\"selecionarClienteMes('+c.id+')\">Ver</button>';
+    return '<div class=\"card\" style=\"margin-bottom:.75rem\"><div style=\"display:flex;justify-content:space-between;align-items:flex-start;gap:8px\">'+
+      '<div><div style=\"font-weight:700\">'+c.nome+' <span class=\"badge '+bC+'\">'+bL+'</span></div>'+
+      '<div style=\"font-size:12px;color:var(--muted);margin-top:3px\">Parc. '+p.num+' - '+fd(p.vencimento)+' - '+fv(emp.valorOriginal)+' ('+freqLabel+')</div></div>'+
+      '<div style=\"text-align:right;flex-shrink:0\"><div style=\"font-weight:700;font-size:15px\">'+fv(acum)+'</div>'+btnVer+'</div></div></div>';
+  }).join(''):'<div class=\"empty\">Nenhuma parcela neste mes.</div>';
 }
+
+
+function selecionarClienteMes(cId){showPage('clientes');setTimeout(function(){openPessoa(cId);},50);}
+function selecionarDia(dStr){
+  diaSelecionado=diaSelecionado===dStr?null:dStr;
+  renderMensal();
+  if(diaSelecionado){
+    setTimeout(()=>{
+      const el=document.getElementById('dia-selecionado-label');
+      if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+    },100);
+  }
+}
+
+function renderDiaSelecionado(porDia,t){
+  const labelEl=document.getElementById('dia-selecionado-label');
+  const listEl=document.getElementById('dia-pagamentos');
+  if(!diaSelecionado||!porDia[diaSelecionado]||!porDia[diaSelecionado].length){
+    labelEl.style.display='none';listEl.innerHTML='';return;
+  }
+  const ano=mesAtual.getFullYear(),mes=mesAtual.getMonth();
+  const nomes=['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  labelEl.style.display='block';
+  labelEl.textContent='Pagamentos de '+diaSelecionado+' de '+nomes[mes];
+  const itens=porDia[diaSelecionado];
+  listEl.innerHTML=itens.map(function(item){
+    const c=item.c,emp=item.emp,p=item.p;
+    const acum=valorAcumulado(emp,p);
+    let bC='b-amber',bL='Pendente',borderClr='var(--amber)',valClr='var(--text)';
+    if(p.pago){bC='b-green';bL='Pago';borderClr='var(--green)';valClr='var(--green)';}
+    else if(p.vencimento<t){bC='b-red';bL='Atrasado';borderClr='var(--red)';valClr='var(--red)';}
+    const btnPagar=p.pago?'':'<button class="btn btn-sm btn-primary" style="margin-top:4px" onclick="abrirPagamento('+c.id+','+emp.id+','+p.num+')">Pagar</button>';
+    return '<div class="card" style="margin-bottom:.75rem;border-left:3px solid '+borderClr+'">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px">'+
+      '<div><div style="font-weight:700;font-size:14px">'+c.nome+' <span class="badge '+bC+'">'+bL+'</span></div>'+
+      '<div style="font-size:12px;color:var(--muted);margin-top:3px">'+fv(emp.valorOriginal)+' - '+emp.taxaMensal+'%</div></div>'+
+      '<div style="text-align:right"><div style="font-weight:700;font-size:15px;color:'+valClr+'">'+fv(acum)+'</div>'+
+      btnPagar+'</div></div></div>';
+  }).join('');
+}
+
 
 /* CAPITAL */
 function renderCapital(){
